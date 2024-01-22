@@ -1,0 +1,15 @@
+.cache
+elpa
+auto-save-list
+eshell
+el-get
+custom.el
+node_modules
+*.elc
+eln-cache/
+projects
+straight/
+persp-confs/
+projectile-bookmarks.eld
+bin/
+transient/
