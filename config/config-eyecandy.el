@@ -6,14 +6,35 @@
 
 (use-package modus-themes
   :straight t
+  )
+
+(defun load-theme-and-color-modeline ()
+  (progn
+    ;; (load-theme 'doom-one)
+    (load-theme 'modus-operandi-tinted) ;; light
+    ;; (load-theme 'modus-vivendi-tinted)
+
+    ;; Color modeline according to Normal / Insert / Visual mode
+    (defvar dotemacs--original-mode-line-bg (face-background 'mode-line))
+    (defadvice evil-set-cursor-color (after dotemacs activate)
+      (cond ((evil-emacs-state-p)
+             (set-face-background 'mode-line "#002244"))
+            ((evil-insert-state-p)
+             (set-face-background 'mode-line "#666600"))
+            ((evil-visual-state-p)
+             (set-face-background 'mode-line "#440044"))
+            (t
+             (set-face-background 'mode-line dotemacs--original-mode-line-bg))))
+    )
+  )
+
+(use-package emacs
   :hook
-  (after-init-hook . (lambda () (load-theme 'modus-vivendi-tinted)))
+  (after-init-hook . load-theme-and-color-modeline)
   )
 
 (set-frame-font "Pragmatapro 16" nil t)
 
-;; (load-theme 'doom-one)
-;; (load-theme 'modus-operandi-tinted) ;; light
 
 (line-number-mode t)
 (column-number-mode t)
@@ -36,18 +57,6 @@
   (setq doom-modeline-buffer-file-name-style 'file-name)
   )
 
-(after 'evil
-  ;; Color modeline according to Normal / Insert / Visual mode
-  (defvar dotemacs--original-mode-line-bg (face-background 'mode-line))
-  (defadvice evil-set-cursor-color (after dotemacs activate)
-    (cond ((evil-emacs-state-p)
-           (set-face-background 'mode-line "#002244"))
-          ((evil-insert-state-p)
-           (set-face-background 'mode-line "#666600"))
-          ((evil-visual-state-p)
-           (set-face-background 'mode-line "#440044"))
-          (t
-           (set-face-background 'mode-line dotemacs--original-mode-line-bg)))))
 
 ;; Color Identifiers is a minor mode for Emacs that highlights each source code identifier uniquely based on its name
 ;; -> Interessant maar ook zot
