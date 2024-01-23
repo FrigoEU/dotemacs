@@ -13,6 +13,7 @@
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
+
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)

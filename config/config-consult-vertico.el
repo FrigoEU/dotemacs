@@ -3,7 +3,7 @@
 (use-package consult
   :straight t
   :config
-  (setq consult-preview-key 'any)
+  (setq consult-preview-key nil) ;; Don't show preview
   (setq completion-in-region-function
         (lambda (&rest args)
           (apply (if vertico-mode
@@ -20,6 +20,7 @@
   (vertico-mode)
   :config
   (setq vertico-count 20)
+  (vertico-multiform-mode) ;; So we can have different placements of the frame for different consult functions
   )
 
 (use-package vertico-posframe
@@ -28,6 +29,10 @@
   :init
   (vertico-posframe-mode 1)
   :config
+  (setq vertico-multiform-commands
+        '((consult-line (:not posframe)) 
+          (t posframe))
+        )
   )
 
 ;; A few more useful configurations...
@@ -56,7 +61,8 @@
   ;;       #'command-completion-default-include-p)
 
   ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t))
+  (setq enable-recursive-minibuffers t)
+  )
 
 (use-package savehist
   :straight t
@@ -80,16 +86,16 @@
   (marginalia-mode t)
   )
 
-(use-package all-the-icons
+(use-package nerd-icons
   :straight t
   )
 
-(use-package all-the-icons-completion
+(use-package nerd-icons-completion
   :straight t
-  :after (marginalia all-the-icons)
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :after (marginalia nerd-icons)
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
   :init
-  (all-the-icons-completion-mode))
+  (nerd-icons-completion-mode))
 
 ;; (use-package prescient
 ;;   :straight t

@@ -6,14 +6,14 @@
   (:hint nil :exit t :idle 0.5)
   "
 
-  _SPC_ → Search commands
+  _SPC_ → Search commands (M-x)
 
   _b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat
   _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers
   _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors             
   _p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit             
 
-  _/_ → Grep              _*_ → Grep at point
+  _/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file             
 "
   ("SPC" execute-extended-command)
   ("b"   /hydras/buffers/body)
@@ -27,6 +27,7 @@
   ("-"   dired-jump)
   ("/"   consult-ripgrep-root)
   ("*"   consult-ripgrep-root-at-point)
+  ("s"   consult-line)
   ("l"   show-workspace-switcher)
   ("h"   show-help-transient)
   ("p"   /hydras/project/body)
@@ -47,6 +48,7 @@ Quit
 "
   ("y"  consult-yank-from-kill-ring)
   ("l"  vertico-repeat)
+  ;; ("l"  vertico-suspend)
   ("c"  consult-complex-command)
   )
 
