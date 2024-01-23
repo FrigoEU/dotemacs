@@ -19,6 +19,7 @@
           (concat (propertize (abbreviate-file-name (eshell/pwd)) 'face 'eshell-prompt)
                   (propertize " λ " 'face 'font-lock-constant-face))))
   (setq eshell-prompt-regexp "^[^#$\n]* [#λ ] ")
+  :bind ("C-h" . nil)
   )
 
 

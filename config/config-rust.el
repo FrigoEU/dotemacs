@@ -1,3 +1,3 @@
 ;; -*- lexical-binding: t -*-
 
-(use-package rust-mode :straight t)
+(use-package rustic :straight t)
