@@ -40,6 +40,8 @@
 
   (load (concat user-emacs-directory "core/core-boot"))
   (load (concat user-emacs-directory "config/config-auxiliary-modes.el"))
+  ;; (load (concat user-emacs-directory "config/config-helm.el"))
+  ;; (load (concat user-emacs-directory "config/config-ivy.el"))
   (load (concat user-emacs-directory "config/config-consult-vertico.el"))
   (load (concat user-emacs-directory "config/config-core.el"))
   (load (concat user-emacs-directory "config/config-dashboard.el"))
