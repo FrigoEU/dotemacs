@@ -10,14 +10,15 @@
 
   _b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat
   _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers
-  _w_ → _w_indows           _h_ → _h_elp             _q_ → _q_uit             
-  _p_ → _p_rojects          _g_ → _g_it
+  _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors             
+  _p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit             
 
   _/_ → Grep              _*_ → Grep at point
 "
   ("SPC" execute-extended-command)
   ("b"   /hydras/buffers/body)
   ("q"   /hydras/quit/body)
+  ("e"   /hydras/errors/body)
   ("o"   /hydras/open/body)
   ("r"   /hydras/repeat/body)
   ("w"   /hydras/windows/body)
@@ -140,13 +141,17 @@ Git
   ("s" magit-status)
   )
 
-(defhydra /hydras/errors (:hint nil :idle 0.5)
+(defhydra /hydras/errors (:hint nil :idle 0.5  :exit t)
   "
 Errors
 ------
   _l_ -> _l_ist
+  _n_ -> _n_ext
+  _p_ -> _p_previous
 "
-  ("l" flycheck-list-errors :exit t)
+  ("l" flycheck-list-errors)
+  ("n" flycheck-next-error)
+  ("p" flycheck-previous-error)
   )
 
 (defhydra /hydras/project

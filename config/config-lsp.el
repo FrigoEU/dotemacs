@@ -39,7 +39,7 @@
   (setq lsp-ui-peek-peek-height 30)
 
   :bind (:map evil-normal-state-map
-              (", a" . lsp-ui-sideline-apply-code-actions)
+              (", a" . lsp-execute-code-action)
 
               (", d" . lsp-ui-peek-find-definitions)
               (", D" . lsp-ui-peek-find-references)

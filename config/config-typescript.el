@@ -4,11 +4,18 @@
   :straight t
   )
 
-; (/boot/lazy-major-mode "\\.ts$" typescript-mode)
-; (/boot/lazy-major-mode "\\.tsx$" typescript-mode)
+                                        ; (/boot/lazy-major-mode "\\.ts$" typescript-mode)
+                                        ; (/boot/lazy-major-mode "\\.tsx$" typescript-mode)
 
 (use-package emmet-mode
-  :hook (typescript-mode typescript-tsx-mode html-mode)
+  :straight t
+  :hook (typescript-mode-hook typescript-tsx-mode-hook html-mode-hook)
+  :config
+  (add-to-list 'emmet-jsx-major-modes 'typescript-mode)
+  (add-to-list 'emmet-jsx-major-modes 'typescript-tsx-mode)
+  :bind (:map evil-insert-state-map
+              ("<C-return>" . emmet-expand-line)
+              )
   )
 
 (setq typescript-indent-level 2)

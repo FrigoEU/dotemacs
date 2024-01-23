@@ -3,11 +3,6 @@
 (use-package eshell
   :straight t
   :hook (eshell-mode-hook . /eshell/eshell-mode-hook)
-  :hook (eshell-mode-hook . (lambda ()
-                              (local-set-key (kbd "C-h") #'evil-window-left)
-                              (local-set-key (kbd "C-j") #'evil-window-down)
-                              (local-set-key (kbd "C-k") #'evil-window-up)
-                              (local-set-key (kbd "C-l") #'evil-window-right)))
   :config
   (evil-set-initial-state 'eshell-mode 'insert)
   (setq eshell-directory-name (concat dotemacs-cache-directory "eshell"))
@@ -102,5 +97,27 @@
             (lambda ()
               (setenv "TERM" "xterm-256color")
               (setq xterm-color-preserve-properties t))))
+
+(defun pcomplete/npm ()
+  "Completion for `npm'."
+  ;; Completion for the command argument.
+  (pcomplete-here* '("install" "run" "start" "publish" "update"))
+
+  ;; complete files/dirs forever if the command is `add' or `rm'.
+  (when (pcomplete-match (regexp-opt '("run")) 1)
+    (pcomplete-here
+     (let* ((file (json-read-file "./package.json")))
+       (if file
+           (let* (
+                  (scripts-1 (cdr (assoc 'scripts file)))
+                  (scripts (cl-loop for (key . value) in scripts-1
+                                    collect (cons (symbol-name key) value)))
+                  (sorted-scripts (sort scripts (lambda (a b) (string< (car a) (car b)))))
+                  )
+             sorted-scripts
+             )
+         )
+       )
+     )))
 
 (provide 'config-eshell)
