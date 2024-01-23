@@ -4,8 +4,46 @@
   :straight t
   )
 
-                                        ; (/boot/lazy-major-mode "\\.ts$" typescript-mode)
-                                        ; (/boot/lazy-major-mode "\\.tsx$" typescript-mode)
+(use-package company
+  :straight t
+  :config
+  (setq company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend))
+  )
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1)
+  (corfu-mode 0)
+  )
+
+
+(use-package tide
+  :straight t
+  :hook (typescript-mode-hook . setup-tide-mode)
+  :hook (typescript-ts-mode-hook . setup-tide-mode)
+  :hook (typescript-tsx-mode-hook . setup-tide-mode)
+
+  :bind (:map evil-normal-state-map
+              (", a" . tide-fix)
+
+              (", r" . tide-rename-symbol)
+              (", R" . tide-rename-file)
+
+              (", s r" . tide-restart-server)
+
+              (", o" . tide-organize-imports)
+
+              (", h" . tide-documentation-at-point)
+
+              ("g d" . tide-jump-to-definition)
+              ("g D" . tide-references)
+              )
+  )
 
 (use-package emmet-mode
   :straight t

@@ -2,8 +2,8 @@
 
 (use-package lsp-mode
   :straight t
-  :hook (typescript-mode-hook . /lsp/activate)
-  :hook (typescript-tsx-mode-hook . /lsp/activate)
+  ;; :hook (typescript-mode-hook . /lsp/activate)
+  ;; :hook (typescript-tsx-mode-hook . /lsp/activate)
   :hook (rust-mode-hook . /lsp/activate)
   :config
   (setq lsp-session-file (concat dotemacs-cache-directory ".lsp-session-v1"))
@@ -13,7 +13,7 @@
 
   :bind (:map evil-normal-state-map
               (", r" . lsp-rename)
-              (", R" . lsp-restart-workspace)
+              (", s r" . lsp-restart-workspace)
 
               (", o" . lsp-organize-imports)
               )
@@ -43,8 +43,6 @@
 
               (", d" . lsp-ui-peek-find-definitions)
               (", D" . lsp-ui-peek-find-references)
-
-
 
               (", h" . lsp-ui-doc-glance)
 
