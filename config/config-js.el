@@ -32,16 +32,17 @@
 (setq js-indent-level dotemacs-js/indent-offset)
 
 
-; (when (eq dotemacs-js/mode 'js2)
-;   (defun /js/activate-js2 ()
-;     (require-package 'js2-mode)
-;     (js2-jsx-mode))
-;   (add-to-list 'auto-mode-alist '("\\.jsx?$" . /js/activate-js2)))
+                                        ; (when (eq dotemacs-js/mode 'js2)
+                                        ;   (defun /js/activate-js2 ()
+                                        ;     (require-package 'js2-mode)
+                                        ;     (js2-jsx-mode))
+                                        ;   (add-to-list 'auto-mode-alist '("\\.jsx?$" . /js/activate-js2)))
 
 (cond
  ((eq dotemacs-js/engine 'lsp)
-  (add-hook 'js-mode-hook #'/lsp/activate)
-  (add-hook 'js-jsx-mode-hook #'/lsp/activate))
+  ;; (add-hook 'js-mode-hook #'/lsp/activate)
+  ;; (add-hook 'js-jsx-mode-hook #'/lsp/activate)
+  )
  ((eq dotemacs-js/engine 'eglot)
   (add-hook 'js-mode-hook #'/eglot/activate)
   (add-hook 'js-jsx-mode-hook #'/eglot/activate)))
@@ -50,13 +51,13 @@
   (setq js2-highlight-level 3)
   (setq-default js2-basic-offset dotemacs-js/indent-offset)
 
-  ; (require-package 'js2-refactor)
-  ; (require 'js2-refactor)
-  ; (js2r-add-keybindings-with-prefix "C-c C-m")
+                                        ; (require-package 'js2-refactor)
+                                        ; (require 'js2-refactor)
+                                        ; (js2r-add-keybindings-with-prefix "C-c C-m")
 
-  ; (add-hook 'js2-mode-hook #'js2-refactor-mode)
-  ; (add-hook 'js2-jsx-mode-hook #'js2-refactor-mode)
-  ; (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
+                                        ; (add-hook 'js2-mode-hook #'js2-refactor-mode)
+                                        ; (add-hook 'js2-jsx-mode-hook #'js2-refactor-mode)
+                                        ; (add-hook 'js2-minor-mode-hook #'js2-refactor-mode)
   )
 
 (provide 'config-js)

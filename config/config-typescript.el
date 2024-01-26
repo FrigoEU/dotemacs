@@ -20,6 +20,30 @@
   (tide-hl-identifier-mode +1)
   (company-mode +1)
   (corfu-mode 0)
+
+  (bind-keys
+   :map evil-visual-state-map
+   (", t" . tide-refactor) 
+   )
+
+  (bind-keys
+   :map evil-normal-state-map
+   (", a" . tide-fix)
+
+   (", r" . tide-rename-symbol)
+   (", R" . tide-rename-file)
+
+   (", t" . tide-refactor) 
+
+   (", s r" . tide-restart-server)
+
+   (", o" . tide-organize-imports)
+
+   (", h" . tide-documentation-at-point)
+
+   ("g d" . tide-jump-to-definition)
+   ("g D" . tide-references)
+   )
   )
 
 
@@ -28,22 +52,6 @@
   :hook (typescript-mode-hook . setup-tide-mode)
   :hook (typescript-ts-mode-hook . setup-tide-mode)
   :hook (typescript-tsx-mode-hook . setup-tide-mode)
-
-  :bind (:map evil-normal-state-map
-              (", a" . tide-fix)
-
-              (", r" . tide-rename-symbol)
-              (", R" . tide-rename-file)
-
-              (", s r" . tide-restart-server)
-
-              (", o" . tide-organize-imports)
-
-              (", h" . tide-documentation-at-point)
-
-              ("g d" . tide-jump-to-definition)
-              ("g D" . tide-references)
-              )
   )
 
 (use-package emmet-mode

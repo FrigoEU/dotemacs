@@ -11,12 +11,8 @@
   (setq read-process-output-max (* 1024 1024))
   (setq lsp-headerline-breadcrumb-enable nil)
 
-  :bind (:map evil-normal-state-map
-              (", r" . lsp-rename)
-              (", s r" . lsp-restart-workspace)
-
-              (", o" . lsp-organize-imports)
-              )
+  :bind (
+         )
   )
 
 
@@ -38,18 +34,6 @@
   (setq lsp-ui-peek-list-width 100)
   (setq lsp-ui-peek-peek-height 30)
 
-  :bind (:map evil-normal-state-map
-              (", a" . lsp-execute-code-action)
-
-              (", d" . lsp-ui-peek-find-definitions)
-              (", D" . lsp-ui-peek-find-references)
-
-              (", h" . lsp-ui-doc-glance)
-
-              ("g d" . lsp-ui-peek-find-definitions)
-              ("g D" . lsp-ui-peek-find-references)
-              )
-
   :bind (:map lsp-ui-peek-mode-map
               ("k" . lsp-ui-peek--select-prev)
               ("j" . lsp-ui-peek--select-next)
@@ -63,7 +47,28 @@
            (lambda (path)
              (string-match-p path (buffer-file-name)))
            /lsp/inhibit_paths)
-    (lsp-deferred)))
+    (progn
+      (lsp-deferred)
+      (bind-keys
+       :map evil-normal-state-map
+       (", r" . lsp-rename)
+       (", s r" . lsp-restart-workspace)
+
+       (", o" . lsp-organize-imports)
+
+       (", a" . lsp-execute-code-action)
+
+       (", d" . lsp-ui-peek-find-definitions)
+       (", D" . lsp-ui-peek-find-references)
+
+       (", h" . lsp-ui-doc-glance)
+
+       ("g d" . lsp-ui-peek-find-definitions)
+       ("g D" . lsp-ui-peek-find-references)
+       )
+      )
+    )
+  )
 
 (defun /lsp/suggest-project-root ()
   "Suggests the nearest project that is not a dependency."

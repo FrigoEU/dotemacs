@@ -46,6 +46,7 @@
   (load (concat user-emacs-directory "config/config-core.el"))
   (load (concat user-emacs-directory "config/config-dashboard.el"))
   (load (concat user-emacs-directory "config/config-eshell.el"))
+  (load (concat user-emacs-directory "config/config-vterm.el"))
   (load (concat user-emacs-directory "config/config-evil.el"))
   (load (concat user-emacs-directory "config/config-eyecandy.el"))
   (load (concat user-emacs-directory "config/config-flycheck.el"))

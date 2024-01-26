@@ -137,21 +137,21 @@
   (interactive)
   (let ((default-directory "/home/simon/ur-proj/school"))
     (persp-switch "school-logs")
-    (eshell 0)
+    (eshell 900)
     (rename-buffer "*eshell* proxy")
     (insert "npm run proxy")
     (eshell-send-input)
 
     (evil-window-vsplit)
 
-    (eshell 1)
+    (eshell 901)
     (rename-buffer "*eshell* URWEB")
     (insert "./school.exe")
     (eshell-send-input)
 
     (evil-window-vsplit)
 
-    (eshell 2)
+    (eshell 902)
     (rename-buffer "*eshell* TypeScript")
     (insert "nodemon")
     (eshell-send-input)
@@ -172,13 +172,13 @@
   (interactive)
   (let ((default-directory "/home/simon/projects/aperi-new"))
     (persp-switch "aperi-logs")
-    (let ((eshell-buffer-name "*eshell* engine")) (eshell 0))
+    (let ((eshell-buffer-name "*eshell* engine")) (eshell 800))
     (insert "npm run engine")
     (eshell-send-input)
 
     (evil-window-vsplit)
 
-    (let ((eshell-buffer-name "*eshell* device")) (eshell 1))
+    (let ((eshell-buffer-name "*eshell* device")) (eshell 801))
     (insert "npm run device")
     (eshell-send-input)
     )

@@ -114,7 +114,7 @@ Open
   _-_  → dired       ^ ^                      
   
 "
-  ("e" eshell-new)
+  ("e" vterm-new)
   ("-" dired-jump)
   )
 
