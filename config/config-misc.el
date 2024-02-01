@@ -57,6 +57,8 @@
   (apheleia-global-mode +1)
   )
 
+(setq css-indent-offset 2)
+
 
 (use-package restart-emacs
   :straight t

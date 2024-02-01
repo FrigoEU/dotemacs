@@ -10,9 +10,7 @@
   (setq lsp-keep-workspace-alive nil)
   (setq read-process-output-max (* 1024 1024))
   (setq lsp-headerline-breadcrumb-enable nil)
-
-  :bind (
-         )
+  
   )
 
 
@@ -34,6 +32,14 @@
   (setq lsp-ui-peek-list-width 100)
   (setq lsp-ui-peek-peek-height 30)
 
+  (evil-define-key 'normal lsp-mode-map (kbd ", r") 'lsp-rename)
+  (evil-define-key 'normal lsp-mode-map (kbd ", s r") 'lsp-restart-workspace)
+  (evil-define-key 'normal lsp-mode-map (kbd ", o") 'lsp-organize-imports)
+  (evil-define-key 'normal lsp-mode-map (kbd ", a") 'lsp-execute-code-action)
+  (evil-define-key 'normal lsp-mode-map (kbd ", h") 'lsp-ui-doc-glance)
+  (evil-define-key 'normal lsp-mode-map (kbd "g d") 'lsp-ui-peek-find-definitions)
+  (evil-define-key 'normal lsp-mode-map (kbd "g D") 'lsp-ui-peek-find-references)
+
   :bind (:map lsp-ui-peek-mode-map
               ("k" . lsp-ui-peek--select-prev)
               ("j" . lsp-ui-peek--select-next)
@@ -49,23 +55,6 @@
            /lsp/inhibit_paths)
     (progn
       (lsp-deferred)
-      (bind-keys
-       :map evil-normal-state-map
-       (", r" . lsp-rename)
-       (", s r" . lsp-restart-workspace)
-
-       (", o" . lsp-organize-imports)
-
-       (", a" . lsp-execute-code-action)
-
-       (", d" . lsp-ui-peek-find-definitions)
-       (", D" . lsp-ui-peek-find-references)
-
-       (", h" . lsp-ui-doc-glance)
-
-       ("g d" . lsp-ui-peek-find-definitions)
-       ("g D" . lsp-ui-peek-find-references)
-       )
       )
     )
   )

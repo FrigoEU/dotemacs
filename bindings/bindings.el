@@ -24,6 +24,7 @@
   ("w"   /hydras/windows/body)
   ("f"   /hydras/files/body)
   ("g"   /hydras/git/body)
+  ("c"   /hydras/compile/body)
   ("-"   dired-jump)
   ("/"   consult-ripgrep-root)
   ("*"   consult-ripgrep-root-at-point)
@@ -60,7 +61,8 @@ Quit
   _r_ → restart
 
 "
-  ("q" save-buffers-kill-terminal)
+  ("q" 
+   save-buffers-kill-terminal)
   ("r" (restart-emacs)))
 
 (defhydra /hydras/buffers (:hint nil :exit t :idle 0.5)
@@ -129,6 +131,20 @@ Files
   ("R" /utils/rename-current-buffer-file)
   ("f" find-file)
   )
+
+(defhydra /hydras/compile
+  (:hint nil :exit t :idle 0.5)
+  "
+Git
+
+  _c_ → _c_ompile
+  _r_ → _r_epeat
+
+"
+  ("c" compile)
+  ("r" recompile)
+  )
+
 
 (defhydra /hydras/git
   (:hint nil :exit t :idle 0.5)
