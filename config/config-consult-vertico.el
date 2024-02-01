@@ -21,6 +21,7 @@
   :config
   (setq vertico-count 20)
   (vertico-multiform-mode) ;; So we can have different placements of the frame for different consult functions
+
   )
 
 (use-package vertico-posframe

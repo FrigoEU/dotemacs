@@ -214,6 +214,9 @@ Projects
 (define-key minibuffer-local-map (kbd "C-h") 'backward-kill-word)
 (define-key minibuffer-local-map (kbd "C-z") 'embark-export)
 
+(define-key minibuffer-local-map (kbd "C-j") 'vertico-next)
+(define-key minibuffer-local-map (kbd "C-k") 'vertico-previous)
+
 (after 'comint
   (define-key comint-mode-map [up] 'comint-previous-input)
   (define-key comint-mode-map [down] 'comint-next-input))

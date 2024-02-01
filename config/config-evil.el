@@ -53,6 +53,10 @@
               ("<down>" . evil-window-down)
               ("<up>"   . evil-window-up)
               ("<right>". evil-window-right)
+              ("C-h" . evil-window-left)
+              ("C-j" . evil-window-down)
+              ("C-k"   . evil-window-up)
+              ("C-l". evil-window-right)
               ) 
   :bind (:map evil-motion-state-map
               ("j" . evil-next-line)
