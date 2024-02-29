@@ -8,9 +8,27 @@
   :straight t
   )
 
+(use-package monokai-theme
+  :straight t
+  )
+
+(use-package ample-theme
+  :straight t
+  )
+
+(use-package jazz-theme
+  :straight t
+  )
+
+(use-package color-theme-sanityinc-tomorrow
+  :straight t
+  )
+
 (defun load-theme-and-color-modeline ()
   (progn
-    (load-theme 'doom-one)
+    ;; (load-theme 'sanityinc-tomorrow-night) ;; light
+    (load-theme 'doom-monokai-pro)
+    ;; (load-theme 'doom-one)
     ;; (load-theme 'modus-operandi-tinted) ;; light
     ;; (load-theme 'modus-vivendi-tinted)
 

@@ -3,7 +3,7 @@
 (use-package consult
   :straight t
   :config
-  (setq consult-preview-key nil) ;; Don't show preview
+  (setq consult-preview-key "<right>") ;; Don't show preview
   (setq completion-in-region-function
         (lambda (&rest args)
           (apply (if vertico-mode

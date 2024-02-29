@@ -166,9 +166,11 @@ Git
 Git
 
   _n_ → line _n_umbers
+  _t_ → _t_hemes browser
 
 "
   ("n" display-line-numbers-mode)
+  ("t" consult-theme)
   )
 
 (defhydra /hydras/errors (:hint nil :idle 0.5  :exit t)
