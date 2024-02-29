@@ -2,8 +2,9 @@
 
 (use-package lsp-mode
   :straight t
-  ;; :hook (typescript-mode-hook . /lsp/activate)
-  ;; :hook (typescript-tsx-mode-hook . /lsp/activate)
+  :hook (typescript-mode-hook . /lsp/activate)
+  :hook (typescript-ts-mode-hook . /lsp/activate)
+  :hook (typescript-tsx-mode-hook . /lsp/activate)
   :hook (rust-mode-hook . /lsp/activate)
   :config
   (setq lsp-session-file (concat dotemacs-cache-directory ".lsp-session-v1"))
@@ -36,7 +37,9 @@
   (evil-define-key 'normal lsp-mode-map (kbd ", s r") 'lsp-restart-workspace)
   (evil-define-key 'normal lsp-mode-map (kbd ", o") 'lsp-organize-imports)
   (evil-define-key 'normal lsp-mode-map (kbd ", a") 'lsp-execute-code-action)
+  (evil-define-key 'visual lsp-mode-map (kbd ", a") 'lsp-execute-code-action)
   (evil-define-key 'normal lsp-mode-map (kbd ", h") 'lsp-ui-doc-glance)
+  (evil-define-key 'normal lsp-mode-map (kbd "K") 'lsp-ui-doc-glance)
   (evil-define-key 'normal lsp-mode-map (kbd "g d") 'lsp-ui-peek-find-definitions)
   (evil-define-key 'normal lsp-mode-map (kbd "g D") 'lsp-ui-peek-find-references)
 
