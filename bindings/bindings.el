@@ -216,6 +216,13 @@ Projects
   :config
   (setq which-key-idle-delay 0.2)
   (setq which-key-min-display-lines 3)
+  ;; so pressing "i" in eg: yiw doesn't trigger which-key (only after 1000 seconds) in vterm
+  ;; otherwise the cursor jumps back to the bottom line
+  (defun t/delayed-which-key (_ _)
+    (cond
+     ((eq major-mode 'vterm-mode) 1000)
+     (t nil)))
+  (add-hook 'which-key-delay-functions #'t/delayed-which-key)
   )
 
 ;; escape minibuffer

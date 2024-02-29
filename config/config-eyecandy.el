@@ -10,9 +10,9 @@
 
 (defun load-theme-and-color-modeline ()
   (progn
-    ;; (load-theme 'doom-one)
+    (load-theme 'doom-one)
     ;; (load-theme 'modus-operandi-tinted) ;; light
-    (load-theme 'modus-vivendi-tinted)
+    ;; (load-theme 'modus-vivendi-tinted)
 
     ;; Color modeline according to Normal / Insert / Visual mode
     (defvar dotemacs--original-mode-line-bg (face-background 'mode-line))
