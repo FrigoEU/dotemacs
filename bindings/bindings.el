@@ -8,7 +8,7 @@
 
   _SPC_ → Search commands (M-x)
 
-  _b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat
+  _b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat          _t_ → _t_oggle
   _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers
   _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors             
   _p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit             
@@ -24,6 +24,7 @@
   ("w"   /hydras/windows/body)
   ("f"   /hydras/files/body)
   ("g"   /hydras/git/body)
+  ("t"   /hydras/toggle/body)
   ("c"   /hydras/compile/body)
   ("-"   dired-jump)
   ("/"   consult-ripgrep-root)
@@ -159,6 +160,17 @@ Git
   ("s" magit-status)
   )
 
+(defhydra /hydras/toggle
+  (:hint nil :exit t :idle 0.5)
+  "
+Git
+
+  _n_ → line _n_umbers
+
+"
+  ("n" display-line-numbers-mode)
+  )
+
 (defhydra /hydras/errors (:hint nil :idle 0.5  :exit t)
   "
 Errors
@@ -180,11 +192,13 @@ Projects
   _p_ → _p_rojects search
   _f_ → _f_ind file in project
   _a_ → _a_dd project
+  _i_ → _i_nvalidate cache
 
 "
   ("p" projectile-persp-switch-project)
   ("f" consult-projectile-find-file)
   ("a" projectile-add-known-project)
+  ("i" projectile-invalidate-cache)
   )
 
 (use-package transient
