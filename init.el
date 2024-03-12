@@ -63,7 +63,8 @@
   (load (concat user-emacs-directory "config/config-tree-sitter.el"))
   (load (concat user-emacs-directory "config/config-typescript.el"))
   (load (concat user-emacs-directory "config/config-workspaces.el"))
-  (load (concat user-emacs-directory "config/config-lsp.el"))
+  ;; (load (concat user-emacs-directory "config/config-lsp-mode.el"))
+  (load (concat user-emacs-directory "config/config-eglot.el"))
   (load (concat user-emacs-directory "bindings/bindings.el"))
   ;; Direnv integration last
   (load (concat user-emacs-directory "config-direnv-envrc.el"))
