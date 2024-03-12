@@ -136,7 +136,7 @@ Files
 (defhydra /hydras/compile
   (:hint nil :exit t :idle 0.5)
   "
-Git
+Compile
 
   _c_ → _c_ompile
   _r_ → _r_epeat
@@ -154,10 +154,12 @@ Git
 
   _t_ → _t_ime machine
   _s_ → _s_tatus
+  _b_ → _b_lame
 
 "
   ("t" git-timemachine)
   ("s" magit-status)
+  ("b" magit-blame)
   )
 
 (defhydra /hydras/toggle

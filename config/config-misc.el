@@ -55,6 +55,12 @@
   :straight t
   :init
   (apheleia-global-mode +1)
+  :config
+  ;; (add-to-list 'apheleia-formatters
+  ;;              '(prettier-sql "apheleia-npx" "prettier" "--stdin-filepath" filepath
+  ;;                             (apheleia-formatters-js-indent "--use-tabs" "--tab-width"))
+  ;;              )
+  ;; (add-to-list 'apheleia-mode-alist '(sql-mode . prettier-sql))
   )
 
 (setq css-indent-offset 2)

@@ -33,6 +33,8 @@
   (setq lsp-ui-peek-list-width 100)
   (setq lsp-ui-peek-peek-height 30)
 
+  (setq lsp-ui-doc-show-with-mouse nil)
+
   (evil-define-key 'normal lsp-mode-map (kbd ", r") 'lsp-rename)
   (evil-define-key 'normal lsp-mode-map (kbd ", s r") 'lsp-restart-workspace)
   (evil-define-key 'normal lsp-mode-map (kbd ", o") 'lsp-organize-imports)
@@ -43,11 +45,21 @@
   (evil-define-key 'normal lsp-mode-map (kbd "g d") 'lsp-ui-peek-find-definitions)
   (evil-define-key 'normal lsp-mode-map (kbd "g D") 'lsp-ui-peek-find-references)
 
+  ;; This code action was not working anymore (not removing unused imports, only sorting) after 4.9, so I added this
+  (lsp-make-interactive-code-action organize-imports "source.organizeImports.ts")
+
+  (add-hook 'lsp-after-apply-edits-hook
+            (lambda (operation)
+              (when (eq operation 'rename)
+                (save-buffer))))
+
   :bind (:map lsp-ui-peek-mode-map
               ("k" . lsp-ui-peek--select-prev)
               ("j" . lsp-ui-peek--select-next)
               )
+
   )
+
 
 (setq /lsp/inhibit_paths '("node_modules"))
 (defun /lsp/activate ()

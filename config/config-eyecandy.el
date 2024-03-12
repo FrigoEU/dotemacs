@@ -27,8 +27,9 @@
 (defun load-theme-and-color-modeline ()
   (progn
     ;; (load-theme 'sanityinc-tomorrow-night) 
-    (load-theme 'doom-monokai-pro)
+    (load-theme 'doom-snazzy)
     ;; (load-theme 'doom-one)
+    ;; (load-theme 'doom-acario-light) ;; light
     ;; (load-theme 'modus-operandi-tinted) ;; light
     ;; (load-theme 'modus-vivendi-tinted)
 
