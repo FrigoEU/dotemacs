@@ -183,9 +183,12 @@ Errors
   _n_ -> _n_ext
   _p_ -> _p_previous
 "
-  ("l" flycheck-list-errors)
-  ("n" flycheck-next-error)
-  ("p" flycheck-previous-error)
+  ;; ("l" flycheck-list-errors)
+  ;; ("n" flycheck-next-error)
+  ;; ("p" flycheck-previous-error)
+  ("l" flymake-show-buffer-diagnostics)
+  ("n" flymake-goto-next-error)
+  ("p" flymake-goto-prev-error)
   )
 
 (defhydra /hydras/project

@@ -2,10 +2,10 @@
 
 (use-package lsp-mode
   :straight t
-  :hook (typescript-mode-hook . /lsp/activate)
-  :hook (typescript-ts-mode-hook . /lsp/activate)
-  :hook (tsx-ts-mode-hook . /lsp/activate)
-  :hook (rust-mode-hook . /lsp/activate)
+  ;; :hook (typescript-mode-hook . /lsp/activate)
+  ;; :hook (typescript-ts-mode-hook . /lsp/activate)
+  ;; :hook (tsx-ts-mode-hook . /lsp/activate)
+  ;; :hook (rust-mode-hook . /lsp/activate)
   :config
   (setq lsp-session-file (concat dotemacs-cache-directory ".lsp-session-v1"))
   (setq lsp-keep-workspace-alive nil)

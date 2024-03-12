@@ -49,7 +49,7 @@
   (load (concat user-emacs-directory "config/config-vterm.el"))
   (load (concat user-emacs-directory "config/config-evil.el"))
   (load (concat user-emacs-directory "config/config-eyecandy.el"))
-  (load (concat user-emacs-directory "config/config-flycheck.el"))
+  ;; (load (concat user-emacs-directory "config/config-flycheck.el"))
   (load (concat user-emacs-directory "config/config-git.el"))
   (load (concat user-emacs-directory "config/config-help.el"))
   (load (concat user-emacs-directory "config/config-js.el"))

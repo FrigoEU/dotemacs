@@ -38,4 +38,10 @@
 (advice-add #'next-error-find-buffer :around #'/flycheck/advice/next-error-find-buffer)
 (setq-default flycheck-indication-mode 'left-margin)
 
+(use-package flycheck-eglot
+  :straight t
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
+
 (provide 'config-flycheck)
