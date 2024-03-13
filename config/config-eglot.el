@@ -13,6 +13,7 @@
   :hook (typescript-ts-mode-hook . eglot-ensure)
   :hook (tsx-ts-mode-hook . eglot-ensure)
   :hook (rust-mode-hook . eglot-ensure)
+  :hook (js-json-mode-hook . eglot-ensure)
 
   :config
   ;; (eglot--code-action eglot-code-action-organize-imports-ts "source.organizeImports.ts")
@@ -20,7 +21,8 @@
 
   (evil-define-key 'normal eglot-mode-map (kbd ", r") 'eglot-rename)
   (evil-define-key 'normal eglot-mode-map (kbd ", s r") 'eglot-reconnect)
-  (evil-define-key 'normal eglot-mode-map (kbd ", o") 'remove-and-organize-imports)
+  ;; (evil-define-key 'normal eglot-mode-map (kbd ", o") 'remove-and-organize-imports)
+  (evil-define-key 'normal eglot-mode-map (kbd ", o") 'eglot-code-action-organize-imports)
   (evil-define-key 'normal eglot-mode-map (kbd ", a") 'eglot-code-actions)
   (evil-define-key 'visual eglot-mode-map (kbd ", a") 'eglot-code-actions)
   (evil-define-key 'normal eglot-mode-map (kbd ", f") 'eglot-code-action-quickfix)

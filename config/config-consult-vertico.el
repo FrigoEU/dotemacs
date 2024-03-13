@@ -129,10 +129,10 @@
   (add-to-list 'consult-projectile-sources 'consult-projectile--source-projectile-recentf)
   )
 
-(use-package consult-lsp
-  :straight t
-  :after lsp-mode
-  )
+;; (use-package consult-lsp
+;;   :straight t
+;;   :after lsp-mode
+;;   )
 
 (defun consult-ripgrep-root ()
   (interactive)
