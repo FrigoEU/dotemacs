@@ -8,13 +8,27 @@
   :config
   (setq persp-sort 'created)
   (persp-turn-off-modestring)
+
+
   )
 
 ;; provides 'projectile-persp-switch-project
 (use-package persp-projectile
   :straight t
   :after perspective
+  :config
+
+  ;; Close "main" perspective = dashboard after selecting a project
+  (defun kill-main-persp (proj)
+    (progn (persp-kill "main") proj))
+  (advice-add
+   'projectile-persp-switch-project
+   :after
+   #'kill-main-persp
+   )
   )
+
+
 
 (after [consult perspective]
   (consult-customize consult--source-buffer :hidden t :default nil)

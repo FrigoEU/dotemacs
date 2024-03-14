@@ -1,11 +1,3 @@
-(defun remove-and-organize-imports ()
-  (interactive)
-  (progn
-    (eglot-code-action-remove-unused-imports (point))
-    (eglot-code-action-organize-imports (point))
-    )
-  )
-
 (use-package eglot
   :straight t
 
@@ -16,12 +8,8 @@
   :hook (js-json-mode-hook . eglot-ensure)
 
   :config
-  ;; (eglot--code-action eglot-code-action-organize-imports-ts "source.organizeImports.ts")
-  (eglot--code-action eglot-code-action-remove-unused-imports "source.removeUnusedImports")
-
   (evil-define-key 'normal eglot-mode-map (kbd ", r") 'eglot-rename)
   (evil-define-key 'normal eglot-mode-map (kbd ", s r") 'eglot-reconnect)
-  ;; (evil-define-key 'normal eglot-mode-map (kbd ", o") 'remove-and-organize-imports)
   (evil-define-key 'normal eglot-mode-map (kbd ", o") 'eglot-code-action-organize-imports)
   (evil-define-key 'normal eglot-mode-map (kbd ", a") 'eglot-code-actions)
   (evil-define-key 'visual eglot-mode-map (kbd ", a") 'eglot-code-actions)
@@ -30,6 +18,8 @@
   (evil-define-key 'normal eglot-mode-map (kbd "K") 'eldoc)
   (evil-define-key 'normal eglot-mode-map (kbd "g d") 'xref-find-definitions)
   (evil-define-key 'normal eglot-mode-map (kbd "g D") 'xref-find-references)
+
+  (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
 
   ;; (add-to-list
