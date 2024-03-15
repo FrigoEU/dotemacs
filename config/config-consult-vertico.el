@@ -10,6 +10,9 @@
                      #'consult-completion-in-region
                    #'completion--in-region)
                  args)))
+
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
   )
 
 
