@@ -8,9 +8,12 @@
   :hook (js-json-mode-hook . eglot-ensure)
 
   :config
+  (eglot--code-action eglot-code-action-remove-unused-imports "source.removeUnusedImports")
+
   (evil-define-key 'normal eglot-mode-map (kbd ", r") 'eglot-rename)
   (evil-define-key 'normal eglot-mode-map (kbd ", s r") 'eglot-reconnect)
   (evil-define-key 'normal eglot-mode-map (kbd ", o") 'eglot-code-action-organize-imports)
+  (evil-define-key 'normal eglot-mode-map (kbd ", p") 'eglot-code-action-remove-unused-imports)
   (evil-define-key 'normal eglot-mode-map (kbd ", a") 'eglot-code-actions)
   (evil-define-key 'visual eglot-mode-map (kbd ", a") 'eglot-code-actions)
   (evil-define-key 'normal eglot-mode-map (kbd ", f") 'eglot-code-action-quickfix)
