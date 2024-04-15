@@ -100,6 +100,10 @@ Windows
   ("<right>" evil-window-move-far-right)
   ("<up>" evil-window-move-very-top)
   ("<down>" evil-window-move-very-bottom)
+  ("C-h" evil-window-move-far-left)
+  ("C-l" evil-window-move-far-right)
+  ("C-k" evil-window-move-very-top)
+  ("C-j" evil-window-move-very-bottom)
   )
 
 (defun eshell-new()
@@ -240,6 +244,12 @@ Projects
 (define-key minibuffer-local-isearch-map [escape] '/utils/minibuffer-keyboard-quit)
 
 (define-key minibuffer-local-map (kbd "C-h") 'backward-kill-word)
+;; Search and replace project-wide:
+;; 1. Search (with consult-grep)
+;; 2. embark-export
+;; 3. wgrep-change-to-wgrep-mode
+;; 4. Do edits
+;; 5. Z Z
 (define-key minibuffer-local-map (kbd "C-z") 'embark-export)
 
 (define-key minibuffer-local-map (kbd "C-j") 'vertico-next)

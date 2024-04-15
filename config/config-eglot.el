@@ -1,3 +1,4 @@
+
 (use-package eglot
   :straight t
 
@@ -10,10 +11,19 @@
   :config
   (eglot--code-action eglot-code-action-remove-unused-imports "source.removeUnusedImports")
 
+  (defun remove-and-organize-imports ()
+    (interactive)
+    (progn
+      (eglot-code-action-remove-unused-imports (point))
+      (eglot-code-action-organize-imports (point))
+      )
+    )
+
   (evil-define-key 'normal eglot-mode-map (kbd ", r") 'eglot-rename)
   (evil-define-key 'normal eglot-mode-map (kbd ", s r") 'eglot-reconnect)
-  (evil-define-key 'normal eglot-mode-map (kbd ", o") 'eglot-code-action-organize-imports)
-  (evil-define-key 'normal eglot-mode-map (kbd ", p") 'eglot-code-action-remove-unused-imports)
+  (evil-define-key 'normal eglot-mode-map (kbd ", o") 'remove-and-organize-imports)
+  ;; (evil-define-key 'normal eglot-mode-map (kbd ", o") 'eglot-code-action-organize-imports)
+  ;; (evil-define-key 'normal eglot-mode-map (kbd ", p") 'eglot-code-action-remove-unused-imports)
   (evil-define-key 'normal eglot-mode-map (kbd ", a") 'eglot-code-actions)
   (evil-define-key 'visual eglot-mode-map (kbd ", a") 'eglot-code-actions)
   (evil-define-key 'normal eglot-mode-map (kbd ", f") 'eglot-code-action-quickfix)

@@ -19,6 +19,8 @@
   (add-to-list 'projectile-globally-ignored-directories ".git")
   (add-to-list 'projectile-globally-ignored-directories ".idea")
 
+  (projectile-load-known-projects)
+
   (setq projectile-generic-command
         (concat "rg -0 --hidden --files --color never "
                 (mapconcat (lambda (dir) (concat "--glob " "'!" dir "'")) projectile-globally-ignored-directories " ")))
