@@ -36,6 +36,7 @@
   )
 
 (define-key evil-normal-state-map (kbd "SPC") '/hydras/main/body)
+(define-key evil-visual-state-map (kbd "SPC") '/hydras/main/body)
 
 (setq lv-use-separator t)
 

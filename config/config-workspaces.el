@@ -195,7 +195,7 @@
 
     (vterm-new)
     (rename-buffer "*vterm* device")
-    (vterm-insert "npm run device")
+    (vterm-insert "npm run device_ssl")
     (vterm-send-return)
     )
   )
