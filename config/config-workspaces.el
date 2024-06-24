@@ -131,7 +131,7 @@
   (interactive)
   (progn
     (persp-switch "school-sql")
-    (find-file "/home/simon/ur-proj/school/sqlscratchpad.sql")
+    (find-file "/home/simon/projects/school/sqlscratchpad.sql")
     (sql-connect "urwebschool")
     )
   )
@@ -149,7 +149,7 @@
 
 (defun urwebschool-logs ()
   (interactive)
-  (let ((default-directory "/home/simon/ur-proj/school"))
+  (let ((default-directory "/home/simon/projects/school"))
     (persp-switch "school-logs")
     (vterm-new)
     (rename-buffer "*vterm* proxy")
@@ -176,7 +176,7 @@
   (interactive)
   (progn
     (persp-switch "aperi-sql")
-    (find-file "/home/simon/projects/aperi-new/sqlscratchpad.sql")
+    (find-file "/home/simon/projects/yunction/sqlscratchpad.sql")
     (sql-connect "aperi")
     )
   )
@@ -184,7 +184,7 @@
 
 (defun aperi-logs ()
   (interactive)
-  (let ((default-directory "/home/simon/projects/aperi-new"))
+  (let ((default-directory "/home/simon/projects/yunction"))
     (persp-switch "aperi-logs")
     (vterm-new)
     (rename-buffer "*vterm* engine")

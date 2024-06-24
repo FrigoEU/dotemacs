@@ -11,6 +11,8 @@
   (setq projectile-enable-caching t)
   (setq projectile-files-cache-expire (* 60 60 24 14)) ;; 2 weeks
 
+  (setq projectile-project-search-path '("~/projects/"))
+
   (add-to-list 'projectile-globally-ignored-directories "elpa")
   (add-to-list 'projectile-globally-ignored-directories ".cache")
   (add-to-list 'projectile-globally-ignored-directories "target")
