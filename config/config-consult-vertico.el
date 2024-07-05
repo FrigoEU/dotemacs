@@ -90,6 +90,8 @@
   (marginalia-mode t)
   )
 
+;; No icons? Run manually:
+;;   M-x nerd-icons-install-fonts
 (use-package nerd-icons
   :straight t
   )
