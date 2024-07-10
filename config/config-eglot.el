@@ -14,7 +14,8 @@
   (defun remove-and-organize-imports ()
     (interactive)
     (progn
-      (eglot-code-action-remove-unused-imports (point))
+      ;; Depending on typescript / lsp version this fails or not so we just ignore errors here
+      (ignore-errors (eglot-code-action-remove-unused-imports (point)))
       (eglot-code-action-organize-imports (point))
       )
     )
