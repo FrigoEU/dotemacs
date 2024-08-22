@@ -131,7 +131,7 @@
   (interactive)
   (progn
     (persp-switch "school-sql")
-    (find-file "/home/simon/ur-proj/school/sqlscratchpad.sql")
+    (find-file "/home/simon/projects/school/sqlscratchpad.sql")
     (sql-connect "urwebschool")
     )
   )
@@ -140,7 +140,7 @@
 ;;   (interactive)
 ;;   (progn
 ;;     (+workspace/new-named "school-sql-hamaril")
-;;     (find-file "/home/simon/ur-proj/school/sqlscratchpad.sql")
+;;     (find-file "/home/simon/projects/school/sqlscratchpad.sql")
 ;;     (let ((default-directory "/ssh:root@classyprod|sudo:postgres@classyprod:"))
 ;;       (sql-connect "hamaril"))
 ;;     )
@@ -149,7 +149,7 @@
 
 (defun urwebschool-logs ()
   (interactive)
-  (let ((default-directory "/home/simon/ur-proj/school"))
+  (let ((default-directory "/home/simon/projects/school"))
     (persp-switch "school-logs")
     (vterm-new)
     (rename-buffer "*vterm* proxy")
