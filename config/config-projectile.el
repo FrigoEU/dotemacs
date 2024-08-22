@@ -11,6 +11,8 @@
   (setq projectile-enable-caching t)
   (setq projectile-files-cache-expire (* 60 60 24 14)) ;; 2 weeks
 
+  (setq projectile-project-search-path '("~/projects/"))
+
   (add-to-list 'projectile-globally-ignored-directories "elpa")
   (add-to-list 'projectile-globally-ignored-directories ".cache")
   (add-to-list 'projectile-globally-ignored-directories "target")
@@ -25,6 +27,14 @@
         (concat "rg -0 --hidden --files --color never "
                 (mapconcat (lambda (dir) (concat "--glob " "'!" dir "'")) projectile-globally-ignored-directories " ")))
 
+
+  (defun run-projectile-invalidate-cache (&rest _args)
+    ;; We ignore the args to `magit-checkout'.
+    (projectile-invalidate-cache nil))
+  (advice-add 'magit-checkout
+              :after #'run-projectile-invalidate-cache)
+  (advice-add 'magit-branch-and-checkout ; This is `b c'.
+              :after #'run-projectile-invalidate-cache)
   )
 
 (provide 'config-projectile)

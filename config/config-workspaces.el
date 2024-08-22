@@ -176,7 +176,7 @@
   (interactive)
   (progn
     (persp-switch "aperi-sql")
-    (find-file "/home/simon/projects/aperi-new/sqlscratchpad.sql")
+    (find-file "/home/simon/projects/yunction/sqlscratchpad.sql")
     (sql-connect "aperi")
     )
   )
@@ -184,7 +184,7 @@
 
 (defun aperi-logs ()
   (interactive)
-  (let ((default-directory "/home/simon/projects/aperi-new"))
+  (let ((default-directory "/home/simon/projects/yunction"))
     (persp-switch "aperi-logs")
     (vterm-new)
     (rename-buffer "*vterm* engine")
@@ -195,7 +195,7 @@
 
     (vterm-new)
     (rename-buffer "*vterm* device")
-    (vterm-insert "npm run device")
+    (vterm-insert "npm run device_ssl")
     (vterm-send-return)
     )
   )
