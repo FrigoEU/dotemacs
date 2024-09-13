@@ -127,48 +127,60 @@
         (urwebschool (sql-product 'postgres) (sql-database "urwebschool") (sql-user "simon") (sql-server "localhost"))
         ))
 
+(defun new-shell (i)
+  (if (eq simon/eshell-or-vterm 'eshell)
+      (eshell i)
+    (vterm-new)))
+
+(defun rename-shell-buffer (s)
+  (if (eq simon/eshell-or-vterm 'eshell)
+      (rename-buffer (concat "*eshell* " s))
+    (rename-buffer (concat "*vterm* " s))
+    ))
+
+(defun shell-insert (s)
+  (if (eq simon/eshell-or-vterm 'eshell)
+      (insert s)
+    (vterm-insert s)
+    ))
+
+(defun shell-send-input ()
+  (if (eq simon/eshell-or-vterm 'eshell)
+      (eshell-send-input)
+    (vterm-send-return)
+    ))
+
+(defun urwebschool-logs ()
+  (interactive)
+  (let ((default-directory "/home/simon/projects/school"))
+    (persp-switch "school-logs")
+    (new-shell 900)
+    (rename-shell-buffer "proxy")
+    (shell-insert "npm run proxy")
+    (shell-send-input)
+
+    (evil-window-vsplit)
+
+    (new-shell 901)
+    (rename-shell-buffer "URWEB")
+    (shell-insert "./school.exe")
+    (shell-send-input)
+
+    (evil-window-vsplit)
+
+    (new-shell 902)
+    (rename-shell-buffer "TypeScript")
+    (shell-insert "nodemon")
+    (shell-send-input)
+    )
+  )
+
 (defun urwebschool-sql ()
   (interactive)
   (progn
     (persp-switch "school-sql")
     (find-file "/home/simon/projects/school/sqlscratchpad.sql")
     (sql-connect "urwebschool")
-    )
-  )
-
-;; (defun urwebschool-sql-hamaril ()
-;;   (interactive)
-;;   (progn
-;;     (+workspace/new-named "school-sql-hamaril")
-;;     (find-file "/home/simon/projects/school/sqlscratchpad.sql")
-;;     (let ((default-directory "/ssh:root@classyprod|sudo:postgres@classyprod:"))
-;;       (sql-connect "hamaril"))
-;;     )
-;;   )
-
-
-(defun urwebschool-logs ()
-  (interactive)
-  (let ((default-directory "/home/simon/projects/school"))
-    (persp-switch "school-logs")
-    (vterm-new)
-    (rename-buffer "*vterm* proxy")
-    (vterm-insert "npm run proxy")
-    (vterm-send-return)
-
-    (evil-window-vsplit)
-
-    (vterm-new)
-    (rename-buffer "*vterm* URWEB")
-    (vterm-insert "./school.exe")
-    (vterm-send-return)
-
-    (evil-window-vsplit)
-
-    (vterm-new)
-    (rename-buffer "*vterm* TypeScript")
-    (vterm-insert "nodemon")
-    (vterm-send-return)
     )
   )
 
@@ -186,16 +198,16 @@
   (interactive)
   (let ((default-directory "/home/simon/projects/yunction"))
     (persp-switch "aperi-logs")
-    (vterm-new)
-    (rename-buffer "*vterm* engine")
-    (vterm-insert "npm run engine")
-    (vterm-send-return)
+    (new-shell 800)
+    (rename-shell-buffer "engine")
+    (shell-insert "npm run engine")
+    (shell-send-input)
 
     (evil-window-vsplit)
 
-    (vterm-new)
-    (rename-buffer "*vterm* device")
-    (vterm-insert "npm run device_ssl")
-    (vterm-send-return)
+    (new-shell 801)
+    (rename-shell-buffer "device")
+    (shell-insert "npm run device_ssl")
+    (shell-send-input)
     )
   )

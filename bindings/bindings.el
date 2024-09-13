@@ -114,6 +114,14 @@ Windows
       ;; magics
       ((default-directory (project-root (project-current t))))
     (eshell 'N)))
+
+(defun simon/open-new-shell ()
+  (interactive)
+  (if (eq simon/eshell-or-vterm 'eshell)
+      (eshell-new)
+    (vterm-new))
+  )
+
 (defhydra /hydras/open (:hint nil :exit t :idle 0.5)
   "
 Open
@@ -122,7 +130,7 @@ Open
   _-_  → dired       ^ ^                      
   
 "
-  ("e" vterm-new)
+  ("e" simon/open-new-shell)
   ("-" dired-jump)
   )
 
@@ -228,13 +236,18 @@ Projects
   :config
   (setq which-key-idle-delay 0.2)
   (setq which-key-min-display-lines 3)
-  ;; so pressing "i" in eg: yiw doesn't trigger which-key (only after 1000 seconds) in vterm
+  ;; so pressing "i" in eg: yiw doesn't trigger which-key (only after 1000 seconds) in vterm/eshell
   ;; otherwise the cursor jumps back to the bottom line
-  (defun t/delayed-which-key (_ _)
+  (defun t/delayed-which-key-vterm (_ _)
     (cond
      ((eq major-mode 'vterm-mode) 1000)
      (t nil)))
-  (add-hook 'which-key-delay-functions #'t/delayed-which-key)
+  (add-hook 'which-key-delay-functions #'t/delayed-which-key-vterm)
+  (defun t/delayed-which-key-eshell (_ _)
+    (cond
+     ((eq major-mode 'eshell-mode) 1000)
+     (t nil)))
+  (add-hook 'which-key-delay-functions #'t/delayed-which-key-eshell)
   )
 
 ;; escape minibuffer

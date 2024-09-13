@@ -26,6 +26,8 @@
 ;; https://github.com/jwiegley/use-package?tab=readme-ov-file#hooks
 (setq use-package-hook-name-suffix nil)
 
+(setq simon/eshell-or-vterm 'eshell)
+
 (let ((gc-cons-threshold (* 256 1024 1024))
       (file-name-handler-alist nil))
 
