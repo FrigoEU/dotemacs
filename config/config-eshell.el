@@ -72,7 +72,7 @@
     (mapconcat 'identity lines "\n")))
 
 (after 'em-term
-  (setq eshell-visual-commands (list "htop")))
+  (setq eshell-visual-commands (list "htop" "nix-shell" "ssh")))
 
 (defun /eshell/eshell-mode-hook ()
   (add-to-list 'eshell-output-filter-functions #'eshell-truncate-buffer)
