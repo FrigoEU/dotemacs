@@ -9,7 +9,7 @@
   _SPC_ → Search commands (M-x)
 
   _b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat          _t_ → _t_oggle
-  _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers
+  _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers          _x_ → _e_xec
   _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors             
   _p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit             
 
@@ -25,6 +25,7 @@
   ("f"   /hydras/files/body)
   ("g"   /hydras/git/body)
   ("t"   /hydras/toggle/body)
+  ("x"   /hydras/exec/body)
   ("c"   /hydras/compile/body)
   ("-"   dired-jump)
   ("/"   consult-ripgrep-root)
@@ -153,10 +154,12 @@ Compile
 
   _c_ → _c_ompile
   _r_ → _r_epeat
+  _t_ → _t_test project
 
 "
   ("c" compile)
   ("r" recompile)
+  ("t" projectile-test-project)
   )
 
 
@@ -186,6 +189,17 @@ Git
 "
   ("n" display-line-numbers-mode)
   ("t" consult-theme)
+  )
+
+(defhydra /hydras/exec
+  (:hint nil :exit t :idle 0.5)
+  "
+Git
+
+  _x_ → e_x_ec command async in project root
+
+"
+  ("x" projectile-run-async-shell-command-in-root)
   )
 
 (defhydra /hydras/errors (:hint nil :idle 0.5  :exit t)

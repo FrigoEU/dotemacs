@@ -149,5 +149,38 @@
   (consult-ripgrep (projectile-project-root) (thing-at-point 'symbol))
   )
 
+(defun consult-project-commands ()
+  (interactive)
+  (completing-read
+   ())
+  )
+
 (provide 'config-consult-vertico)
+
+(defun simon-async-shell-command-with-make()
+  "Run `async-shell-command` with a choice from its command history."
+  (interactive)
+  (let* ((command
+          (completing-read
+           "$ "
+           (let ((filename (projectile-expand-root "Makefile")))
+             (if (file-exists-p filename)
+                 (parse-makefile-into-completing-read-collection filename)
+               '()
+               )
+             )
+           )))
+    (async-shell-command command)))
+
+(defun parse-makefile-into-completing-read-collection (makefilepath)
+  "Return the target list for MAKEFILE by parsing it."
+  (let (targets)
+    (with-temp-buffer
+      (insert-file-contents makefilepath)
+      (goto-char (point-min))
+      (while (re-search-forward "^\\([^: \n]+\\) *:\\(?: \\|$\\)" nil t)
+        (let ((str (match-string 1)))
+          (unless (string-match "^\\." str)
+            (push (concat "make " str) targets)))))
+    (nreverse targets)))
 

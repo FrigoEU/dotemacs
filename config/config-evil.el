@@ -41,6 +41,7 @@
               ("C-w" . workspace-switcher)
               ("s"   . evil-substitute)
               ("g d" . xref-find-definitions)
+              ("!" . simon-async-shell-command-with-make)
 
               ("u"   . evil-undo)
               ("C-r" . evil-redo)
@@ -67,9 +68,6 @@
               )
 
   )
-
-
-
 
 
 (use-package evil-commentary

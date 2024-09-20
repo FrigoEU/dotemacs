@@ -154,19 +154,13 @@
   (interactive)
   (let ((default-directory "/home/simon/projects/school"))
     (persp-switch "school-logs")
-    (new-shell 900)
-    (rename-shell-buffer "proxy")
-    (shell-insert "npm run proxy")
-    (shell-send-input)
 
-    (evil-window-vsplit)
+    ;; (new-shell 900)
+    ;; (rename-shell-buffer "proxy")
+    ;; (shell-insert "npm run proxy")
+    ;; (shell-send-input)
 
-    (new-shell 901)
-    (rename-shell-buffer "URWEB")
-    (shell-insert "./school.exe")
-    (shell-send-input)
-
-    (evil-window-vsplit)
+    ;; (evil-window-vsplit)
 
     (new-shell 902)
     (rename-shell-buffer "TypeScript")
