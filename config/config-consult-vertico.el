@@ -157,17 +157,28 @@
 
 (provide 'config-consult-vertico)
 
+(defun add-metadata-completions-are-presorted (completions)
+  (lambda (string pred action)
+    (if (eq action 'metadata)
+        `(metadata (display-sort-function . ,#'identity))
+      (complete-with-action action completions string pred))))
+
 (defun simon-async-shell-command-with-make()
   "Run `async-shell-command` with a choice from its command history."
   (interactive)
   (let* ((command
           (completing-read
            "$ "
-           (let ((filename (projectile-expand-root "Makefile")))
-             (if (file-exists-p filename)
-                 (parse-makefile-into-completing-read-collection filename)
-               '()
-               )
+           (let* ((filename (projectile-expand-root "Makefile"))
+                  (command-list (if (file-exists-p filename)
+                                    (parse-makefile-into-completing-read-collection filename)
+                                  '()
+                                  ))
+                  (command-list-with-ordering
+                   ;; Use sorting in Makefile
+                   (add-metadata-completions-are-presorted command-list))
+                  )
+             command-list-with-ordering
              )
            )))
     (async-shell-command command)))
