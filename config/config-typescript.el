@@ -64,4 +64,31 @@
 (setq typescript-indent-level 2)
 (setq typescript-ts-mode-indent-offset 2)
 
+;; (use-package flymake-eslint
+;;   :straight '(flymake-eslint :type git :host github :repo "orzechowskid/flymake-eslint")
+;;   :config
+;;   ;; https://github.com/orzechowskid/flymake-eslint/issues/23
+;;   (add-hook 'eglot-managed-mode-hook
+;;             '(lambda ()
+;;                (if (or (derived-mode-p 'typescript-ts-mode)
+;;                        (derived-mode-p 'tsx-ts-mode))
+;;                    (if (executable-find "eslint_d")
+;;                        (flymake-eslint-enable)
+;;                      (run-with-timer
+;;                       1
+;;                       nil
+;;                       (lambda ()
+;;                         (if (executable-find "eslint_d")
+;;                             (flymake-eslint-enable)
+;;                           (print "eslint_d not found")))
+;;                       )
+;;                      )
+;;                  )))
+;;   :custom
+;;   (flymake-eslint-prefer-json-diagnostics t)
+;;   (flymake-eslint-executable-args nil)
+;;   (flymake-eslint-defer-binary-check t)
+;;   (flymake-eslint-executable-name "eslint_d")
+;;   )
+
 (provide 'config-typescript)

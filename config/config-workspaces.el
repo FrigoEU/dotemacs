@@ -201,7 +201,7 @@
 
     (new-shell 801)
     (rename-shell-buffer "device")
-    (shell-insert "npm run device_ssl")
+    (shell-insert "npm run cas")
     (shell-send-input)
     )
   )

@@ -181,7 +181,7 @@
              command-list-with-ordering
              )
            )))
-    (async-shell-command command)))
+    (projectile-run-async-shell-command-in-root command (concat (concat "*OUT: " command) "*"))))
 
 (defun parse-makefile-into-completing-read-collection (makefilepath)
   "Return the target list for MAKEFILE by parsing it."

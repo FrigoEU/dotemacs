@@ -56,6 +56,9 @@
   :init
   (apheleia-global-mode +1)
   :config
+  (setf (alist-get 'rustfmt apheleia-formatters)
+        '("rustfmt" "--quiet" "--emit" "stdout" "--edition" "2021")
+        )
   ;; (add-to-list 'apheleia-formatters
   ;;              '(prettier-sql "apheleia-npx" "prettier" "--stdin-filepath" filepath
   ;;                             (apheleia-formatters-js-indent "--use-tabs" "--tab-width"))
