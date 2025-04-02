@@ -115,8 +115,8 @@
    ["Premade"
     ("<f6>" "School sql" urwebschool-sql)
     ("<f7>" "School logs" urwebschool-logs)
-    ("<f8>" "Aperi sql" aperi-sql)
-    ("<f9>" "Aperi logs" aperi-logs)
+    ;; ("<f8>" "Aperi sql" aperi-sql)
+    ;; ("<f9>" "Aperi logs" aperi-logs)
     ]
    ]
   )
