@@ -35,92 +35,6 @@
   (add-to-list 'consult-buffer-sources persp-consult-source)
   )
 
-(defun workspace-switcher ()
-  (interactive)
-  (progn
-    (persp-switch-last)
-    (show-workspace-switcher)
-    )
-  )
-
-(defun show-transient-below (l)
-  (progn
-    ;; Temporary change to how we want transient to show up
-    ;; We always want this to go full length over the bottom
-    ;; This option applies to all transient menus (including eg: magit)
-    ;; So we roll it back after our own
-    (setq transient-display-buffer-action
-          '(display-buffer-in-side-window
-            (side . bottom)
-            (inhibit-same-window . nil)
-            (window-parameters (no-other-window . t)))
-          )
-    (funcall l)
-    (setq transient-display-buffer-action
-          '(display-buffer-below-selected)
-          )
-    )
-  )
-
-(defun show-workspace-switcher ()
-  (interactive)
-  (show-transient-below 'workspace-transient)
-  )
-
-(transient-define-prefix workspace-transient ()
-  "test"
-  :transient-non-suffix 'transient--do-quit-all ;; close transient state and popup buffer immediately when we use any other keybind
-  ["Existing Workspaces"
-   :class transient-row
-   :setup-children
-   (lambda (_els)
-     (transient-parse-suffixes
-      'workspace-transient
-      (let ((i 0))
-        (mapcar
-         (lambda (name)
-           (progn
-             (cl-incf i)
-             (let ((j i))
-               (list
-                (if (string= name (persp-current-name))
-                    (concat "(" (number-to-string j) ")")
-                  (concat " " (number-to-string j) " "))
-                name
-                '(lambda () (interactive)
-                   (progn
-                     (persp-switch name)
-                     (show-workspace-switcher)
-                     ))
-                )
-               )
-             ))
-         (reverse (persp-names))
-         )))
-     )
-   ]
-  [
-   ;; :class transient-row
-   ["Modify"
-    ("n" "New" persp-switch ;; :transient transient--do-stay
-     )
-    ("x" "Delete" (lambda ()
-                    (interactive)
-                    (progn
-                      (persp-kill (persp-current-name))
-                      (persp-switch-by-number 0)
-                      (show-workspace-switcher)
-                      )))
-    ]
-   ["Premade"
-    ("<f6>" "School sql" urwebschool-sql)
-    ("<f7>" "School logs" urwebschool-logs)
-    ;; ("<f8>" "Aperi sql" aperi-sql)
-    ;; ("<f9>" "Aperi logs" aperi-logs)
-    ]
-   ]
-  )
-
 (setq sql-postgres-login-params nil)
 (setq sql-connection-alist
       '((aperi       (sql-product 'postgres) (sql-database "aperi" (sql-user "aperi") (sql-password "aperi") (sql-server "localhost")))
@@ -205,3 +119,105 @@
     (shell-send-input)
     )
   )
+
+(use-package hydra :straight t)
+
+(defun show-workspace-switcher ()
+  (interactive)
+  (/hydras/workspaces/body)
+  )
+
+(defun go-to-workspace-number (num) 
+  (let ((name (nth (- num 1) (reverse (persp-names)))))
+    (progn
+      (hydra-pause-resume)
+      (persp-switch name)
+      (/hydras/workspaces/body)
+      )
+    ))
+
+(defun go-to-workspace-1 () (interactive) (go-to-workspace-number 1))
+(defun go-to-workspace-2 () (interactive) (go-to-workspace-number 2))
+(defun go-to-workspace-3 () (interactive) (go-to-workspace-number 3))
+(defun go-to-workspace-4 () (interactive) (go-to-workspace-number 4))
+(defun go-to-workspace-5 () (interactive) (go-to-workspace-number 5))
+(defun go-to-workspace-6 () (interactive) (go-to-workspace-number 6))
+(defun go-to-workspace-7 () (interactive) (go-to-workspace-number 7))
+(defun go-to-workspace-8 () (interactive) (go-to-workspace-number 8))
+(defun go-to-workspace-9 () (interactive) (go-to-workspace-number 9))
+
+(defun persp-kill-current ()
+  (interactive)
+  (progn
+    (hydra-pause-resume)
+    (persp-kill (persp-current-name))
+    (persp-switch-by-number 0)
+    (/hydras/workspaces/body)
+    )
+  )
+
+(defun workspace-build-name (name j)
+  (concat (if (string= name (persp-current-name))
+              (concat "(" (number-to-string j) ")")
+            (concat " " (number-to-string j) " "))
+          name))
+
+(defhydra /hydras/workspaces (:hint nil)
+  "workspaces"
+  ("1" (go-to-workspace "1"))
+  ("2" (go-to-workspace "2"))
+  ("3" (go-to-workspace "3"))
+  ("4" (go-to-workspace "4"))
+  ("5" (go-to-workspace "5"))
+  ("6" (go-to-workspace "6"))
+  ("7" (go-to-workspace "7"))
+  ("8" (go-to-workspace "8"))
+  ("9" (go-to-workspace "9"))
+  ("x" persp-kill-current)
+  ("<f6>" urwebschool-sql)
+  ("<f7>" urwebschool-logs)
+  )
+
+
+(setq /hydras/workspaces/hint
+      '(progn
+         (define-key /hydras/workspaces/keymap "1" nil)
+         (define-key /hydras/workspaces/keymap "2" nil)
+         (define-key /hydras/workspaces/keymap "3" nil)
+         (define-key /hydras/workspaces/keymap "4" nil)
+         (define-key /hydras/workspaces/keymap "5" nil)
+         (define-key /hydras/workspaces/keymap "6" nil)
+         (define-key /hydras/workspaces/keymap "7" nil)
+         (define-key /hydras/workspaces/keymap "8" nil)
+         (define-key /hydras/workspaces/keymap "9" nil)
+         (cl-mapcar
+          (lambda (name cb i)
+            (define-key /hydras/workspaces/keymap (number-to-string i) cb)
+            )
+          (reverse (persp-names))
+          '(go-to-workspace-1
+            go-to-workspace-2
+            go-to-workspace-3
+            go-to-workspace-4
+            go-to-workspace-5
+            go-to-workspace-6
+            go-to-workspace-7
+            go-to-workspace-8
+            go-to-workspace-9
+            )
+          '(1 2 3 4 5 6 7 8 9)
+          )  
+         (concat
+          (string-join
+           (cl-mapcar
+            'workspace-build-name
+            (reverse (persp-names))
+            '(1 2 3 4 5 6 7 8 9)
+            )
+           "  "
+           )
+          "\n\n x Delete       F6 urwebschool-sql\n                F7 urwebschool-logs"
+          )
+         
+         ))
+

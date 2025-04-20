@@ -313,4 +313,5 @@ Projects
   (autoload 'vkill "vkill" nil t)
   (global-set-key (kbd "C-x p") 'vkill))
 
+
 (provide 'config-bindings)
