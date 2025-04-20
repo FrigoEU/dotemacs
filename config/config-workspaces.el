@@ -174,11 +174,13 @@
   ("8" (go-to-workspace "8"))
   ("9" (go-to-workspace "9"))
   ("x" persp-kill-current)
+  ("p" projectile-persp-switch-project)
   ("<f6>" urwebschool-sql)
   ("<f7>" urwebschool-logs)
   )
 
-
+;; Can't make real dynamic hydras, so we use the /hint callback to preprocess the predefined hydra
+;; Works just as well as transient and is wayyy simpler
 (setq /hydras/workspaces/hint
       '(progn
          (define-key /hydras/workspaces/keymap "1" nil)
@@ -207,7 +209,7 @@
             )
           '(1 2 3 4 5 6 7 8 9)
           )  
-         (concat
+         (s-concat
           (string-join
            (cl-mapcar
             'workspace-build-name
@@ -216,8 +218,9 @@
             )
            "  "
            )
-          "\n\n x Delete       F6 urwebschool-sql\n                F7 urwebschool-logs"
+          "\n\n"
+          " x Delete       <F6> urwebschool-sql \n"
+          " p Project      <F7> urwebschool-logs"
           )
-         
          ))
 
