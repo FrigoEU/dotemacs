@@ -87,11 +87,11 @@
                     (concat "(" (number-to-string j) ")")
                   (concat " " (number-to-string j) " "))
                 name
-                (lambda () (interactive)
-                  (progn
-                    (persp-switch name)
-                    (show-workspace-switcher)
-                    ))
+                '(lambda () (interactive)
+                   (progn
+                     (persp-switch name)
+                     (show-workspace-switcher)
+                     ))
                 )
                )
              ))

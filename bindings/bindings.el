@@ -10,7 +10,7 @@
 
   _b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat          _t_ → _t_oggle
   _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers          _x_ → _e_xec
-  _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors             
+  _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors          _a_ → _a_i
   _p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit             
 
   _/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file             
@@ -34,6 +34,7 @@
   ("l"   show-workspace-switcher)
   ("h"   show-help-transient)
   ("p"   /hydras/project/body)
+  ("a"   /hydras/ai/body)
   )
 
 (define-key evil-normal-state-map (kbd "SPC") '/hydras/main/body)
@@ -55,6 +56,16 @@ Quit
   ;; ("l"  vertico-suspend)
   ("c"  consult-complex-command)
   )
+
+(defhydra /hydras/ai (:hint nil :exit t :idle 0.5)
+  "
+Quit
+
+  _a_ → aidermacs
+
+"
+  ("a" 
+   aidermacs-transient-menu))
 
 (defhydra /hydras/quit (:hint nil :exit t :idle 0.5)
   "

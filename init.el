@@ -25,6 +25,9 @@
 
 ;; https://github.com/jwiegley/use-package?tab=readme-ov-file#hooks
 (setq use-package-hook-name-suffix nil)
+(setq straight-recipe-repositories '(org-elpa melpa gnu-elpa-mirror el-get emacsmirror-mirror))
+(push 'project straight-built-in-pseudo-packages)
+(push 'xref straight-built-in-pseudo-packages)
 
 (setq simon/eshell-or-vterm 'vterm)
 
@@ -68,6 +71,7 @@
   ;; (load (concat user-emacs-directory "config/config-lsp-mode.el"))
   (load (concat user-emacs-directory "config/config-eglot.el"))
   (load (concat user-emacs-directory "bindings/bindings.el"))
+  (load (concat user-emacs-directory "config/config-ai.el"))
   ;; Direnv integration last
   (load (concat user-emacs-directory "config-direnv-envrc.el"))
   )
