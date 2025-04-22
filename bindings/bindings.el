@@ -119,20 +119,6 @@ Windows
   ("C-j" evil-window-move-very-bottom)
   )
 
-(defun eshell-new()
-  "Open a new instance of eshell."
-  (interactive)
-  (let*
-      ;; magics
-      ((default-directory (project-root (project-current t))))
-    (eshell 'N)))
-
-(defun simon/open-new-shell ()
-  (interactive)
-  (if (eq simon/eshell-or-vterm 'eshell)
-      (eshell-new)
-    (simon-completing-read-vterm-buffers))
-  )
 
 (defun list-vterm-buffers ()
   "Return a list of all buffers whose major mode is `vterm-mode' in the current perspective."
@@ -180,6 +166,21 @@ Windows
                             ))
       )
     )
+  )
+
+(defun eshell-new()
+  "Open a new instance of eshell."
+  (interactive)
+  (let*
+      ;; magics
+      ((default-directory (project-root (project-current t))))
+    (eshell 'N)))
+
+(defun simon/open-new-shell ()
+  (interactive)
+  (if (eq simon/eshell-or-vterm 'eshell)
+      (eshell-new)
+    (simon-completing-read-vterm-buffers))
   )
 
 
