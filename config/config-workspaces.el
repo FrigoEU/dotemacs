@@ -156,11 +156,41 @@
     )
   )
 
+(defun my-pad-right (string width)
+  "Pad STRING on the right with spaces to reach WIDTH.
+If STRING is already WIDTH or longer, return STRING unchanged."
+  (let ((current-length (length string)))
+    (if (>= current-length width)
+        string
+      (format (format "%%-%ds" width) string))))
+
 (defun workspace-build-name (name j)
-  (concat (if (string= name (persp-current-name))
-              (concat "(" (number-to-string j) ")")
-            (concat " " (number-to-string j) " "))
-          name))
+  (let* ((is-active-persp (string= name (persp-current-name)))
+         (str (my-pad-right
+               (if is-active-persp
+                   (concat " (" (number-to-string j) " " name ")")
+                 (concat "  " (number-to-string j) " " name " "))
+               25
+               )))
+    (propertize
+     str
+     'face (list
+            ;; Coloring the text based on the "link" face (see describe-face)
+            :foreground (face-attribute (if is-active-persp 'diary 'link) :foreground nil t)
+            ;; Cursive if active
+            ;; :slant (if is-active-persp 'italic 'default)
+            )
+     ))
+  )
+
+(defun frigo-jump-persp (num)
+  (let* ((active-persp-index (+ 1 (-find-index (lambda (name) (string= name (persp-current-name))) (reverse (persp-names)))))
+         (max-persp-index (length (persp-names)))
+         (naive (+ active-persp-index num))
+         (bounded1 (if (> naive max-persp-index) 1 naive))
+         (bounded2 (if (<= bounded1 0) max-persp-index bounded1)))
+    (go-to-workspace-number bounded2)
+    ))
 
 (defhydra /hydras/workspaces (:hint nil)
   "workspaces"
@@ -175,6 +205,8 @@
   ("9" (go-to-workspace "9"))
   ("x" persp-kill-current)
   ("p" projectile-persp-switch-project)
+  ("h" (frigo-jump-persp -1))
+  ("l" (frigo-jump-persp 1))
   ("<f6>" urwebschool-sql)
   ("<f7>" urwebschool-logs)
   )
@@ -209,7 +241,7 @@
             )
           '(1 2 3 4 5 6 7 8 9)
           )  
-         (s-concat
+         (concat
           (string-join
            (cl-mapcar
             'workspace-build-name
@@ -218,9 +250,36 @@
             )
            "  "
            )
-          "\n\n"
-          " x Delete       <F6> urwebschool-sql \n"
-          " p Project      <F7> urwebschool-logs"
+          "\n\n\n"
+          " "
+          (color-error (my-pad-right " x Delete" 28))
+          (my-pad-right " l Left" 28)
+          (color-other (my-pad-right "<F6> School SQL" 28))
+          "\n"
+          " "
+          (my-pad-right " p Project" 28)
+          (my-pad-right " r Right" 28)
+          (color-other (my-pad-right "<F7> School LOGS" 28)) "\n"
           )
          ))
 
+(defun color-error (str)
+  (propertize
+   str
+   'face (list :foreground (face-attribute 'error :foreground nil t))
+   )
+  )
+
+(defun color-other (str)
+  (propertize
+   str
+   'face (list :foreground (face-attribute 'default :foreground nil t))
+   )
+  )
+
+(defun color-yellow (str)
+  (propertize
+   str
+   'face (list :foreground (face-attribute 'diary :foreground nil t))
+   )
+  )
