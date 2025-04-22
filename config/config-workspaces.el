@@ -176,7 +176,7 @@ Added spaces will not inherit text properties from STRING."
                    str
                    'face (list
                           ;; Coloring the text based on the "link" face (see describe-face)
-                          :foreground (face-attribute (if is-active-persp 'hydra-face-pink 'hydra-face-blue) :foreground nil t)
+                          :foreground (face-attribute (if is-active-persp 'hydra-face-blue 'hydra-face-pink) :foreground nil t)
                           ;; Cursive if active
                           :underline (if is-active-persp t nil)
                           :bold (if is-active-persp t nil)
@@ -209,6 +209,7 @@ Added spaces will not inherit text properties from STRING."
   ("8" (go-to-workspace "8"))
   ("9" (go-to-workspace "9"))
   ("x" persp-kill-current)
+  ("q" nil :exit t)
   ("p" projectile-persp-switch-project)
   ("h" (frigo-jump-persp -1))
   ("l" (frigo-jump-persp 1))
@@ -247,7 +248,7 @@ Added spaces will not inherit text properties from STRING."
           '(1 2 3 4 5 6 7 8 9)
           )  
          (concat
-          " "
+          "  "
           (string-join
            (cl-mapcar
             'workspace-build-name
@@ -257,15 +258,18 @@ Added spaces will not inherit text properties from STRING."
            "  "
            )
           "\n\n\n"
-          " "
+          "  "
           (color-error (my-pad-right " x Delete" 27))
           (my-pad-right " l Left" 28)
           (color-other (my-pad-right "<F6> School SQL" 28))
           "\n"
-          " "
+          "  "
           (my-pad-right " p Project" 27)
           (my-pad-right " r Right" 28)
-          (color-other (my-pad-right "<F7> School LOGS" 28)) "\n"
+          (color-other (my-pad-right "<F7> School LOGS" 28))
+          "\n"
+          "  "
+          (my-pad-right " q Quit" 27)
           )
          ))
 
