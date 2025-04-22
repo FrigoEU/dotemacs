@@ -157,30 +157,35 @@
   )
 
 (defun my-pad-right (string width)
-  "Pad STRING on the right with spaces to reach WIDTH.
-If STRING is already WIDTH or longer, return STRING unchanged."
+  "Pad STRING on the right with blank spaces to reach WIDTH.
+If STRING is already WIDTH or longer, return STRING unchanged.
+Added spaces will not inherit text properties from STRING."
   (let ((current-length (length string)))
     (if (>= current-length width)
         string
-      (format (format "%%-%ds" width) string))))
+      (let ((padding-needed (- width current-length)))
+        (concat string (make-string padding-needed ? )))))) ; Concatenate string with new spaces
 
 (defun workspace-build-name (name j)
   (let* ((is-active-persp (string= name (persp-current-name)))
-         (str (my-pad-right
-               (if is-active-persp
-                   (concat " (" (number-to-string j) " " name ")")
-                 (concat "  " (number-to-string j) " " name " "))
-               25
-               )))
-    (propertize
-     str
-     'face (list
-            ;; Coloring the text based on the "link" face (see describe-face)
-            :foreground (face-attribute (if is-active-persp 'diary 'link) :foreground nil t)
-            ;; Cursive if active
-            ;; :slant (if is-active-persp 'italic 'default)
-            )
-     ))
+         (str (if is-active-persp
+                  (concat "(" (number-to-string j) " " name ")")
+                (concat " " (number-to-string j) " " name " "))
+              )
+         (colored (propertize
+                   str
+                   'face (list
+                          ;; Coloring the text based on the "link" face (see describe-face)
+                          :foreground (face-attribute (if is-active-persp 'hydra-face-pink 'hydra-face-blue) :foreground nil t)
+                          ;; Cursive if active
+                          :underline (if is-active-persp t nil)
+                          :bold (if is-active-persp t nil)
+                          )
+                   ))
+         (padded (my-pad-right colored 25))
+         )
+    padded
+    )
   )
 
 (defun frigo-jump-persp (num)
@@ -242,6 +247,7 @@ If STRING is already WIDTH or longer, return STRING unchanged."
           '(1 2 3 4 5 6 7 8 9)
           )  
          (concat
+          " "
           (string-join
            (cl-mapcar
             'workspace-build-name
@@ -252,12 +258,12 @@ If STRING is already WIDTH or longer, return STRING unchanged."
            )
           "\n\n\n"
           " "
-          (color-error (my-pad-right " x Delete" 28))
+          (color-error (my-pad-right " x Delete" 27))
           (my-pad-right " l Left" 28)
           (color-other (my-pad-right "<F6> School SQL" 28))
           "\n"
           " "
-          (my-pad-right " p Project" 28)
+          (my-pad-right " p Project" 27)
           (my-pad-right " r Right" 28)
           (color-other (my-pad-right "<F7> School LOGS" 28)) "\n"
           )
