@@ -163,6 +163,7 @@
         `(metadata (display-sort-function . ,#'identity))
       (complete-with-action action completions string pred))))
 
+
 (defun simon-async-shell-command-with-make()
   "Run `async-shell-command` with a choice from its command history."
   (interactive)

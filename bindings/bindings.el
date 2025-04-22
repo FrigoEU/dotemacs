@@ -131,8 +131,58 @@ Windows
   (interactive)
   (if (eq simon/eshell-or-vterm 'eshell)
       (eshell-new)
-    (vterm-new))
+    (simon-completing-read-vterm-buffers))
   )
+
+(defun list-vterm-buffers ()
+  "Return a list of all buffers whose major mode is `vterm-mode' in the current perspective."
+  (interactive)
+  (let (vterm-buffers)
+    (dolist (buf (persp-current-buffer-names))
+      (with-current-buffer buf
+        (when (eq major-mode 'vterm-mode)
+          (push (get-buffer buf) vterm-buffers))))
+    vterm-buffers))
+
+(defvar consult--source-vterm
+  '(
+    :name ""
+    :category 'buffer            ; Helps consult/framework understand the type
+    :items (lambda ()       ; A function that returns the list of candidates
+             (mapcar (lambda (buf) (cons (buffer-name buf) buf))
+                     (list-vterm-buffers))) ; Candidates are (buffer-object . "buffer-name")
+    :action (lambda (buf)        ; The action to perform on the selected candidate (the buffer object)
+              (switch-to-buffer buf))
+    :prompt "Switch to VTerm: "
+    :require-match nil
+    :new (lambda (n) (vterm n))
+    :consult-preview-buffer t)   ; Consult-specific option for previewing the buffer
+  "Consult source for vterm buffers."
+  )
+
+;; (defvar consult--source-new-vterm
+;;   '(
+;;     :name ""
+;;     :items (lambda () (list "New vterm"))
+;;     :action (lambda (n) (vterm-new))
+;;     )
+;;   )
+
+
+(defun simon-completing-read-vterm-buffers ()
+  "Vterm buffers."
+  (interactive)
+  (let ((vterm-buffers (list-vterm-buffers)))
+    (if (= (length vterm-buffers) 0)
+        (vterm-new)
+      (consult--multi (list consult--source-vterm
+                            ;; consult--source-new-vterm
+                            ))
+      )
+    )
+  )
+
+
 
 (defhydra /hydras/open (:hint nil :exit t :idle 0.5)
   "

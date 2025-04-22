@@ -259,7 +259,7 @@ Added spaces will not inherit text properties from STRING."
            )
           "\n\n\n"
           "  "
-          (color-error (my-pad-right " x Delete" 27))
+          (color-other (my-pad-right " x Delete" 27))
           (my-pad-right " l Left" 28)
           (color-other (my-pad-right "<F6> School SQL" 28))
           "\n"
