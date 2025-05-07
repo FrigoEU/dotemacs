@@ -23,6 +23,27 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+;; Adding secrets to the environment
+(let ((secrets-file (expand-file-name "~/.secrets"))) ; Define the path to your secrets file
+  (when (file-readable-p secrets-file) ; Check if the file exists and is readable
+    (with-temp-buffer
+      (insert-file-contents secrets-file) ; Read the entire file into a temporary buffer
+      (goto-char (point-min)) ; Go to the beginning of the buffer
+      (while (not (eobp)) ; Loop through each line
+        (let* ((line (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+               (trimmed-line (string-trim line))) ; Remove leading/trailing whitespace
+          ;; Skip empty lines and lines starting with # (comments)
+          (unless (or (string-empty-p trimmed-line) (string-prefix-p "#" trimmed-line))
+            ;; Try to match KEY=VALUE pattern
+            (when (string-match "^\\([^=]+\\)=\\(.*\\)$" trimmed-line)
+              (let ((key (match-string 1 trimmed-line))
+                    (value (match-string 2 trimmed-line)))
+                (when (and key value) ; Ensure both key and value were captured
+                  (setenv key value) ; Set the environment variable within Emacs
+                  (message "Loaded secret environment variable: %s" key))))))
+        (forward-line 1))))) ; Move to the next line
+
+
 ;; https://github.com/jwiegley/use-package?tab=readme-ov-file#hooks
 (setq use-package-hook-name-suffix nil)
 (setq straight-recipe-repositories '(org-elpa melpa gnu-elpa-mirror el-get emacsmirror-mirror))

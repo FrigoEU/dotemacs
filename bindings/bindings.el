@@ -61,13 +61,12 @@ Quit
   "
 Quit
 
-  _a_ → aidermacs
-  _g_ → gptel
+  _a_ → gptel
   _r_ → gptel-rewrite
 
 "
-  ("a" aidermacs-transient-menu)
-  ("g" gptel)
+  ;; ("a" aidermacs-transient-menu)
+  ("a" gptel)
   ("r" gptel-rewrite)
   )
 

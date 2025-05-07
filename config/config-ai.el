@@ -21,6 +21,6 @@
   (setq
    gptel-model 'gemini-2.5-pro-exp-03-25
    gptel-backend (gptel-make-gemini "Gemini"
-                   :key "AIzaSyBZ5Wuk2qRc1PpVsFRw7DGUV5ava4iXL9s"
+                   :key (getenv "GOOGLE_CLOUD_PLATFORM_API_KEY")
                    :stream t))
   )
