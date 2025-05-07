@@ -62,10 +62,14 @@ Quit
 Quit
 
   _a_ → aidermacs
+  _g_ → gptel
+  _r_ → gptel-rewrite
 
 "
-  ("a" 
-   aidermacs-transient-menu))
+  ("a" aidermacs-transient-menu)
+  ("g" gptel)
+  ("r" gptel-rewrite)
+  )
 
 (defhydra /hydras/quit (:hint nil :exit t :idle 0.5)
   "
@@ -83,7 +87,7 @@ Quit
   "
 Buffers
 
-  _b_ → buffers          _d_ → delete buffer           
+  _b_ → buffers          _d_ → delete buffer           _r_ → rename buffer
   _m_ → goto messages    _p_ → previous
   _x_ → goto scratch     _n_ → next
 
@@ -94,6 +98,7 @@ Buffers
   ("b" consult-buffer)
   ("p" previous-buffer)
   ("n" next-buffer)
+  ("r" rename-buffer)
   )
 
 (defhydra /hydras/windows (:hint nil :exit t :idle 0.5)
@@ -141,7 +146,7 @@ Windows
               (switch-to-buffer buf))
     :prompt "Switch to VTerm: "
     :require-match nil
-    :new (lambda (n) (vterm n))
+    :new (lambda (n) (vterm (concat "*vterm " n "*")))
     :consult-preview-buffer t)   ; Consult-specific option for previewing the buffer
   "Consult source for vterm buffers."
   )

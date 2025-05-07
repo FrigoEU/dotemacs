@@ -91,7 +91,15 @@
  '(custom-safe-themes
    '("c1638a7061fb86be5b4347c11ccf274354c5998d52e6d8386e997b862773d1d2" "4e2e42e9306813763e2e62f115da71b485458a36e8b4c24e17a2168c45c9cf9d" "f64189544da6f16bab285747d04a92bd57c7e7813d8c24c30f382f087d460a33" "f5f80dd6588e59cfc3ce2f11568ff8296717a938edd448a947f9823a4e282b66" "6fc9e40b4375d9d8d0d9521505849ab4d04220ed470db0b78b700230da0a86c1" "76ddb2e196c6ba8f380c23d169cf2c8f561fd2013ad54b987c516d3cabc00216" "bf798e9e8ff00d4bf2512597f36e5a135ce48e477ce88a0764cfb5d8104e8163" "c9ddf33b383e74dac7690255dd2c3dfa1961a8e8a1d20e401c6572febef61045" "88f7ee5594021c60a4a6a1c275614103de8c1435d6d08cc58882f920e0cec65e" "0af489efe6c0d33b6e9b02c6690eb66ab12998e2649ea85ab7cfedfb39dd4ac9" "0340489fa0ccbfa05661bc5c8c19ee0ff95ab1d727e4cc28089b282d30df8fc8" "88267200889975d801f6c667128301af0bc183f3450c4b86138bfb23e8a78fb1" default))
  '(safe-local-variable-values
-   '((multi-compile-alist
+   '((consult-ripgrep-args . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!migrations/ --glob=!setup_functions.sql --glob=!setuplandingpage.sql --glob=!typescript/sql/classy/*.ts")
+     (consult-ripgrep-args . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!migrations/ --glob=!setup_functions.sql --glob=!setuplandingpage.sql")
+     (consult-ripgrep-args . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!migrations/ --glob=!setup_functions.sql")
+     (consult-ripgrep-args . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip\12--glob=!migrations/\12--glob=!setup_functions.sql\12")
+     (consult-ripgrep-args . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!migrations/")
+     (consult-ripgrep-args . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!'migrations/**'")
+     (consult-ripgrep-args . "rg --null --line-buffered --color=never --max-columns=1000 --path-seperator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!'migrations/**'")
+     (consult-ripgrep-args . "rg --null --line-buffered --color=never --max-columns=1000 --path-seperator / --smart-case --no-heading --with-filename --line-number --search-zip --glob=!'migrations/**'")
+     (multi-compile-alist
       ("\\.*"
        ("css" . "npm run css")
        ("sqltyper_domain" . "npm run sqltyper_domain")

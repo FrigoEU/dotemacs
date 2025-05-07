@@ -29,6 +29,7 @@
   (evil-define-key 'visual eglot-mode-map (kbd ", a") 'eglot-code-actions)
   (evil-define-key 'normal eglot-mode-map (kbd ", f") 'eglot-code-action-quickfix)
   (evil-define-key 'visual eglot-mode-map (kbd ", f") 'eglot-code-action-quickfix)
+  (evil-define-key 'visual eglot-mode-map (kbd ", i") 'gptel-rewrite)
   (evil-define-key 'normal eglot-mode-map (kbd "K") 'eldoc)
   (evil-define-key 'normal eglot-mode-map (kbd "g d") 'xref-find-definitions)
   (evil-define-key 'normal eglot-mode-map (kbd "g D") 'xref-find-references)

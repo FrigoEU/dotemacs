@@ -6,16 +6,18 @@
     ;; We always want this to go full length over the bottom
     ;; This option applies to all transient menus (including eg: magit)
     ;; So we roll it back after our own
-    (setq transient-display-buffer-action
-          '(display-buffer-in-side-window
-            (side . bottom)
-            (inhibit-same-window . nil)
-            (window-parameters (no-other-window . t)))
-          )
-    (funcall l)
-    (setq transient-display-buffer-action
-          '(display-buffer-below-selected)
-          )
+    (let ((prev transient-display-buffer-action))
+      (setq transient-display-buffer-action
+            '(display-buffer-in-side-window
+              (side . bottom)
+              (inhibit-same-window . nil)
+              (window-parameters (no-other-window . t)))
+            )
+      (funcall l)
+      (setq transient-display-buffer-action
+            prev
+            )
+      )
     )
   )
 
