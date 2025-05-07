@@ -122,6 +122,14 @@
 
 (use-package hydra :straight t)
 
+(defun workspace-switcher ()
+  (interactive)
+  (progn
+    (persp-switch-last)
+    (show-workspace-switcher)
+    )
+  )
+
 (defun show-workspace-switcher ()
   (interactive)
   (/hydras/workspaces/body)

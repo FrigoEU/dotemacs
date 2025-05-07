@@ -19,7 +19,7 @@
   ;; :bind (("C-c a" . aidermacs-transient-menu))
   :config
   (setq
-   gptel-model 'gemini-2.5-pro
+   gptel-model 'gemini-2.5-pro-exp-03-25
    gptel-backend (gptel-make-gemini "Gemini"
                    :key "AIzaSyBZ5Wuk2qRc1PpVsFRw7DGUV5ava4iXL9s"
                    :stream t))
