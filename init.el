@@ -24,6 +24,7 @@
   (load bootstrap-file nil 'nomessage))
 
 ;; Adding secrets to the environment
+;; See bitwarden for contents
 (let ((secrets-file (expand-file-name "~/.secrets"))) ; Define the path to your secrets file
   (when (file-readable-p secrets-file) ; Check if the file exists and is readable
     (with-temp-buffer
@@ -70,6 +71,7 @@
   ;; (load (concat user-emacs-directory "config/config-ivy.el"))
   (load (concat user-emacs-directory "config/config-consult-vertico.el"))
   (load (concat user-emacs-directory "config/config-core.el"))
+  (load (concat user-emacs-directory "config/config-scrolling.el"))
   (load (concat user-emacs-directory "config/config-dashboard.el"))
   (load (concat user-emacs-directory "config/config-eshell.el"))
   (load (concat user-emacs-directory "config/config-vterm.el"))

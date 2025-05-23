@@ -35,6 +35,8 @@
 
   (evil-ex-define-cmd "q[uit]" 'evil-quit)
 
+
+
   :bind (:map evil-normal-state-map
               ("C-d" . evil-scroll-down)
               ("C-u" . evil-scroll-up)

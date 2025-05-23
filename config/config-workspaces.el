@@ -196,14 +196,14 @@ Added spaces will not inherit text properties from STRING."
     )
   )
 
-(defun frigo-jump-persp (num)
-  (let* ((active-persp-index (+ 1 (-find-index (lambda (name) (string= name (persp-current-name))) (reverse (persp-names)))))
-         (max-persp-index (length (persp-names)))
-         (naive (+ active-persp-index num))
-         (bounded1 (if (> naive max-persp-index) 1 naive))
-         (bounded2 (if (<= bounded1 0) max-persp-index bounded1)))
-    (go-to-workspace-number bounded2)
-    ))
+;; (defun frigo-jump-persp (num)
+;;   (let* ((active-persp-index (+ 1 (-find-index (lambda (name) (string= name (persp-current-name))) (reverse (persp-names)))))
+;;          (max-persp-index (length (persp-names)))
+;;          (naive (+ active-persp-index num))
+;;          (bounded1 (if (> naive max-persp-index) 1 naive))
+;;          (bounded2 (if (<= bounded1 0) max-persp-index bounded1)))
+;;     (go-to-workspace-number bounded2)
+;;     ))
 
 (defhydra /hydras/workspaces (:hint nil)
   "workspaces"
@@ -219,8 +219,8 @@ Added spaces will not inherit text properties from STRING."
   ("x" persp-kill-current)
   ("q" nil :exit t)
   ("p" projectile-persp-switch-project)
-  ("h" (frigo-jump-persp -1))
-  ("l" (frigo-jump-persp 1))
+  ;; ("h" (frigo-jump-persp -1))
+  ;; ("l" (frigo-jump-persp 1))
   ("<f6>" urwebschool-sql)
   ("<f7>" urwebschool-logs)
   )
@@ -268,12 +268,12 @@ Added spaces will not inherit text properties from STRING."
           "\n\n\n"
           "  "
           (color-other (my-pad-right " x Delete" 27))
-          (my-pad-right " l Left" 28)
+          ;; (my-pad-right " l Left" 28)
           (color-other (my-pad-right "<F6> School SQL" 28))
           "\n"
           "  "
           (my-pad-right " p Project" 27)
-          (my-pad-right " r Right" 28)
+          ;; (my-pad-right " r Right" 28)
           (color-other (my-pad-right "<F7> School LOGS" 28))
           "\n"
           "  "

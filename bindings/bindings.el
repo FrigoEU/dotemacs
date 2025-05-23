@@ -32,7 +32,7 @@
   ("*"   consult-ripgrep-root-at-point)
   ("s"   consult-line)
   ("l"   show-workspace-switcher)
-  ("h"   show-help-transient)
+  ("h"   /hydras/help/body)
   ("p"   /hydras/project/body)
   ("a"   /hydras/ai/body)
   )
@@ -55,6 +55,22 @@ Quit
   ("l"  vertico-repeat)
   ;; ("l"  vertico-suspend)
   ("c"  consult-complex-command)
+  )
+
+(defhydra /hydras/help (:hint nil :exit t :idle 0.5)
+  "
+Quit
+
+  _f_ → function      _m_ → mode
+  _k_ → key           _v_ → variable
+  _b_ → bindings
+
+"
+  ("f" helpful-function)
+  ("k" helpful-key)
+  ("b" describe-bindings)
+  ("m" describe-mode)
+  ("v" helpful-variable)
   )
 
 (defhydra /hydras/ai (:hint nil :exit t :idle 0.5)

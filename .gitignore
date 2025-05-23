@@ -14,3 +14,4 @@ projectile-bookmarks.eld
 bin/
 transient/
 tree-sitter/
+.aider.chat.history.md
