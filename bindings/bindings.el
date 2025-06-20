@@ -253,11 +253,19 @@ Files
 
 _f_ → find files      
 _R_ → rename
+_y_ → yank current filename
 
 "
   ("R" /utils/rename-current-buffer-file)
   ("f" find-file)
+  ("y" copy-base-filename-as-kill)
   )
+
+(defun copy-base-filename-as-kill ()
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (when filename
+      (kill-new filename))))
 
 (defhydra /hydras/compile
   (:hint nil :exit t :idle 0.5)
