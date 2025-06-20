@@ -2,6 +2,22 @@
 
 (use-package hydra :straight t)
 
+(use-package hydra-posframe
+  :straight '(hydra-posframe :type git :host github :repo "ladicle/hydra-posframe")
+  :defer t
+  :init
+  (hydra-posframe-mode 1)
+  :config
+  (setq hydra-posframe-border-width 8)
+  (setq hydra-posframe-parameters
+        '((left-fringe . 8)
+          (right-fringe . 8)
+          (min-height . 21)
+          (height . 21)
+          (min-width . 162)
+          ))
+  )
+
 (defhydra /hydras/main
   (:hint nil :exit t :idle 0.5)
   "
@@ -44,7 +60,8 @@
 
 (defhydra /hydras/repeat (:hint nil :exit t :idle 0.5)
   "
-Quit
+
+  Repeat
 
   _y_ → yank-ring
   _l_ → repeat vertico
@@ -59,7 +76,8 @@ Quit
 
 (defhydra /hydras/help (:hint nil :exit t :idle 0.5)
   "
-Quit
+
+  Help
 
   _f_ → function      _m_ → mode
   _k_ → key           _v_ → variable
@@ -75,20 +93,23 @@ Quit
 
 (defhydra /hydras/ai (:hint nil :exit t :idle 0.5)
   "
-Quit
+
+  AI
 
   _a_ → gptel
   _r_ → gptel-rewrite
+  _m_ → aidermacs
 
 "
-  ;; ("a" aidermacs-transient-menu)
   ("a" gptel)
   ("r" gptel-rewrite)
+  ("m" aidermacs-transient-menu)
   )
 
 (defhydra /hydras/quit (:hint nil :exit t :idle 0.5)
   "
-Quit
+
+  Quit
 
   _q_ → quit
   _r_ → restart
@@ -100,7 +121,8 @@ Quit
 
 (defhydra /hydras/buffers (:hint nil :exit t :idle 0.5)
   "
-Buffers
+
+  Buffers
 
   _b_ → buffers          _d_ → delete buffer           _r_ → rename buffer
   _m_ → goto messages    _p_ → previous
@@ -108,7 +130,7 @@ Buffers
 
 "
   ("x" /utils/goto-scratch-buffer)
-  ("d" kill-this-buffer)
+  ("d" (kill-buffer (current-buffer)))
   ("m" (switch-to-buffer "*Messages*"))
   ("b" consult-buffer)
   ("p" previous-buffer)
@@ -118,7 +140,8 @@ Buffers
 
 (defhydra /hydras/windows (:hint nil :exit t :idle 0.5)
   "
-Windows
+
+  Windows
 
   _S_     → split horizontal      _V_      → split vertical         _=_     → balance splits
 
@@ -207,7 +230,8 @@ Windows
 
 (defhydra /hydras/open (:hint nil :exit t :idle 0.5)
   "
-Open
+
+  Open
 
   _e_  → eshell
   _-_  → dired       ^ ^                      
@@ -219,7 +243,8 @@ Open
 
 (defhydra /hydras/files (:hint nil :exit t :idle 0.5)
   "
-Files
+
+  Files
 
   _f_ → find files      
   _R_ → rename
@@ -232,7 +257,8 @@ Files
 (defhydra /hydras/compile
   (:hint nil :exit t :idle 0.5)
   "
-Compile
+
+  Compile
 
   _c_ → _c_ompile
   _r_ → _r_epeat
@@ -248,7 +274,8 @@ Compile
 (defhydra /hydras/git
   (:hint nil :exit t :idle 0.5)
   "
-Git
+
+  Git
 
   _t_ → _t_ime machine
   _s_ → _s_tatus
@@ -263,7 +290,8 @@ Git
 (defhydra /hydras/toggle
   (:hint nil :exit t :idle 0.5)
   "
-Git
+
+  Toggle
 
   _n_ → line _n_umbers
   _t_ → _t_hemes browser
@@ -276,7 +304,8 @@ Git
 (defhydra /hydras/exec
   (:hint nil :exit t :idle 0.5)
   "
-Git
+
+  Exec
 
   _x_ → e_x_ec command async in project root
 
@@ -286,8 +315,9 @@ Git
 
 (defhydra /hydras/errors (:hint nil :idle 0.5  :exit t)
   "
-Errors
-------
+
+  Errors
+
   _l_ -> _l_ist
   _n_ -> _n_ext
   _p_ -> _p_previous
@@ -303,7 +333,8 @@ Errors
 (defhydra /hydras/project
   (:hint nil :exit t :idle 0.5)
   "
-Projects
+
+  Projects
 
   _p_ → _p_rojects search
   _f_ → _f_ind file in project

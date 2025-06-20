@@ -33,6 +33,12 @@
   :init
   (vertico-posframe-mode 1)
   :config
+  ;; Not very clean, but doesn't work otherwise
+  (setq vertico-posframe-width (floor (* (frame-width) 0.62)))
+  (setq vertico-posframe-border-width 8)
+  (setq vertico-posframe-parameters
+        '((left-fringe . 8)
+          (right-fringe . 8)))
   (setq vertico-multiform-commands
         '((consult-line (:not posframe)) 
           (t posframe))
