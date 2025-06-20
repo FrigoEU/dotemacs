@@ -8,28 +8,33 @@
   :init
   (hydra-posframe-mode 1)
   :config
-  (setq hydra-posframe-border-width 8)
+  (setq hydra-posframe-border-width 4)
   (setq hydra-posframe-parameters
-        '((left-fringe . 8)
-          (right-fringe . 8)
+        '((left-fringe . 16)
+          (right-fringe . 16)
           (min-height . 21)
           (height . 21)
           (min-width . 162)
           ))
+  ;; (set-face-attribute 'hydra-posframe-border-face nil :inherit 'highlight)
+  :custom-face (hydra-posframe-border-face ((t (
+                                                :background "#57c7ff"
+                                                :inherit 'highlight
+                                                ))))
   )
 
 (defhydra /hydras/main
   (:hint nil :exit t :idle 0.5)
   "
 
-  _SPC_ → Search commands (M-x)
+_SPC_ → Search commands (M-x)
 
-  _b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat          _t_ → _t_oggle
-  _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers          _x_ → _e_xec
-  _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors          _a_ → _a_i
-  _p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit             
+_b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat          _t_ → _t_oggle
+_f_ → _f_iles             _-_ → dired            _l_ → _l_ayers          _x_ → _e_xec
+_w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors          _a_ → _a_i
+_p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit             
 
-  _/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file             
+_/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file             
 "
   ("SPC" execute-extended-command)
   ("b"   /hydras/buffers/body)
@@ -61,11 +66,11 @@
 (defhydra /hydras/repeat (:hint nil :exit t :idle 0.5)
   "
 
-  Repeat
+Repeat
 
-  _y_ → yank-ring
-  _l_ → repeat vertico
-  _c_ → repeat command
+_y_ → yank-ring
+_l_ → repeat vertico
+_c_ → repeat command
 
 "
   ("y"  consult-yank-from-kill-ring)
@@ -77,11 +82,11 @@
 (defhydra /hydras/help (:hint nil :exit t :idle 0.5)
   "
 
-  Help
+Help
 
-  _f_ → function      _m_ → mode
-  _k_ → key           _v_ → variable
-  _b_ → bindings
+_f_ → function      _m_ → mode
+_k_ → key           _v_ → variable
+_b_ → bindings
 
 "
   ("f" helpful-function)
@@ -94,11 +99,11 @@
 (defhydra /hydras/ai (:hint nil :exit t :idle 0.5)
   "
 
-  AI
+AI
 
-  _a_ → gptel
-  _r_ → gptel-rewrite
-  _m_ → aidermacs
+_a_ → gptel
+_r_ → gptel-rewrite
+_m_ → aidermacs
 
 "
   ("a" gptel)
@@ -109,10 +114,10 @@
 (defhydra /hydras/quit (:hint nil :exit t :idle 0.5)
   "
 
-  Quit
+Quit
 
-  _q_ → quit
-  _r_ → restart
+_q_ → quit
+_r_ → restart
 
 "
   ("q" 
@@ -122,11 +127,11 @@
 (defhydra /hydras/buffers (:hint nil :exit t :idle 0.5)
   "
 
-  Buffers
+Buffers
 
-  _b_ → buffers          _d_ → delete buffer           _r_ → rename buffer
-  _m_ → goto messages    _p_ → previous
-  _x_ → goto scratch     _n_ → next
+_b_ → buffers          _d_ → delete buffer           _r_ → rename buffer
+_m_ → goto messages    _p_ → previous
+_x_ → goto scratch     _n_ → next
 
 "
   ("x" /utils/goto-scratch-buffer)
@@ -141,13 +146,13 @@
 (defhydra /hydras/windows (:hint nil :exit t :idle 0.5)
   "
 
-  Windows
+Windows
 
-  _S_     → split horizontal      _V_      → split vertical         _=_     → balance splits
+_S_     → split horizontal      _V_      → split vertical         _=_     → balance splits
 
-  ^ ^                              _<up>_   → move window up         ^ ^
-  _<left>_ → move window left     ^ ^                                _<right>_ → move window right
-  ^ ^                              _<down>_ → move window dow        ^ ^
+^ ^                              _<up>_   → move window up         ^ ^
+_<left>_ → move window left     ^ ^                                _<right>_ → move window right
+^ ^                              _<down>_ → move window dow        ^ ^
 "
   ("S" evil-window-split)
   ("V" evil-window-vsplit)
@@ -231,10 +236,10 @@
 (defhydra /hydras/open (:hint nil :exit t :idle 0.5)
   "
 
-  Open
+Open
 
-  _e_  → eshell
-  _-_  → dired       ^ ^                      
+_e_  → eshell
+_-_  → dired       ^ ^                      
   
 "
   ("e" simon/open-new-shell)
@@ -244,10 +249,10 @@
 (defhydra /hydras/files (:hint nil :exit t :idle 0.5)
   "
 
-  Files
+Files
 
-  _f_ → find files      
-  _R_ → rename
+_f_ → find files      
+_R_ → rename
 
 "
   ("R" /utils/rename-current-buffer-file)
@@ -258,11 +263,11 @@
   (:hint nil :exit t :idle 0.5)
   "
 
-  Compile
+Compile
 
-  _c_ → _c_ompile
-  _r_ → _r_epeat
-  _t_ → _t_test project
+_c_ → _c_ompile
+_r_ → _r_epeat
+_t_ → _t_test project
 
 "
   ("c" compile)
@@ -275,11 +280,11 @@
   (:hint nil :exit t :idle 0.5)
   "
 
-  Git
+Git
 
-  _t_ → _t_ime machine
-  _s_ → _s_tatus
-  _b_ → _b_lame
+_t_ → _t_ime machine
+_s_ → _s_tatus
+_b_ → _b_lame
 
 "
   ("t" git-timemachine)
@@ -291,10 +296,10 @@
   (:hint nil :exit t :idle 0.5)
   "
 
-  Toggle
+Toggle
 
-  _n_ → line _n_umbers
-  _t_ → _t_hemes browser
+_n_ → line _n_umbers
+_t_ → _t_hemes browser
 
 "
   ("n" display-line-numbers-mode)
@@ -305,9 +310,9 @@
   (:hint nil :exit t :idle 0.5)
   "
 
-  Exec
+Exec
 
-  _x_ → e_x_ec command async in project root
+_x_ → e_x_ec command async in project root
 
 "
   ("x" projectile-run-async-shell-command-in-root)
@@ -316,11 +321,11 @@
 (defhydra /hydras/errors (:hint nil :idle 0.5  :exit t)
   "
 
-  Errors
+Errors
 
-  _l_ -> _l_ist
-  _n_ -> _n_ext
-  _p_ -> _p_previous
+_l_ -> _l_ist
+_n_ -> _n_ext
+_p_ -> _p_previous
 "
   ;; ("l" flycheck-list-errors)
   ;; ("n" flycheck-next-error)
@@ -334,12 +339,12 @@
   (:hint nil :exit t :idle 0.5)
   "
 
-  Projects
+Projects
 
-  _p_ → _p_rojects search
-  _f_ → _f_ind file in project
-  _a_ → _a_dd project
-  _i_ → _i_nvalidate cache
+_p_ → _p_rojects search
+_f_ → _f_ind file in project
+_a_ → _a_dd project
+_i_ → _i_nvalidate cache
 
 "
   ("p" projectile-persp-switch-project)

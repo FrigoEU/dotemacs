@@ -257,30 +257,30 @@ Added spaces will not inherit text properties from STRING."
           '(1 2 3 4 5 6 7 8 9)
           )  
          (concat
-          "   Workspaces\n"
-          "   ----------\n\n"
-          "  "
+          "Workspaces\n"
+          "----------\n\n"
+          ""
           (string-join
            (cl-mapcar
             'workspace-build-name
             (reverse (persp-names))
             '(1 2 3 4 5 6 7 8 9)
             )
-           "  "
+           ""
            )
           "\n\n\n"
-          "  "
+          ""
           (color-other (my-pad-right " x Delete" 27))
           ;; (my-pad-right " l Left" 28)
           (color-other (my-pad-right "<F6> School SQL" 27))
           (color-other (my-pad-right "w New worktree" 28))
           "\n"
-          "  "
+          ""
           (my-pad-right " p Project" 27)
           ;; (my-pad-right " r Right" 28)
           (color-other (my-pad-right "<F7> School LOGS" 27))
           "\n"
-          "  "
+          ""
           (my-pad-right " q Quit" 27)
           )
          ))
