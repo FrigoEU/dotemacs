@@ -35,6 +35,8 @@
 
   (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
+  (add-to-list 'eglot-server-programs
+               '(sql-mode . ("postgrestools" "lsp-proxy")))
 
   ;; (add-to-list
   ;;  'eglot-server-programs
