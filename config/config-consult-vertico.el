@@ -32,8 +32,6 @@
   :defer t
   :init
   (vertico-posframe-mode 1)
-  :config
-  ;; Not very clean, but doesn't work otherwise
   (setq vertico-posframe-width (round (* (frame-width) 0.62)))
   (setq vertico-posframe-border-width 4)
   (setq vertico-posframe-parameters
@@ -44,6 +42,8 @@
         '((consult-line (:not posframe)) 
           (t posframe))
         )
+  :config
+  ;; Not very clean, but doesn't work otherwise
 
   :custom-face (vertico-posframe-border ((t (
                                              :background "#57c7ff"

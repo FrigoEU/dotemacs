@@ -223,6 +223,8 @@ Added spaces will not inherit text properties from STRING."
   ;; ("l" (frigo-jump-persp 1))
   ("<f6>" urwebschool-sql)
   ("<f7>" urwebschool-logs)
+  ;; ("<f8>" aperi-sql)
+  ;; ("<f9>" aperi-logs)
   ("w" simon/new-worktree)
   )
 
