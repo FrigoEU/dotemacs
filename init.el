@@ -96,7 +96,7 @@
   (load (concat user-emacs-directory "bindings/bindings.el"))
   (load (concat user-emacs-directory "config/config-ai.el"))
   ;; urweb
-  (load (concat user-emacs-directory "config/config-urweb.el"))
+  ;; (load (concat user-emacs-directory "config/config-urweb.el"))
   ;; Direnv integration last
   (load (concat user-emacs-directory "config-direnv-envrc.el"))
   )
