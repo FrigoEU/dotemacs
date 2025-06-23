@@ -14,8 +14,9 @@
           (right-fringe . 16)
           (min-height . 21)
           (height . 21)
-          (min-width . 162)
+          (min-width .(floor (* (frame-width) 0.62)))
           ))
+  (screen-width)
   ;; (set-face-attribute 'hydra-posframe-border-face nil :inherit 'highlight)
   :custom-face (hydra-posframe-border-face ((t (
                                                 :background "#57c7ff"
