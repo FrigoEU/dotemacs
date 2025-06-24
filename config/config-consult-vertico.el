@@ -27,30 +27,6 @@
 
   )
 
-(use-package vertico-posframe
-  :straight t
-  :defer t
-  :init
-  (vertico-posframe-mode 1)
-  (setq vertico-posframe-width (round (* (frame-width) 0.62)))
-  (setq vertico-posframe-border-width 4)
-  (setq vertico-posframe-parameters
-        '((left-fringe . 8)
-          (right-fringe . 8)
-          ))
-  (setq vertico-multiform-commands
-        '((consult-line (:not posframe)) 
-          (t posframe))
-        )
-  :config
-  ;; Not very clean, but doesn't work otherwise
-
-  :custom-face (vertico-posframe-border ((t (
-                                             :background "#57c7ff"
-                                             :inherit 'highlight
-                                             ))))
-  )
-
 ;; A few more useful configurations...
 (use-package emacs
   :straight t

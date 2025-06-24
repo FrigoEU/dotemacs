@@ -2,28 +2,6 @@
 
 (use-package hydra :straight t)
 
-(use-package hydra-posframe
-  :straight '(hydra-posframe :type git :host github :repo "ladicle/hydra-posframe")
-  :defer t
-  :init
-  (hydra-posframe-mode 1)
-  :config
-  (setq hydra-posframe-border-width 4)
-  (setq hydra-posframe-parameters
-        '((left-fringe . 16)
-          (right-fringe . 16)
-          (min-height . 21)
-          (height . 21)
-          (min-width .(floor (* (frame-width) 0.62)))
-          ))
-  (screen-width)
-  ;; (set-face-attribute 'hydra-posframe-border-face nil :inherit 'highlight)
-  :custom-face (hydra-posframe-border-face ((t (
-                                                :background "#57c7ff"
-                                                :inherit 'highlight
-                                                ))))
-  )
-
 (defhydra /hydras/main
   (:hint nil :exit t :idle 0.5)
   "
