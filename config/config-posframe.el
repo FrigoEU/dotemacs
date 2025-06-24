@@ -41,16 +41,3 @@
                      :inherit 'highlight
                      ))))
   )
-
-(defun my-delayed-startup-function ()
-  "This function will be executed a few seconds after Emacs starts."
-  (interactive)
-  (message (frame-width))
-  (setq vertico-posframe-width (round (* (frame-width) 0.62)))
-  )
-
-(defun run-my-delayed-function-after-startup ()
-  "Starts a timer to run `my-delayed-startup-function` after 3 seconds."
-  (run-with-timer 3 nil #'my-delayed-startup-function))
-
-(add-hook 'emacs-startup-hook #'run-my-delayed-function-after-startup)
