@@ -26,6 +26,10 @@
 
 (defun load-theme-and-color-modeline ()
   (progn
+    ;; (set-frame-font "PragmataPro Mono 16" nil t)
+    ;; (set-frame-font "Noto Sans 16" nil t)
+    (set-frame-font "Victor Mono SemiBold 16" nil t)
+
     ;; (load-theme 'sanityinc-tomorrow-night) 
     (load-theme 'doom-snazzy)
     ;; (load-theme 'doom-one)
@@ -51,10 +55,6 @@
   :hook
   (after-init-hook . load-theme-and-color-modeline)
   )
-;; (set-frame-font "PragmataPro Mono 16" nil t)
-(set-frame-font "Victor Mono SemiBold 16" nil t)
-
-
 
 (line-number-mode t)
 (column-number-mode t)

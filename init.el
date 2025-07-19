@@ -95,7 +95,6 @@
   (load (concat user-emacs-directory "config/config-eglot.el"))
   (load (concat user-emacs-directory "bindings/bindings.el"))
   (load (concat user-emacs-directory "config/config-ai.el"))
-
   (load (concat user-emacs-directory "config/config-posframe.el"))
   ;; urweb
   ;; (load (concat user-emacs-directory "config/config-urweb.el"))
