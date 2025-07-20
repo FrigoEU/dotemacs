@@ -45,7 +45,6 @@
 (use-package vertico-posframe
   :straight t
   ;; :after vertico
-  :defer 2
   :config
   (vertico-posframe-mode 1)
 
