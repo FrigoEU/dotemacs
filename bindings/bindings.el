@@ -369,6 +369,9 @@ _i_ → _i_nvalidate cache
   (add-hook 'which-key-delay-functions #'t/delayed-which-key-eshell)
   )
 
+;; I often start recording a new macro by accident. I think it's this one
+(global-unset-key (kbd "<f3>"))
+
 ;; escape minibuffer
 (define-key minibuffer-local-map [escape] '/utils/minibuffer-keyboard-quit)
 (define-key minibuffer-local-ns-map [escape] '/utils/minibuffer-keyboard-quit)

@@ -223,7 +223,7 @@ Added spaces will not inherit text properties from STRING."
   ;; ("l" (frigo-jump-persp 1))
   ("<f6>" urwebschool-sql)
   ("<f7>" urwebschool-logs)
-  ("<f8>" aperi-logs)
+  ;; ("<f8>" aperi-logs)
   ;; ("<f9>" aperi-logs)
   ("w" simon/new-worktree)
   )
@@ -284,7 +284,7 @@ Added spaces will not inherit text properties from STRING."
           "\n"
           ""
           (my-pad-right " q Quit" 27)
-          (color-other (my-pad-right "<F8> Aperi LOGS" 27))
+          ;; (color-other (my-pad-right "<F8> Aperi LOGS" 27))
           )
          ))
 
