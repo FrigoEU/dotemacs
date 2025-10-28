@@ -90,6 +90,7 @@
   (load (concat user-emacs-directory "config/config-rust.el"))
   (load (concat user-emacs-directory "config/config-tree-sitter.el"))
   (load (concat user-emacs-directory "config/config-typescript.el"))
+  (load (concat user-emacs-directory "config/config-kotlin.el"))
   (load (concat user-emacs-directory "config/config-workspaces.el"))
   ;; (load (concat user-emacs-directory "config/config-lsp-mode.el"))
   (load (concat user-emacs-directory "config/config-eglot.el"))
