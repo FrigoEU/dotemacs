@@ -18,10 +18,19 @@
   :straight t
   ;; :bind (("C-c a" . aidermacs-transient-menu))
   :config
-  (setq
-   gptel-model 'gemini-2.5-pro-preview-05-06
-   gptel-backend (gptel-make-gemini "Gemini"
-                                    :key (getenv "GOOGLE_CLOUD_PLATFORM_API_KEY")
-                                    :stream t))
+  ;; (setq
+  ;;  gptel-model 'gemini-2.5-pro-preview-05-06
+  ;;  gptel-backend (gptel-make-gemini "Gemini"
+  ;;                                   :key (getenv "GOOGLE_CLOUD_PLATFORM_API_KEY")
+  ;;                                   :stream t))
+  (setq gptel-model   'google/gemini-2.5-pro
+        gptel-backend
+        (gptel-make-openai "OpenRouter"               ;Any name you want
+          :host "openrouter.ai"
+          :endpoint "/api/v1/chat/completions"
+          :stream t
+          :key (getenv "OPENROUTERAI_KEY")                   ;can be a function that returns the key
+          :models '(openai/chatgpt-4o-latest
+                    google/gemini-2.5-pro)))
   (evil-define-key 'visual eglot-mode-map (kbd ", i") 'gptel-rewrite)
   )
