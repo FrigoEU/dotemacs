@@ -63,7 +63,7 @@
     (setf (alist-get 'ktfmt apheleia-formatters)
           '("ktfmt" file))
 
-    (add-to-list 'apheleia-mode-alist '(kotlin-mode . ktfmt))
+    (add-to-list 'apheleia-mode-alist '(kotlin-ts-mode . ktfmt))
     ;; (add-to-list 'apheleia-formatters
     ;;              '(prettier-sql "apheleia-npx" "prettier" "--stdin-filepath" filepath
     ;;                             (apheleia-formatters-js-indent "--use-tabs" "--tab-width"))
