@@ -3,7 +3,8 @@
 ;; Run this manually!
 
 ;; (setq treesit-language-source-alist
-;;       '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+;;       '(
+;;         (bash "https://github.com/tree-sitter/tree-sitter-bash")
 ;;         (cmake "https://github.com/uyha/tree-sitter-cmake")
 ;;         (css "https://github.com/tree-sitter/tree-sitter-css")
 ;;         (elisp "https://github.com/Wilfred/tree-sitter-elisp")
@@ -18,7 +19,9 @@
 ;;         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
 ;;         (rust "https://github.com/tree-sitter/tree-sitter-rust")
 ;;         (kotlin "https://github.com/fwcd/tree-sitter-kotlin")
-;;         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+;;         (swift "https://github.com/alex-pinkus/tree-sitter-swift" "with-generated-files")
+;;         (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+;;         ))
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 
 (use-package tree-sitter
