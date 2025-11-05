@@ -15,3 +15,4 @@ bin/
 transient/
 tree-sitter/
 .aider.chat.history.md
+org-persist

@@ -8,7 +8,7 @@
   :hook (rust-mode-hook . eglot-ensure)
   :hook (js-json-mode-hook . eglot-ensure)
   :hook (kotlin-mode-hook . eglot-ensure)
-  :hook (swift-mode-hook . eglot-ensure)
+  :hook (swift-ts-mode-hook . eglot-ensure)
 
   :config
   (eglot--code-action eglot-code-action-remove-unused-imports "source.removeUnusedImports")
@@ -41,7 +41,7 @@
                '(sql-mode . ("postgrestools" "lsp-proxy")))
 
   (add-to-list 'eglot-server-programs
-               '(swift-mode . ("xcrun" "sourcekit-lsp")))
+               '(swift-ts-mode . swift-lsp-eglot-server-contact))
 
   ;; (add-to-list
   ;;  'eglot-server-programs

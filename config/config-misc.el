@@ -64,6 +64,10 @@
           '("ktfmt" file))
 
     (add-to-list 'apheleia-mode-alist '(kotlin-ts-mode . ktfmt))
+
+    (add-to-list 'apheleia-mode-alist '(swift-ts-mode . swift-format))
+    (add-to-list 'apheleia-formatters '(swift-format "swift-format" (buffer-file-name)))
+
     ;; (add-to-list 'apheleia-formatters
     ;;              '(prettier-sql "apheleia-npx" "prettier" "--stdin-filepath" filepath
     ;;                             (apheleia-formatters-js-indent "--use-tabs" "--tab-width"))
