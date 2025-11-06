@@ -26,8 +26,9 @@
 
 (defun load-theme-and-color-modeline ()
   (progn
-    ;; (set-frame-font "PragmataPro Mono 16" nil t)
-    (set-frame-font "Victor Mono SemiBold 15" nil t)
+    (set-frame-font "PragmataPro Mono 16" nil t)
+    ;; (set-frame-font "Victor Mono SemiBold 15" nil t)
+    (set-frame-font "Victor Mono SemiBold 18" nil t)
 
     ;; (load-theme 'sanityinc-tomorrow-night) 
     (load-theme 'doom-snazzy)
