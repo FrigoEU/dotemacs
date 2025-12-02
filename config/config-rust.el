@@ -3,4 +3,5 @@
 (use-package rustic
   :straight t
   :config
-  (setq rustic-lsp-client 'eglot))
+  (setq rustic-lsp-client simon/lsp-client))
+

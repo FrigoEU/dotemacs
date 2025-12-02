@@ -32,12 +32,6 @@
 (setq js-indent-level dotemacs-js/indent-offset)
 
 
-                                        ; (when (eq dotemacs-js/mode 'js2)
-                                        ;   (defun /js/activate-js2 ()
-                                        ;     (require-package 'js2-mode)
-                                        ;     (js2-jsx-mode))
-                                        ;   (add-to-list 'auto-mode-alist '("\\.jsx?$" . /js/activate-js2)))
-
 (cond
  ((eq dotemacs-js/engine 'lsp)
   ;; (add-hook 'js-mode-hook #'/lsp/activate)

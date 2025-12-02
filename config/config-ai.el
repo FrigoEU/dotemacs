@@ -32,5 +32,6 @@
           :key (getenv "OPENROUTERAI_KEY")                   ;can be a function that returns the key
           :models '(openai/chatgpt-4o-latest
                     google/gemini-2.5-pro)))
-  (evil-define-key 'visual eglot-mode-map (kbd ", i") 'gptel-rewrite)
+  (if (eq simon/lsp-client 'eglot)
+      (evil-define-key 'visual eglot-mode-map (kbd ", i") 'gptel-rewrite))
   )

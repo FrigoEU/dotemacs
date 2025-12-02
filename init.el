@@ -52,6 +52,8 @@
 (push 'xref straight-built-in-pseudo-packages)
 
 (setq simon/eshell-or-vterm 'vterm)
+;; (setq simon/lsp-client 'lsp-mode)
+(setq simon/lsp-client 'eglot)
 
 (let ((gc-cons-threshold (* 256 1024 1024))
       (file-name-handler-alist nil))
@@ -95,7 +97,7 @@
   (load (concat user-emacs-directory "config/config-swift-extra.el"))
   (load (concat user-emacs-directory "config/config-workspaces.el"))
   ;; (load (concat user-emacs-directory "config/config-lsp-mode.el"))
-  (load (concat user-emacs-directory "config/config-eglot.el"))
+  (load (concat user-emacs-directory "config/config-lsp-eglot.el"))
   (load (concat user-emacs-directory "bindings/bindings.el"))
   (load (concat user-emacs-directory "config/config-ai.el"))
   (load (concat user-emacs-directory "config/config-posframe.el"))
@@ -128,6 +130,33 @@
      default))
  '(safe-local-variable-values
    '((consult-ripgrep-args
+      . "rg   --null   --line-buffered   --color=never   --max-columns=1000   --path-separator /   --smart-case   --no-heading   --with-filename   --line-number   --search-zip   --glob=!migrations/   --glob=!setup_migrations_and_functions.sql   --glob=!setup_migrations.sql   --glob=!setup_functions.sql   --glob=!setuplandingpage.sql   --glob=!typescript/sql/classy/*.ts")
+     (consult-ripgrep-args string-join
+                           (list "rg" "--null" "--line-buffered"
+                                 "--color=never" "--max-columns=1000"
+                                 "--path-separator" "/" "--smart-case"
+                                 "--no-heading" "--with-filename"
+                                 "--line-number" "--search-zip"
+                                 "--glob=!migrations/"
+                                 "--glob=!setup_migrations_and_functions.sql"
+                                 "--glob=!setup_migrations.sql"
+                                 "--glob=!setup_functions.sql"
+                                 "--glob=!setuplandingpage.sql"
+                                 "--glob=!typescript/sql/classy/*.ts")
+                           " ")
+     (consult-ripgrep-args s-join " "
+                           (list "rg" "--null" "--line-buffered"
+                                 "--color=never" "--max-columns=1000"
+                                 "--path-separator" "/" "--smart-case"
+                                 "--no-heading" "--with-filename"
+                                 "--line-number" "--search-zip"
+                                 "--glob=!migrations/"
+                                 "--glob=!setup_migrations_and_functions.sql"
+                                 "--glob=!setup_migrations.sql"
+                                 "--glob=!setup_functions.sql"
+                                 "--glob=!setuplandingpage.sql"
+                                 "--glob=!typescript/sql/classy/*.ts"))
+     (consult-ripgrep-args
       . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!migrations/ --glob=!setup_migrations_and_functions.sql --glob=!setup_migrations.sql --glob=!setup_functions.sql --glob=!setuplandingpage.sql --glob=!typescript/sql/classy/*.ts")
      (consult-ripgrep-args
       . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!migrations/ --glob=!setup_functions.sql --glob=!setuplandingpage.sql --glob=!typescript/sql/classy/*.ts")
