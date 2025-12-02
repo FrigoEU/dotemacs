@@ -87,6 +87,7 @@
   (load (concat user-emacs-directory "config/config-corfu.el"))
   ;; (load (concat user-emacs-directory "config/config-lsp-bridge.el"))
   (load (concat user-emacs-directory "config/config-misc.el"))
+  (load (concat user-emacs-directory "config/config-formatting.el"))
   (load (concat user-emacs-directory "config/config-pairs.el"))
   (load (concat user-emacs-directory "config/config-projectile.el"))
   (load (concat user-emacs-directory "config/config-rust.el"))
@@ -144,18 +145,6 @@
                                  "--glob=!setuplandingpage.sql"
                                  "--glob=!typescript/sql/classy/*.ts")
                            " ")
-     (consult-ripgrep-args s-join " "
-                           (list "rg" "--null" "--line-buffered"
-                                 "--color=never" "--max-columns=1000"
-                                 "--path-separator" "/" "--smart-case"
-                                 "--no-heading" "--with-filename"
-                                 "--line-number" "--search-zip"
-                                 "--glob=!migrations/"
-                                 "--glob=!setup_migrations_and_functions.sql"
-                                 "--glob=!setup_migrations.sql"
-                                 "--glob=!setup_functions.sql"
-                                 "--glob=!setuplandingpage.sql"
-                                 "--glob=!typescript/sql/classy/*.ts"))
      (consult-ripgrep-args
       . "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --glob=!migrations/ --glob=!setup_migrations_and_functions.sql --glob=!setup_migrations.sql --glob=!setup_functions.sql --glob=!setuplandingpage.sql --glob=!typescript/sql/classy/*.ts")
      (consult-ripgrep-args
