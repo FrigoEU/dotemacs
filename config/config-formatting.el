@@ -12,7 +12,7 @@
           )
 
     (setf (alist-get 'ktfmt apheleia-formatters)
-          '("ktfmt" "-"))
+          '("ktfmt" "--do-not-remove-unused-imports" "-"))
 
     (add-to-list 'apheleia-mode-alist '(kotlin-ts-mode . ktfmt))
     ;; (add-to-list 'apheleia-mode-alist '(kotlin-ts-mode . ktlint))
