@@ -126,7 +126,6 @@
   (interactive)
   (progn
     (persp-switch-last)
-    (show-workspace-switcher)
     )
   )
 
