@@ -233,18 +233,47 @@ Files
 _f_ → find files      
 _R_ → rename
 _y_ → yank current filename
+_Y_ → yank current filename + line
 
 "
   ("R" /utils/rename-current-buffer-file)
   ("f" find-file)
-  ("y" copy-base-filename-as-kill)
+  ("y" copy-project-relative-filename-as-kill)
+  ("Y" copy-project-relative-filename-and-line-as-kill)
   )
 
-(defun copy-base-filename-as-kill ()
+(require 'projectile)
+(defun copy-project-relative-filename-as-kill ()
+  "Copy buffer file name relative to Projectile project root, if any."
   (interactive)
   (let ((filename (buffer-file-name)))
-    (when filename
-      (kill-new filename))))
+    (unless filename
+      (user-error "Current buffer is not visiting a file"))
+    (let* ((project-root (ignore-errors (projectile-project-root)))
+           (name (if project-root
+                     (file-relative-name filename project-root)
+                   ;; fallback: just the full filename (or use (file-name-nondirectory filename))
+                   filename)))
+      (kill-new name)
+      (message "%s" name))))
+
+(defun copy-project-relative-filename-and-line-as-kill ()
+  "Copy project-relative file name and current line number to the kill ring.
+
+Format: path/from/project/root:LINE"
+  (interactive)
+  (require 'projectile)
+  (let ((filename (buffer-file-name)))
+    (unless filename
+      (user-error "Current buffer is not visiting a file"))
+    (let* ((project-root (ignore-errors (projectile-project-root)))
+           (relname (if project-root
+                        (file-relative-name filename project-root)
+                      filename))
+           (line (line-number-at-pos))
+           (text (format "%s:%d" relname line)))
+      (kill-new text)
+      (message "%s" text))))
 
 (defhydra /hydras/compile
   (:hint nil :exit t :idle 0.5)

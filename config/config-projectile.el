@@ -20,6 +20,7 @@
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-directories ".git")
   (add-to-list 'projectile-globally-ignored-directories ".idea")
+  (add-to-list 'projectile-globally-ignored-directories ".direnv")
 
   (projectile-load-known-projects)
 
