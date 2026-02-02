@@ -42,10 +42,21 @@
   :config
   (setq agent-shell-anthropic-authentication
         (agent-shell-anthropic-make-authentication :login t))
-  (setq agent-shell-anthropic-claude-environment
-        (agent-shell-make-environment-variables :inherit-env t))
+  ;; Don't set environment here - we'll advise the client maker instead
+  (setq agent-shell-anthropic-claude-environment nil)
   (setq agent-shell-preferred-agent-config
         (agent-shell-anthropic-make-claude-code-config))
+
+  ;; Advise the client maker to dynamically inherit the current buffer's environment
+  ;; This ensures direnv/envrc environment variables (like PATH with tshark) are available
+  (defun simon/inject-direnv-environment (orig-fun &rest args)
+    "Inject current buffer's process-environment into agent-shell client."
+    (let ((agent-shell-anthropic-claude-environment
+           (agent-shell-make-environment-variables :inherit-env t)))
+      (apply orig-fun args)))
+
+  (advice-add 'agent-shell-anthropic-make-claude-client
+              :around #'simon/inject-direnv-environment)
 
   (evil-define-key 'insert agent-shell-mode-map (kbd "RET") #'newline)
   (evil-define-key 'normal agent-shell-mode-map (kbd "RET") #'comint-send-input)
@@ -56,4 +67,7 @@
 	    (lambda ()
 	      (when (string-match-p "\\*agent-shell-diff\\*" (buffer-name))
 		(evil-emacs-state))))
+  (add-hook 'agent-shell-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-map "!" nil)))
   )
