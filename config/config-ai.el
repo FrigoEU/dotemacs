@@ -36,3 +36,24 @@
   (if (eq simon/lsp-client 'eglot)
       (evil-define-key 'visual eglot-mode-map (kbd ", i") 'gptel-rewrite))
   )
+
+(use-package agent-shell
+  :straight t
+  :config
+  (setq agent-shell-anthropic-authentication
+        (agent-shell-anthropic-make-authentication :login t))
+  (setq agent-shell-anthropic-claude-environment
+        (agent-shell-make-environment-variables :inherit-env t))
+  (setq agent-shell-preferred-agent-config
+        (agent-shell-anthropic-make-claude-code-config))
+
+  (evil-define-key 'insert agent-shell-mode-map (kbd "RET") #'newline)
+  (evil-define-key 'normal agent-shell-mode-map (kbd "RET") #'comint-send-input)
+  (evil-define-key 'normal agent-shell-mode-map (kbd "C-<tab>") #'agent-shell-cycle-session-mode)
+  (evil-define-key 'insert agent-shell-mode-map (kbd "C-<tab>") #'agent-shell-cycle-session-mode)
+  ;; Configure *agent-shell-diff* buffers to start in Emacs state
+  (add-hook 'diff-mode-hook
+	    (lambda ()
+	      (when (string-match-p "\\*agent-shell-diff\\*" (buffer-name))
+		(evil-emacs-state))))
+  )

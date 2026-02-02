@@ -52,6 +52,7 @@
 (push 'xref straight-built-in-pseudo-packages)
 
 (setq simon/eshell-or-vterm 'vterm)
+;; (setq simon/eshell-or-vterm 'eshell)
 ;; (setq simon/lsp-client 'lsp-mode)
 (setq simon/lsp-client 'eglot)
 
