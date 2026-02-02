@@ -440,4 +440,11 @@ _i_ → _i_nvalidate cache
   (global-set-key (kbd "C-x p") 'vkill))
 
 
+(after 'comint
+  (define-key comint-mode-map (kbd "C-j") nil)
+  (define-key comint-mode-map (kbd "C-k") nil)
+  (evil-define-key 'normal comint-mode-map (kbd "C-j") nil)
+  (evil-define-key 'normal comint-mode-map (kbd "C-k") nil)
+  )
+
 (provide 'config-bindings)
