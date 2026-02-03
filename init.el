@@ -92,6 +92,7 @@
   (load (concat user-emacs-directory "config/config-pairs.el"))
   (load (concat user-emacs-directory "config/config-projectile.el"))
   (load (concat user-emacs-directory "config/config-rust.el"))
+  (load (concat user-emacs-directory "config/config-go.el"))
   (load (concat user-emacs-directory "config/config-tree-sitter.el"))
   (load (concat user-emacs-directory "config/config-typescript.el"))
   (load (concat user-emacs-directory "config/config-kotlin.el"))

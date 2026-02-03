@@ -70,4 +70,14 @@
   (add-hook 'agent-shell-mode-hook
             (lambda ()
               (define-key evil-normal-state-map "!" nil)))
+
+  ;; Making icon in graphical header a bit smaller
+  (advice-add
+   'agent-shell--make-header :around
+   (lambda (fn state &rest args)
+     (let ((orig-default-font-height (symbol-function 'default-font-height)))
+       (cl-letf (((symbol-function 'default-font-height)
+                  (lambda (&rest fh-args)
+                    (* 0.7 (apply orig-default-font-height fh-args)))))
+         (apply fn state args)))))
   )

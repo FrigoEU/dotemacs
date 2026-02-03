@@ -10,6 +10,7 @@
       :hook (js-json-mode-hook . eglot-ensure)
       ;; :hook (kotlin-ts-mode-hook . eglot-ensure)
       :hook (swift-ts-mode-hook . eglot-ensure)
+      :hook (go-mode-hook . eglot-ensure)
 
       :config
       (eglot--code-action eglot-code-action-remove-unused-imports "source.removeUnusedImports")
