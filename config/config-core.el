@@ -42,7 +42,7 @@
 (setq undo-limit (* 1024 10 10))
 (setq undo-outer-limit (* 1024 10 10))
 (setq undo-strong-limit (* 1024 10 10))
-; (add-to-list 'warning-suppress-types '(undo discard-info))
+(add-to-list 'warning-suppress-types '(undo discard-info))
 
 ;; recent files
 (require 'recentf)
