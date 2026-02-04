@@ -211,6 +211,7 @@
 (setq initial-major-mode 'emacs-lisp-mode)
 (setq eval-expression-print-level nil)
 (setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
 
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-echo-area-message t)

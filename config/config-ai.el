@@ -40,8 +40,20 @@
 (use-package agent-shell
   :straight t
   :config
+  ;; Disable save prompt since we auto-save transcripts
+  (setq shell-maker-prompt-before-killing-buffer nil)
   (setq agent-shell-anthropic-authentication
         (agent-shell-anthropic-make-authentication :login t))
+
+  ;; Save transcripts to ~/Documents/claude_transcripts/<date-time>.txt
+  (setq agent-shell--transcript-file-path-function
+        (lambda ()
+          (let* ((dir (expand-file-name "~/Documents/claude_transcripts"))
+                 (filename (format-time-string "%Y-%m-%d-%H-%M-%S.txt")))
+            (unless (file-directory-p dir)
+              (make-directory dir t))
+            (expand-file-name filename dir))))
+
   ;; Don't set environment here - we'll advise the client maker instead
   (setq agent-shell-anthropic-claude-environment nil)
   (setq agent-shell-preferred-agent-config
@@ -64,9 +76,9 @@
   (evil-define-key 'insert agent-shell-mode-map (kbd "C-<tab>") #'agent-shell-cycle-session-mode)
   ;; Configure *agent-shell-diff* buffers to start in Emacs state
   (add-hook 'diff-mode-hook
-	    (lambda ()
-	      (when (string-match-p "\\*agent-shell-diff\\*" (buffer-name))
-		(evil-emacs-state))))
+	          (lambda ()
+	            (when (string-match-p "\\*agent-shell-diff\\*" (buffer-name))
+		            (evil-emacs-state))))
   (add-hook 'agent-shell-mode-hook
             (lambda ()
               (define-key evil-normal-state-map "!" nil)))
@@ -80,4 +92,6 @@
                   (lambda (&rest fh-args)
                     (* 0.7 (apply orig-default-font-height fh-args)))))
          (apply fn state args)))))
+
+
   )
