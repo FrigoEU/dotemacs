@@ -46,7 +46,7 @@
         (agent-shell-anthropic-make-authentication :login t))
 
   ;; Save transcripts to ~/Documents/claude_transcripts/<date-time>.txt
-  (setq agent-shell--transcript-file-path-function
+  (setq agent-shell-transcript-file-path-function
         (lambda ()
           (let* ((dir (expand-file-name "~/Documents/claude_transcripts"))
                  (filename (format-time-string "%Y-%m-%d-%H-%M-%S.txt")))
@@ -74,14 +74,16 @@
   (evil-define-key 'normal agent-shell-mode-map (kbd "RET") #'comint-send-input)
   (evil-define-key 'normal agent-shell-mode-map (kbd "C-<tab>") #'agent-shell-cycle-session-mode)
   (evil-define-key 'insert agent-shell-mode-map (kbd "C-<tab>") #'agent-shell-cycle-session-mode)
+  (evil-define-key 'normal agent-shell-mode-map (kbd "<tab>") #'agent-shell-next-item)
   ;; Configure *agent-shell-diff* buffers to start in Emacs state
   (add-hook 'diff-mode-hook
 	          (lambda ()
 	            (when (string-match-p "\\*agent-shell-diff\\*" (buffer-name))
 		            (evil-emacs-state))))
+
   (add-hook 'agent-shell-mode-hook
             (lambda ()
-              (define-key evil-normal-state-map "!" nil)))
+              (evil-local-set-key 'normal "!" nil)))
 
   ;; Making icon in graphical header a bit smaller
   (advice-add
@@ -95,3 +97,49 @@
 
 
   )
+
+(use-package agent-shell-manager
+  :straight (:host github :repo "jethrokuan/agent-shell-manager")
+  :config
+  (defvar consult--source-agent-shell
+    `(:name ""
+            :category buffer
+            :items
+            ,(lambda ()
+               (let* ((buffers (agent-shell-buffers))
+                      (buffers (if (listp buffers) buffers (list buffers)))
+                      (buffers (seq-filter #'buffer-live-p buffers)))
+                 (mapcar
+                  (lambda (buffer)
+                    (let* ((name (buffer-name buffer))
+                           (project (if (string-match " @ \\(.+\\)$" name)
+                                        (abbreviate-file-name (match-string 1 name))
+                                      ""))
+                           (status (with-current-buffer buffer
+                                     (agent-shell-manager--get-status buffer)))
+                           (status-face (agent-shell-manager--status-face status))
+                           (display (format "%-50s %-12s %s"
+                                            name
+                                            (propertize status 'face status-face)
+                                            (propertize project 'face 'font-lock-comment-face))))
+                      (cons display buffer)))
+                  buffers)))
+            :action ,(lambda (buffer)
+                       (when buffer
+                         (let ((other-persp (persp-buffer-in-other-p buffer)))
+                           (when other-persp
+                             (persp-switch (cdr other-persp))))
+                         (switch-to-buffer buffer)))
+            :new ,(lambda (_) (agent-shell t)))
+    "Consult source for agent-shell buffers.")
+
+  (defun consult-agent-shell ()
+    "Select an agent-shell buffer using consult with project and status annotations.
+Type a non-matching name and press RET to create a new agent-shell."
+    (interactive)
+    (let* ((buffers (agent-shell-buffers))
+           (buffers (if (listp buffers) buffers (list buffers)))
+           (buffers (seq-filter #'buffer-live-p buffers)))
+      (if (null buffers)
+          (agent-shell t)
+        (consult--multi (list consult--source-agent-shell))))))
