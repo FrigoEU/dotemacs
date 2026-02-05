@@ -31,7 +31,7 @@
 
 
 (after [consult perspective]
-  (consult-customize consult--source-buffer :hidden t :default nil)
+  ;; (consult-customize consult--source-buffer :hidden t :default nil)
   (add-to-list 'consult-buffer-sources persp-consult-source)
   )
 

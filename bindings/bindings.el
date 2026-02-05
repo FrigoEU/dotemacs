@@ -82,12 +82,12 @@ AI
 
 _a_ → gptel
 _r_ → gptel-rewrite
-_m_ → agent-shell-claude
+_m_ → consult-agent-shell
 
 "
   ("a" gptel)
   ("r" gptel-rewrite)
-  ("m" agent-shell-anthropic-start-claude-code)
+  ("m" consult-agent-shell)
   )
 
 (defhydra /hydras/quit (:hint nil :exit t :idle 0.5)
