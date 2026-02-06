@@ -352,12 +352,12 @@ Added spaces will not inherit text properties from STRING."
       (error "Branch name cannot be empty."))
 
     ;; 3. Automatically determine the worktree path as a sibling directory
-    ;;    If default-directory is /path/to/my-project/,
+    ;;    If repo-root is /path/to/my-project/,
     ;;    current-dir-name will be "my-project"
     ;;    parent-dir will be /path/to/
     ;;    worktree-path will be /path/to/my-project-feature-x
-    (setq current-dir-name (file-name-nondirectory (directory-file-name default-directory)))
-    (setq parent-dir (file-name-directory (directory-file-name default-directory)))
+    (setq current-dir-name (file-name-nondirectory (directory-file-name repo-root)))
+    (setq parent-dir (file-name-directory (directory-file-name repo-root)))
     (setq current-dir-path (expand-file-name current-dir-name parent-dir))
     (setq worktree-path (expand-file-name (concat current-dir-name "-" branch-name) parent-dir))
 
