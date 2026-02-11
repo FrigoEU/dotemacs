@@ -13,6 +13,10 @@
       :hook (go-mode-hook . eglot-ensure)
 
       :config
+      ;; Single line so screen doesn't constantly jump
+      ;; use eldoc (K) for full view
+      (setq eldoc-echo-area-use-multiline-p nil)
+
       (eglot--code-action eglot-code-action-remove-unused-imports "source.removeUnusedImports")
 
       (defun remove-and-organize-imports ()
@@ -37,7 +41,34 @@
       (evil-define-key 'normal eglot-mode-map (kbd "g d") 'xref-find-definitions)
       (evil-define-key 'normal eglot-mode-map (kbd "g D") 'xref-find-references)
 
-      (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+      ;; (evil-define-key 'normal eglot-mode-map (kbd "-") 'eglot-momentary-inlay-hints)
+
+      ;; (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+
+      ;; tsgo uses VS Code-style nested settings (typescript.inlayHints.parameterNames.enabled etc.)
+      ;; When tsgo requests workspace/configuration for section "typescript",
+      ;; eglot responds with the plist below, serialized as nested JSON.
+      ;; (setq-default eglot-workspace-configuration
+      ;;               '(:typescript
+      ;;                 (:inlayHints
+      ;;                  (:parameterNames (:enabled "all")
+      ;;                                   :parameterTypes (:enabled t)
+      ;;                                   :variableTypes (:enabled t)
+      ;;                                   :propertyDeclarationTypes (:enabled t)
+      ;;                                   :functionLikeReturnTypes (:enabled t)
+      ;;                                   :enumMemberValues (:enabled t)))))
+
+      (put 'tsx-ts-mode 'eglot-language-id "typescriptreact")
+      (put 'typescript-ts-mode 'eglot-language-id "typescript")
+      (put 'typescript-mode 'eglot-language-id "typescript")
+
+      (defun simon/tsgo-or-ts-ls (&optional interactive)
+        (if (executable-find "tsgo")
+            '("tsgo" "--lsp" "--stdio")
+          '("typescript-language-server" "--stdio")))
+
+      (add-to-list 'eglot-server-programs
+                   '((typescript-ts-mode tsx-ts-mode typescript-mode) . simon/tsgo-or-ts-ls))
 
       (add-to-list 'eglot-server-programs
                    '(sql-mode . ("postgrestools" "lsp-proxy")))

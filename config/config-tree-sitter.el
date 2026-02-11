@@ -24,17 +24,13 @@
 ;;         ))
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 
-(use-package tree-sitter
+;; NOTE: The old `tree-sitter` / `tree-sitter-hl-mode` package is not needed
+;; when using the built-in treesit (Emacs 29+) via treesit-auto below.
+
+(use-package treesit-auto
   :straight t
-  :hook (tree-sitter-after-on-hook . tree-sitter-hl-mode)
-  :init (global-tree-sitter-mode t)
+  :custom
+  (treesit-auto-install 'prompt)
   :config
-  (add-to-list 'tree-sitter-major-mode-language-alist '(tsx-ts-mode . tsx))
-  (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-ts-mode . tsx))
-  )
-
-(use-package tree-sitter-langs
-  :straight t
-  :after tree-sitter
-  )
-
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))

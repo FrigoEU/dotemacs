@@ -5,8 +5,7 @@
 ;;   )
 (use-package typescript-ts-mode
   :straight t
-  :mode (("\\.ts\\'" . typescript-ts-mode)
-         ("\\.tsx\\'" . tsx-ts-mode)))
+  )
 
 
 (use-package company

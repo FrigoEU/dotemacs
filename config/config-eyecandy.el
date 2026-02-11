@@ -8,6 +8,10 @@
   :straight t
   )
 
+(use-package ef-themes
+  :straight t
+  )
+
 (use-package monokai-theme
   :straight t
   )
@@ -33,7 +37,8 @@
       )
 
     ;; (load-theme 'sanityinc-tomorrow-night) 
-    (load-theme 'doom-snazzy)
+    ;; (load-theme 'doom-snazzy)
+    (load-theme 'ef-deuteranopia-dark)
     ;; (load-theme 'doom-one)
     ;; (load-theme 'doom-acario-light) ;; light
     ;; (load-theme 'modus-operandi-tinted) ;; light

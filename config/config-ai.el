@@ -130,7 +130,7 @@
                            (when other-persp
                              (persp-switch (cdr other-persp))))
                          (switch-to-buffer buffer)))
-            :new ,(lambda (_) (agent-shell t)))
+            :new ,(lambda (_) (agent-shell-new-shell)))
     "Consult source for agent-shell buffers.")
 
   (defun consult-agent-shell ()
@@ -141,5 +141,5 @@ Type a non-matching name and press RET to create a new agent-shell."
            (buffers (if (listp buffers) buffers (list buffers)))
            (buffers (seq-filter #'buffer-live-p buffers)))
       (if (null buffers)
-          (agent-shell t)
+          (agent-shell-new-shell)
         (consult--multi (list consult--source-agent-shell))))))
