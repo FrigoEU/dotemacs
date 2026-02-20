@@ -133,7 +133,12 @@
             :action ,(lambda (buffer)
                        (when buffer
                          (switch-to-buffer buffer)))
-            :new ,(lambda (_) (agent-shell-new-shell)))
+            :new ,(lambda (name)
+                    (let ((buf (agent-shell-start
+                                :config (agent-shell--resolve-preferred-config))))
+                      (with-current-buffer buf
+                        (shell-maker-set-buffer-name
+                         buf (concat "🤖 " name))))))
     "Consult source for agent-shell buffers in the current perspective.")
 
   (defvar consult--source-agent-shell-other
@@ -153,24 +158,13 @@
             :new ,(lambda (_) (agent-shell-new-shell)))
     "Consult source for agent-shell buffers in other perspectives.")
 
-  (defvar consult-agent-shell-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "C-n") (lambda ()
-                                    (interactive)
-                                    (run-at-time 0 nil #'agent-shell-new-shell)
-                                    (abort-recursive-edit)))
-      map)
-    "Keymap for `consult-agent-shell'.")
-
   (defun consult-agent-shell ()
     "Select an agent-shell buffer using consult with project and status annotations.
 Buffers are grouped by current perspective vs. other perspectives.
-Press C-n to create a new agent-shell."
+Type a new name and press RET to create a new agent-shell."
     (interactive)
     (let ((buffers (consult-agent-shell--live-buffers)))
       (if (null buffers)
           (agent-shell-new-shell)
         (consult--multi (list consult--source-agent-shell
-                              consult--source-agent-shell-other)
-                        :prompt "[C-n new]: "
-                        :keymap consult-agent-shell-map)))))
+                              consult--source-agent-shell-other))))))
