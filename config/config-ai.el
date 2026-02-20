@@ -123,7 +123,7 @@
       (seq-filter #'buffer-live-p buffers)))
 
   (defvar consult--source-agent-shell
-    `(:name "Agent Shell"
+    `(:name "Perspective"
             :category buffer
             :items
             ,(lambda ()
@@ -163,8 +163,6 @@
 Buffers are grouped by current perspective vs. other perspectives.
 Type a new name and press RET to create a new agent-shell."
     (interactive)
-    (let ((buffers (consult-agent-shell--live-buffers)))
-      (if (null buffers)
-          (agent-shell-new-shell)
-        (consult--multi (list consult--source-agent-shell
-                              consult--source-agent-shell-other))))))
+    (consult--multi (list consult--source-agent-shell
+                          consult--source-agent-shell-other)
+                    :sort nil)))
