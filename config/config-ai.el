@@ -104,9 +104,8 @@
   (defun consult-agent-shell--format-buffer (buffer)
     "Format BUFFER for display in consult-agent-shell."
     (let* ((name (buffer-name buffer))
-           (project (if (string-match " @ \\(.+\\)$" name)
-                        (abbreviate-file-name (match-string 1 name))
-                      ""))
+           (project (abbreviate-file-name
+                     (with-current-buffer buffer default-directory)))
            (status (with-current-buffer buffer
                      (agent-shell-manager--get-status buffer)))
            (status-face (agent-shell-manager--status-face status))
