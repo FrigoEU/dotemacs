@@ -20,6 +20,20 @@
     (add-to-list 'apheleia-mode-alist '(swift-ts-mode . swift-format))
     (add-to-list 'apheleia-formatters '(swift-format "swift-format" (buffer-file-name)))
 
+    ;; Use oxfmt instead of prettier for JS/TS when available in PATH
+    (setf (alist-get 'oxfmt apheleia-formatters)
+          '("oxfmt" "--stdin-filepath" filepath))
+
+    (defun my/apheleia-use-oxfmt-maybe ()
+      "Set `apheleia-formatter' to oxfmt if available, else leave default."
+      (when (executable-find "oxfmt")
+        (setq-local apheleia-formatter 'oxfmt)))
+
+    (dolist (hook '(js-mode-hook js-ts-mode-hook
+                                 typescript-mode-hook typescript-ts-mode-hook
+                                 tsx-ts-mode-hook))
+      (add-hook hook #'my/apheleia-use-oxfmt-maybe))
+
     ;; (add-to-list 'apheleia-formatters
     ;;              '(prettier-sql "apheleia-npx" "prettier" "--stdin-filepath" filepath
     ;;                             (apheleia-formatters-js-indent "--use-tabs" "--tab-width"))

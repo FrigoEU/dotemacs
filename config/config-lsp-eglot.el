@@ -43,7 +43,7 @@
 
       ;; (evil-define-key 'normal eglot-mode-map (kbd "-") 'eglot-momentary-inlay-hints)
 
-      ;; (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+      (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
       ;; tsgo uses VS Code-style nested settings (typescript.inlayHints.parameterNames.enabled etc.)
       ;; When tsgo requests workspace/configuration for section "typescript",
