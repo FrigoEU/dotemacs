@@ -149,7 +149,10 @@
                  (unless current
                    (list (propertize "+ new shell" 'face 'italic)))))
             :action ,(lambda (_item)
-                       (agent-shell-new-shell)))
+                       (let ((buf (agent-shell-start
+                                   :config (agent-shell--resolve-preferred-config))))
+                         (with-current-buffer buf
+                           (shell-maker-set-buffer-name buf "🤖")))))
     "Placeholder source shown when no agent-shell buffers exist in the current perspective.")
 
   (defvar consult--source-agent-shell-other
