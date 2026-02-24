@@ -126,9 +126,9 @@
             :category buffer
             :items
             ,(lambda ()
-               (let ((buffers (consult-agent-shell--live-buffers)))
-                 (mapcar #'consult-agent-shell--format-buffer
-                         (seq-filter #'persp-is-current-buffer buffers))))
+               (let* ((buffers (consult-agent-shell--live-buffers))
+                      (current (seq-filter #'persp-is-current-buffer buffers)))
+                 (mapcar #'consult-agent-shell--format-buffer current)))
             :action ,(lambda (buffer)
                        (when buffer
                          (switch-to-buffer buffer)))
@@ -139,6 +139,18 @@
                         (shell-maker-set-buffer-name
                          buf (concat "🤖 " name))))))
     "Consult source for agent-shell buffers in the current perspective.")
+
+  (defvar consult--source-agent-shell-new
+    `(:name "Perspective"
+            :items
+            ,(lambda ()
+               (let* ((buffers (consult-agent-shell--live-buffers))
+                      (current (seq-filter #'persp-is-current-buffer buffers)))
+                 (unless current
+                   (list (propertize "+ new shell" 'face 'italic)))))
+            :action ,(lambda (_item)
+                       (agent-shell-new-shell)))
+    "Placeholder source shown when no agent-shell buffers exist in the current perspective.")
 
   (defvar consult--source-agent-shell-other
     `(:name "Other"
@@ -163,5 +175,6 @@ Buffers are grouped by current perspective vs. other perspectives.
 Type a new name and press RET to create a new agent-shell."
     (interactive)
     (consult--multi (list consult--source-agent-shell
+                          consult--source-agent-shell-new
                           consult--source-agent-shell-other)
                     :sort nil)))
