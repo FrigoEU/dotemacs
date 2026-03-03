@@ -34,6 +34,17 @@
                                  tsx-ts-mode-hook))
       (add-hook hook #'my/apheleia-use-oxfmt-maybe))
 
+    ;; Re-check after envrc updates the buffer environment, since
+    ;; envrc-mode activates after major-mode hooks have already run.
+    (advice-add 'envrc--apply :after
+                (lambda (buf &rest _)
+                  (with-current-buffer buf
+                    (when (apply #'derived-mode-p
+                                 '(js-mode js-ts-mode
+                                           typescript-mode typescript-ts-mode
+                                           tsx-ts-mode))
+                      (my/apheleia-use-oxfmt-maybe)))))
+
     ;; (add-to-list 'apheleia-formatters
     ;;              '(prettier-sql "apheleia-npx" "prettier" "--stdin-filepath" filepath
     ;;                             (apheleia-formatters-js-indent "--use-tabs" "--tab-width"))
