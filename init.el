@@ -96,6 +96,7 @@
   (load (concat user-emacs-directory "config/config-tree-sitter.el"))
   (load (concat user-emacs-directory "config/config-typescript.el"))
   (load (concat user-emacs-directory "config/config-kotlin.el"))
+  (load (concat user-emacs-directory "config/config-ruby.el"))
   (load (concat user-emacs-directory "config/config-swift.el"))
   (load (concat user-emacs-directory "config/config-swift-extra.el"))
   (load (concat user-emacs-directory "config/config-workspaces.el"))
