@@ -11,6 +11,7 @@
       ;; :hook (kotlin-ts-mode-hook . eglot-ensure)
       :hook (swift-ts-mode-hook . eglot-ensure)
       :hook (go-mode-hook . eglot-ensure)
+      :hook (nix-mode-hook . eglot-ensure)
 
       :config
       ;; Single line so screen doesn't constantly jump
@@ -78,6 +79,9 @@
 
       (add-to-list 'eglot-server-programs
                    '(kotlin-ts-mode . ("kotlin-language-server")))
+
+      (add-to-list 'eglot-server-programs
+                   '(nix-mode . ("typenix" "--lsp" "--stdio")))
 
       ))
 
