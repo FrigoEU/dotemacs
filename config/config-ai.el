@@ -24,7 +24,7 @@
   ;;  gptel-backend (gptel-make-gemini "Gemini"
   ;;                                   :key (getenv "GOOGLE_CLOUD_PLATFORM_API_KEY")
   ;;                                   :stream t))
-  (setq gptel-model 'openai/gpt-5.1
+  (setq gptel-model 'google/gemini-2.5-pro
         gptel-backend
         (gptel-make-openai "OpenRouter"               ;Any name you want
           :host "openrouter.ai"

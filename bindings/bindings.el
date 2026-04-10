@@ -417,6 +417,8 @@ _i_ → _i_nvalidate cache
 ;; 5. Z Z
 (define-key minibuffer-local-map (kbd "C-z") 'embark-export)
 
+(define-key minibuffer-local-map (kbd "C-v") 'yank)
+
 (define-key minibuffer-local-map (kbd "C-j") 'vertico-next)
 (define-key minibuffer-local-map (kbd "C-k") 'vertico-previous)
 
