@@ -119,7 +119,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("1b74dd5576787105a0efcd6e8fed74755bb3fd234aaa5d500e21ddbd56c2661a"
+   '("333b0cc0f985744d97beebf433542bb93b314b331117aa57e91103dbec9c29fe"
+     "1b74dd5576787105a0efcd6e8fed74755bb3fd234aaa5d500e21ddbd56c2661a"
      "166a2faa9dc5b5b3359f7a31a09127ebf7a7926562710367086fcc8fc72145da"
      "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1"
      "c1638a7061fb86be5b4347c11ccf274354c5998d52e6d8386e997b862773d1d2"

@@ -8,6 +8,6 @@
 
 (defun vterm-new ()
   (interactive)
-  (projectile-run-vterm t)
-  )
+  (let ((default-directory (projectile-project-root)))
+    (projectile-run-vterm t)))
 

@@ -8,7 +8,7 @@
     (apheleia-global-mode +1)
     :config
     (setf (alist-get 'rustfmt apheleia-formatters)
-          '("rustfmt" "--quiet" "--emit" "stdout" "--edition" "2021")
+          '("rustfmt" "--quiet" "--emit" "stdout" "--edition" "2024")
           )
 
     (setf (alist-get 'ktfmt apheleia-formatters)
