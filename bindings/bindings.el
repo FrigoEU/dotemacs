@@ -11,7 +11,7 @@ _SPC_ → Search commands (M-x)
 _b_ → _b_uffers           _o_ → _o_pen             _r_ → _r_epeat          _t_ → _t_oggle
 _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers          _x_ → _e_xec
 _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors          _a_ → _a_i
-_p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit             
+_p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit            _m_ → _m_ail
 
 _/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file             
 "
@@ -35,6 +35,7 @@ _/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file
   ("h"   /hydras/help/body)
   ("p"   /hydras/project/body)
   ("a"   /hydras/ai/body)
+  ("m"   /hydras/mail/body)
   )
 
 (define-key evil-normal-state-map (kbd "SPC") '/hydras/main/body)
@@ -83,11 +84,32 @@ AI
 _a_ → gptel
 _r_ → gptel-rewrite
 _m_ → consult-agent-shell
+_R_ → review changes
 
 "
   ("a" gptel)
   ("r" gptel-rewrite)
   ("m" consult-agent-shell)
+  ("R" simon/agent-shell-review)
+  )
+
+(defhydra /hydras/mail (:hint nil :exit t :idle 0.5)
+  "
+
+Mail
+
+_g_ → _g_et (mbsync + mu index)
+_i_ → _i_ndex (mu index only)
+_s_ → mu init hint (in *Messages*)
+_m_ → _m_u4e
+_/_ → search
+
+"
+  ("g" simon/mail-get)
+  ("i" simon/mail-index)
+  ("s" (message "mu init --maildir=~/Mail --my-address=simon.van.casteren@gmail.com  ;; already run; --reinit to redo (wipes DB)"))
+  ("m" simon/mail-mu4e)
+  ("/" simon/mail-search)
   )
 
 (defhydra /hydras/quit (:hint nil :exit t :idle 0.5)

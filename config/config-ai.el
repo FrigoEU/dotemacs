@@ -19,20 +19,21 @@
   ;; :bind (("C-c a" . aidermacs-transient-menu))
   :config
   (setq gptel-include-reasoning nil)
-  ;; (setq
-  ;;  gptel-model 'gemini-2.5-pro-preview-05-06
-  ;;  gptel-backend (gptel-make-gemini "Gemini"
-  ;;                                   :key (getenv "GOOGLE_CLOUD_PLATFORM_API_KEY")
-  ;;                                   :stream t))
-  (setq gptel-model 'google/gemini-2.5-pro
-        gptel-backend
-        (gptel-make-openai "OpenRouter"               ;Any name you want
-          :host "openrouter.ai"
-          :endpoint "/api/v1/chat/completions"
-          :stream t
-          :key (getenv "OPENROUTERAI_KEY")                   ;can be a function that returns the key
-          :models '(openai/gpt-5.1
-                    google/gemini-2.5-pro)))
+  (setq
+   gptel-model 'gemini-3-flash-preview
+   gptel-backend (gptel-make-gemini "Gemini"
+                   :key (getenv "GOOGLE_CLOUD_PLATFORM_API_KEY")
+                   :stream t))
+  ;; (setq ;; gptel-model 'openai/gpt-5.1
+  ;;  gptel-api-key (getenv "OPENAI_KEY")
+  ;;  ;; (gptel-make-openai "OpenRouter"               ;Any name you want
+  ;;  ;;   :host "openrouter.ai"
+  ;;  ;;   :endpoint "/api/v1/chat/completions"
+  ;;  ;;   :stream t
+  ;;  ;;   :key (getenv "OPENROUTERAI_KEY")                   ;can be a function that returns the key
+  ;;  ;;   :models '(openai/gpt-5.1
+  ;;  ;;             google/gemini-2.5-pro))
+  ;;  )
   (if (eq simon/lsp-client 'eglot)
       (evil-define-key 'visual eglot-mode-map (kbd ", i") 'gptel-rewrite))
   )
@@ -84,6 +85,16 @@
   (add-hook 'agent-shell-mode-hook
             (lambda ()
               (evil-local-set-key 'normal "!" nil)))
+
+  (defun simon/agent-shell-review ()
+    "Start a new agent-shell buffer named 'review' and submit a review prompt."
+    (interactive)
+    (let ((buf (agent-shell-start :config (agent-shell--resolve-preferred-config))))
+      (with-current-buffer buf
+        (shell-maker-set-buffer-name buf "🤖 review"))
+      (agent-shell-insert :text "please review my changes"
+                          :submit t
+                          :shell-buffer buf)))
 
   ;; Making icon in graphical header a bit smaller
   (advice-add

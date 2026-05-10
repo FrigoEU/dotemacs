@@ -4,6 +4,7 @@
 (if (eq system-type 'darwin)
     (use-package vterm
       :straight t)
+  (use-package vterm)
   )
 
 (defun vterm-new ()
