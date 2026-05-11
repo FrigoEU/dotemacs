@@ -82,4 +82,104 @@ Keeps mail buffers (compilation output, mu4e) out of project perspectives."
                                  (:maildir "/gmail/[Gmail]/Drafts"   :key ?d)
                                  (:maildir "/gmail/[Gmail]/Trash"    :key ?t))))
 
+;; Triage classy.school support mail by handing each unread message to a
+;; fresh agent-shell. `mu view' renders the .eml to decoded text — works on
+;; any path without needing the mu index. Unread messages live in
+;; ~/Mail/gmail/Inbox/new/ per mbsync's Maildir layout.
+
+(defconst simon/-classy-inbox "~/Mail/gmail/Inbox/new/")
+(defconst simon/-classy-project (expand-file-name "~/projects/school/"))
+(defconst simon/-classy-triage-prompt
+  "The following is a support email for my SaaS for music schools.
+Read the full email and situate it in the codebase.
+If code changes are needed, propose a plan.
+
+```
+%s
+```")
+
+(defun simon/-mail-headers-classy-p (path)
+  "Non-nil if message at PATH has simon@classy.school in a recipient header."
+  (with-temp-buffer
+    (insert-file-contents path nil 0 32768)
+    (let ((end (or (and (re-search-forward "^$" nil t) (point)) (point-max))))
+      (narrow-to-region (point-min) end))
+    (goto-char (point-min))
+    (while (re-search-forward "\n[ \t]+" nil t)
+      (replace-match " "))
+    (goto-char (point-min))
+    (let ((case-fold-search t))
+      (re-search-forward
+       "^\\(?:to\\|cc\\|bcc\\|delivered-to\\|x-original-to\\):[^\n]*simon@classy\\.school"
+       nil t))))
+
+(defun simon/-mail-view-text (path)
+  "Return the `mu view' rendering (headers + decoded body) of message at PATH."
+  (with-temp-buffer
+    (unless (zerop (call-process "mu" nil t nil "view" path))
+      (error "mu view failed for %s" path))
+    (buffer-substring-no-properties (point-min) (point-max))))
+
+(defun simon/-mail-date (path)
+  "Return the parsed Date header at PATH as a Lisp time value, or nil.
+File mtime is unreliable here — mbsync stamps everything to the moment of
+the initial sync, not the email's actual send time."
+  (with-temp-buffer
+    (insert-file-contents path nil 0 8192)
+    (let ((end (or (and (re-search-forward "^$" nil t) (point)) (point-max))))
+      (narrow-to-region (point-min) end))
+    (goto-char (point-min))
+    (while (re-search-forward "\n[ \t]+" nil t)
+      (replace-match " "))
+    (goto-char (point-min))
+    (when (re-search-forward "^Date:[ \t]*\\(.*\\)$" nil t)
+      (condition-case nil
+          (date-to-time (match-string 1))
+        (error nil)))))
+
+(defun simon/-mail-subject (rendered fallback)
+  "Pull a one-line subject out of `mu view' output RENDERED, else FALLBACK."
+  (if (string-match "^Subject:[ \t]*\\(.*\\)$" rendered)
+      (let ((s (string-trim (match-string 1 rendered))))
+        (substring s 0 (min (length s) 60)))
+    fallback))
+
+(defun simon/-triage-open-email (path)
+  "Open an agent-shell seeded with the support-triage prompt for the email at PATH."
+  (let* ((rendered (simon/-mail-view-text path))
+         (subject (simon/-mail-subject rendered (file-name-base path)))
+         (prompt (format simon/-classy-triage-prompt rendered))
+         ;; Skip the new/resume/load picker for this flow only — triage always
+         ;; wants a fresh session per email.
+         (agent-shell-session-strategy 'new)
+         (buf (agent-shell-start :config (agent-shell--resolve-preferred-config))))
+    (with-current-buffer buf
+      (shell-maker-set-buffer-name buf (format "🤖 mail: %s" subject)))
+    (agent-shell-insert :text prompt :submit t :shell-buffer buf)))
+
+(defun simon/triage-classy-emails ()
+  "Open agent-shell buffers for the last 5 unread emails to simon@classy.school.
+Each buffer gets a triage prompt seeded with the email's `mu view' rendering."
+  (interactive)
+  (let* ((inbox (expand-file-name simon/-classy-inbox))
+         (candidates (and (file-directory-p inbox)
+                          (directory-files inbox t "\\`[^.]" t)))
+         (matches (seq-filter (lambda (p)
+                                (and (file-regular-p p)
+                                     (simon/-mail-headers-classy-p p)))
+                              candidates))
+         (pairs (mapcar (lambda (p) (cons (or (simon/-mail-date p) 0) p)) matches))
+         (sorted-pairs (sort pairs (lambda (a b) (time-less-p (car b) (car a)))))
+         (top (mapcar #'cdr (seq-take sorted-pairs 1))))
+    (unless top
+      (user-error "No unread emails to simon@classy.school in %s" inbox))
+    ;; Visit a project file so envrc activates and agent-shell inherits
+    ;; the right env + default-directory.
+    (let* ((default-directory simon/-classy-project)
+           (probe (find-file-noselect
+                   (expand-file-name "CLAUDE.md" simon/-classy-project))))
+      (with-current-buffer probe
+        (dolist (path top)
+          (simon/-triage-open-email path))))))
+
 (provide 'config-email)

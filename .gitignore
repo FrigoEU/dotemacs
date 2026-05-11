@@ -17,3 +17,4 @@ tree-sitter/
 .aider.chat.history.md
 org-persist
 session.*
+agent/history
