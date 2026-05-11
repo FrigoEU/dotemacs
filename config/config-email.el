@@ -152,7 +152,7 @@ the initial sync, not the email's actual send time."
          ;; Skip the new/resume/load picker for this flow only — triage always
          ;; wants a fresh session per email.
          (agent-shell-session-strategy 'new)
-         (buf (agent-shell-start :config (agent-shell--resolve-preferred-config))))
+         (buf (agent-shell)))
     (with-current-buffer buf
       (shell-maker-set-buffer-name buf (format "🤖 mail: %s" subject)))
     (agent-shell-insert :text prompt :submit t :shell-buffer buf)))
