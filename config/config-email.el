@@ -144,6 +144,35 @@ the initial sync, not the email's actual send time."
         (substring s 0 (min (length s) 60)))
     fallback))
 
+(defun simon/-mail-header (path header)
+  "Return HEADER from message at PATH, or nil. HEADER is the bare name, e.g. \"Subject\"."
+  (with-temp-buffer
+    (insert-file-contents path nil 0 32768)
+    (let ((end (or (and (re-search-forward "^$" nil t) (point)) (point-max))))
+      (narrow-to-region (point-min) end))
+    (goto-char (point-min))
+    (while (re-search-forward "\n[ \t]+" nil t)
+      (replace-match " "))
+    (goto-char (point-min))
+    (let ((case-fold-search t))
+      (when (re-search-forward
+             (format "^%s:[ \t]*\\(.*\\)$" (regexp-quote header)) nil t)
+        (string-trim (match-string 1))))))
+
+(defun simon/-mail-subject-header (path)
+  "Return the Subject header from message at PATH, or the file basename."
+  (or (simon/-mail-header path "Subject")
+      (file-name-base path)))
+
+(defun simon/-mail-from-address (path)
+  "Return the bare email address from the From header at PATH, or \"?\"."
+  (let ((from (simon/-mail-header path "From")))
+    (or (and from
+             (or (and (string-match "<\\([^>]+\\)>" from) (match-string 1 from))
+                 (and (string-match "[[:graph:]]+@[[:graph:]]+" from)
+                      (match-string 0 from))))
+        "?")))
+
 (defun simon/-triage-open-email (path)
   "Open an agent-shell seeded with the support-triage prompt for the email at PATH."
   (let* ((rendered (simon/-mail-view-text path))
@@ -152,14 +181,14 @@ the initial sync, not the email's actual send time."
          ;; Skip the new/resume/load picker for this flow only — triage always
          ;; wants a fresh session per email.
          (agent-shell-session-strategy 'new)
-         (buf (agent-shell)))
+         (buf (agent-shell-new-shell)))
     (with-current-buffer buf
       (shell-maker-set-buffer-name buf (format "🤖 mail: %s" subject)))
     (agent-shell-insert :text prompt :submit t :shell-buffer buf)))
 
 (defun simon/triage-classy-emails ()
-  "Open agent-shell buffers for the last 5 unread emails to simon@classy.school.
-Each buffer gets a triage prompt seeded with the email's `mu view' rendering."
+  "Pick an unread email to simon@classy.school and triage it in an agent-shell.
+Shows a date+subject picker over all unread classy-tagged messages."
   (interactive)
   (let* ((inbox (expand-file-name simon/-classy-inbox))
          (candidates (and (file-directory-p inbox)
@@ -169,17 +198,34 @@ Each buffer gets a triage prompt seeded with the email's `mu view' rendering."
                                      (simon/-mail-headers-classy-p p)))
                               candidates))
          (pairs (mapcar (lambda (p) (cons (or (simon/-mail-date p) 0) p)) matches))
-         (sorted-pairs (sort pairs (lambda (a b) (time-less-p (car b) (car a)))))
-         (top (mapcar #'cdr (seq-take sorted-pairs 1))))
-    (unless top
+         (sorted (sort pairs (lambda (a b) (time-less-p (car b) (car a)))))
+         (choices (cl-loop
+                   for (time . path) in sorted
+                   for subject = (simon/-mail-subject-header path)
+                   for from = (simon/-mail-from-address path)
+                   for date = (if (and time (not (eq time 0)))
+                                  (format-time-string "%Y-%m-%d %H:%M" time)
+                                "????-??-?? ??:??")
+                   ;; Disambiguate same-subject threads by appending the
+                   ;; sender — completing-read needs unique keys.
+                   for label = (format "%s  %s  <%s>" date subject from)
+                   collect (cons label path))))
+    (unless choices
       (user-error "No unread emails to simon@classy.school in %s" inbox))
-    ;; Visit a project file so envrc activates and agent-shell inherits
-    ;; the right env + default-directory.
-    (let* ((default-directory simon/-classy-project)
-           (probe (find-file-noselect
-                   (expand-file-name "CLAUDE.md" simon/-classy-project))))
-      (with-current-buffer probe
-        (dolist (path top)
+    (let* ((collection
+            (lambda (string pred action)
+              (if (eq action 'metadata)
+                  '(metadata (display-sort-function . identity)
+                             (cycle-sort-function . identity))
+                (complete-with-action action choices string pred))))
+           (selected (completing-read "Triage email: " collection nil t))
+           (path (cdr (assoc selected choices))))
+      ;; Visit a project file so envrc activates and agent-shell inherits
+      ;; the right env + default-directory.
+      (let* ((default-directory simon/-classy-project)
+             (probe (find-file-noselect
+                     (expand-file-name "CLAUDE.md" simon/-classy-project))))
+        (with-current-buffer probe
           (simon/-triage-open-email path))))))
 
 (provide 'config-email)

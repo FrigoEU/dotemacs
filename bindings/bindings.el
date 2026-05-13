@@ -81,15 +81,15 @@ _b_ → bindings
 
 AI
 
-_a_ → gptel
-_r_ → gptel-rewrite
+_a_ → gptel                  _t_ → triage classy emails
+_r_ → gptel-rewrite          _R_ → review changes
 _m_ → consult-agent-shell
-_R_ → review changes
 
 "
   ("a" gptel)
   ("r" gptel-rewrite)
   ("m" consult-agent-shell)
+  ("t" simon/triage-classy-emails)
   ("R" simon/agent-shell-review)
   )
 
