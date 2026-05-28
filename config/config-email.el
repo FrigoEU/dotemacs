@@ -87,11 +87,12 @@ Keeps mail buffers (compilation output, mu4e) out of project perspectives."
 ;; any path without needing the mu index. Unread messages live in
 ;; ~/Mail/gmail/Inbox/new/ per mbsync's Maildir layout.
 
-(defconst simon/-classy-inbox "~/Mail/gmail/Inbox/new/")
+(defconst simon/-classy-inbox "~/Mail/gmail/Inbox/")
 (defconst simon/-classy-project (expand-file-name "~/projects/school/"))
 (defconst simon/-classy-triage-prompt
   "The following is a support email for my SaaS for music schools.
 Read the full email and situate it in the codebase.
+Summarize the email.
 If code changes are needed, propose a plan.
 
 ```
@@ -186,17 +187,36 @@ the initial sync, not the email's actual send time."
       (shell-maker-set-buffer-name buf (format "🤖 mail: %s" subject)))
     (agent-shell-insert :text prompt :submit t :shell-buffer buf)))
 
+(defun simon/-maildir-unread-files (inbox)
+  "Return regular-file paths for unread messages under Maildir INBOX.
+Includes everything in `new/' plus `cur/' entries whose filename flags do
+not contain `S' (Seen). mbsync moves a message to `cur/' the first time any
+IMAP client touches it, even if the user never read it — so scanning only
+`new/' misses real unread mail."
+  (let ((new-dir (expand-file-name "new/" inbox))
+        (cur-dir (expand-file-name "cur/" inbox)))
+    (append
+     (and (file-directory-p new-dir)
+          (seq-filter #'file-regular-p
+                      (directory-files new-dir t "\\`[^.]" t)))
+     (and (file-directory-p cur-dir)
+          (seq-filter
+           (lambda (p)
+             (and (file-regular-p p)
+                  ;; Maildir flag suffix is `:2,<flags>'. Unread = no `S'.
+                  (let ((name (file-name-nondirectory p)))
+                    (if (string-match ":2,\\(.*\\)\\'" name)
+                        (not (string-match-p "S" (match-string 1 name)))
+                      t))))
+           (directory-files cur-dir t "\\`[^.]" t))))))
+
 (defun simon/triage-classy-emails ()
   "Pick an unread email to simon@classy.school and triage it in an agent-shell.
 Shows a date+subject picker over all unread classy-tagged messages."
   (interactive)
   (let* ((inbox (expand-file-name simon/-classy-inbox))
-         (candidates (and (file-directory-p inbox)
-                          (directory-files inbox t "\\`[^.]" t)))
-         (matches (seq-filter (lambda (p)
-                                (and (file-regular-p p)
-                                     (simon/-mail-headers-classy-p p)))
-                              candidates))
+         (candidates (simon/-maildir-unread-files inbox))
+         (matches (seq-filter #'simon/-mail-headers-classy-p candidates))
          (pairs (mapcar (lambda (p) (cons (or (simon/-mail-date p) 0) p)) matches))
          (sorted (sort pairs (lambda (a b) (time-less-p (car b) (car a)))))
          (choices (cl-loop
