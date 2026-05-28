@@ -71,6 +71,15 @@
   (advice-add 'agent-shell-anthropic-make-claude-client
               :around #'simon/inject-direnv-environment)
 
+  (defun simon/inject-direnv-environment-pi (orig-fun &rest args)
+    "Inject current buffer's process-environment into the Pi agent-shell client."
+    (let ((agent-shell-pi-environment
+           (agent-shell-make-environment-variables :inherit-env t)))
+      (apply orig-fun args)))
+
+  (advice-add 'agent-shell-pi-make-client
+              :around #'simon/inject-direnv-environment-pi)
+
   (evil-define-key 'insert agent-shell-mode-map (kbd "RET") #'newline)
   (evil-define-key 'normal agent-shell-mode-map (kbd "RET") #'comint-send-input)
   (evil-define-key 'normal agent-shell-mode-map (kbd "C-<tab>") #'agent-shell-cycle-session-mode)
