@@ -42,18 +42,32 @@
     )
   )
 
+
+;; (use-package vertico-buffer-frame
+;;   :straight '(:type git :host github :repo "kn66/vertico-buffer-frame")
+;;   :after vertico
+;;   :config
+;;   (vertico-buffer-frame-mode 1)
+;;   )
+
 (use-package vertico-posframe
   :straight t
   ;; :after vertico
   :config
   (vertico-posframe-mode 1)
-
   (config-vertico-posframe)
   (run-at-time "1 sec" nil 'config-vertico-posframe)
-
   :custom-face (vertico-posframe-border
                 ((t (
                      :background "#57c7ff"
                      :inherit 'highlight
                      ))))
   )
+
+;; (use-package vertico-posframe-preview
+;;   :straight '(vertico-posframe-preview :type git :host github :repo "kn66/vertico-posframe-preview")
+;;   :after vertico-posframe
+;;   :config
+;;   (vertico-posframe-preview-mode 1)
+;;   (run-at-time "1 sec" nil 'config-vertico-posframe)
+;;   )
