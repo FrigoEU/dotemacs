@@ -36,13 +36,20 @@
       (set-frame-font "Victor Mono SemiBold 15" nil t)
       )
 
-    ;; (load-theme 'sanityinc-tomorrow-night) 
+    ;; (load-theme 'sanityinc-tomorrow-night)
     ;; (load-theme 'doom-snazzy)
     (load-theme 'ef-deuteranopia-dark)
     ;; (load-theme 'doom-one)
     ;; (load-theme 'doom-acario-light) ;; light
     ;; (load-theme 'modus-operandi-tinted) ;; light
     ;; (load-theme 'modus-vivendi-tinted)
+
+    ;; Deuteranopia theme uses blue/yellow for diffs; override magit-diff
+    ;; faces to conventional green/red (also affects difftastic output).
+    (set-face-attribute 'magit-diff-added           nil :background "#00381f" :foreground "#a0e0a0" :extend t)
+    (set-face-attribute 'magit-diff-added-highlight nil :background "#034f2f" :foreground "#a0e0a0" :extend t)
+    (set-face-attribute 'magit-diff-removed           nil :background "#4f1119" :foreground "#ffbfbf" :extend t)
+    (set-face-attribute 'magit-diff-removed-highlight nil :background "#781a1f" :foreground "#ffbfbf" :extend t)
 
     ;; Color modeline according to Normal / Insert / Visual mode
     (defvar dotemacs--original-mode-line-bg (face-background 'mode-line))
