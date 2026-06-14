@@ -60,12 +60,41 @@
   (setq agent-shell-preferred-agent-config
         (agent-shell-anthropic-make-claude-code-config))
 
+  ;; Switch between Anthropic subscriptions by pointing Claude Code at different
+  ;; config dirs (each holds its own OAuth credentials). One-time setup for a
+  ;; non-default account:
+  ;;   CLAUDE_CONFIG_DIR=~/.claude-company claude   then run /login in it.
+  (defvar simon/claude-accounts
+    '(("personal" . "~/.claude")
+      ("company"  . "~/.claude-company"))
+    "Alist of account name -> CLAUDE_CONFIG_DIR for agent-shell.")
+
+  (defvar simon/claude-account "personal"
+    "Currently selected account name (a key in `simon/claude-accounts').")
+
+  (defun simon/claude-config-dir ()
+    "Return CLAUDE_CONFIG_DIR for the currently selected account."
+    (expand-file-name
+     (or (cdr (assoc simon/claude-account simon/claude-accounts)) "~/.claude")))
+
+  (defun simon/claude-switch-account (account)
+    "Select which Anthropic subscription ACCOUNT agent-shell uses.
+Affects newly started shells; existing shells keep their account."
+    (interactive
+     (list (completing-read
+            (format "Claude account (current: %s): " simon/claude-account)
+            (mapcar #'car simon/claude-accounts) nil t)))
+    (setq simon/claude-account account)
+    (message "Claude account: %s (%s)" account (simon/claude-config-dir)))
+
   ;; Advise the client maker to dynamically inherit the current buffer's environment
   ;; This ensures direnv/envrc environment variables (like PATH with tshark) are available
   (defun simon/inject-direnv-environment (orig-fun &rest args)
     "Inject current buffer's process-environment into agent-shell client."
     (let ((agent-shell-anthropic-claude-environment
-           (agent-shell-make-environment-variables :inherit-env t)))
+           (agent-shell-make-environment-variables
+            "CLAUDE_CONFIG_DIR" (simon/claude-config-dir)
+            :inherit-env t)))
       (apply orig-fun args)))
 
   (advice-add 'agent-shell-anthropic-make-claude-client
@@ -79,6 +108,50 @@
 
   (advice-add 'agent-shell-pi-make-client
               :around #'simon/inject-direnv-environment-pi)
+
+  ;; oh-my-pi (omp): a Pi fork that speaks ACP via `omp acp'.
+  ;; https://github.com/can1357/oh-my-pi
+  ;; No built-in agent-shell adapter, so we define our own config mirroring Pi.
+  (defvar simon/omp-acp-command '("omp" "acp")
+    "Command and parameters for the oh-my-pi (omp) ACP server.")
+
+  (defvar simon/omp-environment nil
+    "Environment variables for the omp client.")
+
+  (cl-defun simon/omp-make-client (&key buffer)
+    "Create an omp ACP client using BUFFER as context.
+
+omp uses OAuth login, so no API key environment variables are
+required by default."
+    (unless buffer
+      (error "Missing required argument: :buffer"))
+    (agent-shell--make-acp-client
+     :command (car simon/omp-acp-command)
+     :command-params (cdr simon/omp-acp-command)
+     :environment-variables simon/omp-environment
+     :context-buffer buffer))
+
+  (defun simon/omp-make-agent-config ()
+    "Create an oh-my-pi (omp) agent configuration."
+    (agent-shell-make-agent-config
+     :identifier 'omp
+     :mode-line-name "omp"
+     :buffer-name "omp"
+     :shell-prompt "omp> "
+     :shell-prompt-regexp "omp> "
+     :client-maker (lambda (buffer)
+                     (simon/omp-make-client :buffer buffer))
+     :install-instructions "Install omp from https://github.com/can1357/oh-my-pi
+  curl -fsSL https://omp.sh/install | sh"))
+
+  (defun simon/inject-direnv-environment-omp (orig-fun &rest args)
+    "Inject current buffer's process-environment into the omp agent-shell client."
+    (let ((simon/omp-environment
+           (agent-shell-make-environment-variables :inherit-env t)))
+      (apply orig-fun args)))
+
+  (advice-add 'simon/omp-make-client
+              :around #'simon/inject-direnv-environment-omp)
 
   (evil-define-key 'insert agent-shell-mode-map (kbd "RET") #'newline)
   (evil-define-key 'normal agent-shell-mode-map (kbd "RET") #'comint-send-input)
@@ -121,6 +194,20 @@
 (use-package agent-shell-manager
   :straight (:host github :repo "jethrokuan/agent-shell-manager")
   :config
+  (defvar simon/agent-shell-configs
+    '(("Claude" . agent-shell-anthropic-make-claude-code-config)
+      ("Pi"     . agent-shell-pi-make-agent-config)
+      ("omp"    . simon/omp-make-agent-config))
+    "Alist of agent name -> config-maker function for new agent-shells.")
+
+  (defun simon/agent-shell-read-config ()
+    "Prompt for which agent to use and return its config.
+RET accepts the first entry (Claude); type \"Pi\" RET for Pi."
+    (let* ((names (mapcar #'car simon/agent-shell-configs))
+           (name (completing-read "Agent: " names nil t nil nil (car names)))
+           (maker (cdr (assoc name simon/agent-shell-configs))))
+      (funcall maker)))
+
   (defun consult-agent-shell--format-buffer (buffer)
     "Format BUFFER for display in consult-agent-shell."
     (let* ((name (buffer-name buffer))
@@ -154,7 +241,7 @@
                          (switch-to-buffer buffer)))
             :new ,(lambda (name)
                     (let ((buf (agent-shell-start
-                                :config (agent-shell--resolve-preferred-config))))
+                                :config (simon/agent-shell-read-config))))
                       (with-current-buffer buf
                         (shell-maker-set-buffer-name
                          buf (concat "🤖 " name))))))
@@ -170,7 +257,7 @@
                    (list (propertize "+ new shell" 'face 'italic)))))
             :action ,(lambda (_item)
                        (let ((buf (agent-shell-start
-                                   :config (agent-shell--resolve-preferred-config))))
+                                   :config (simon/agent-shell-read-config))))
                          (with-current-buffer buf
                            (shell-maker-set-buffer-name buf "🤖")))))
     "Placeholder source shown when no agent-shell buffers exist in the current perspective.")
