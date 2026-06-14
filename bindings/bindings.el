@@ -83,7 +83,7 @@ AI
 
 _a_ → gptel                  _t_ → triage classy emails
 _r_ → gptel-rewrite          _R_ → review changes
-_m_ → consult-agent-shell
+_m_ → consult-agent-shell    _c_ → claude-code
 
 "
   ("a" gptel)
@@ -91,6 +91,15 @@ _m_ → consult-agent-shell
   ("m" consult-agent-shell)
   ("t" simon/triage-classy-emails)
   ("R" simon/agent-shell-review)
+  ("c" claude-code)
+  ;; TODO: send-from-source-buffer commands. Probably want these as a
+  ;; sub-hydra under `SPC a c` (replacing the direct start with a menu that
+  ;; includes `c` → start, plus the entries below).
+  ;; ("C" claude-code-continue)              ;; continue last session
+  ;; ("e" claude-code-fix-error-at-point)    ;; send error at point
+  ;; ("o" claude-code-send-buffer-file)      ;; send current file
+  ;; ("x" claude-code-send-command-with-context) ;; send command + buffer ctx
+  ;; ("y" claude-code-send-region)           ;; send region (visual state)
   )
 
 (defhydra /hydras/mail (:hint nil :exit t :idle 0.5)
