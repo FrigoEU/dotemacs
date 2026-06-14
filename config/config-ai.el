@@ -201,9 +201,9 @@ required by default."
 
   ;; Major-mode-style bindings inside the Claude buffer (under `,`).
   (defun simon/claude-code-submit-from-normal ()
-    "Submit the current Claude Code prompt by sending Alt+Enter (ESC CR)."
+    "Submit the current Claude Code prompt by sending Ctrl+S."
     (interactive)
-    (vterm-send-string "\e[12~"))
+    (vterm-send-string "\C-s"))
 
   (defun simon/claude-code-buffer-bindings ()
     (evil-local-set-key 'normal (kbd "RET") #'simon/claude-code-submit-from-normal)
