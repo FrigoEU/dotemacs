@@ -187,6 +187,18 @@ the initial sync, not the email's actual send time."
       (shell-maker-set-buffer-name buf (format "🤖 mail: %s" subject)))
     (agent-shell-insert :text prompt :submit t :shell-buffer buf)))
 
+(defun simon/-triage-open-email-pi (path)
+  "Open a Pi agent-shell seeded with the support-triage prompt for the email at PATH."
+  (let* ((rendered (simon/-mail-view-text path))
+         (subject (simon/-mail-subject rendered (file-name-base path)))
+         (prompt (format simon/-classy-triage-prompt rendered))
+         ;; Always a fresh session per email.
+         (agent-shell-session-strategy 'new)
+         (buf (agent-shell-start :config (agent-shell-pi-make-agent-config))))
+    (with-current-buffer buf
+      (shell-maker-set-buffer-name buf (format "π mail: %s" subject)))
+    (agent-shell-insert :text prompt :submit t :shell-buffer buf)))
+
 (defun simon/-maildir-unread-files (inbox)
   "Return regular-file paths for unread messages under Maildir INBOX.
 Includes everything in `new/' plus `cur/' entries whose filename flags do
@@ -247,5 +259,41 @@ Shows a date+subject picker over all unread classy-tagged messages."
                      (expand-file-name "CLAUDE.md" simon/-classy-project))))
         (with-current-buffer probe
           (simon/-triage-open-email path))))))
+
+(defun simon/triage-classy-emails-pi ()
+  "Pick an unread email to simon@classy.school and triage it in a Pi agent-shell.
+Like `simon/triage-classy-emails' but uses pi instead of claude."
+  (interactive)
+  (let* ((inbox (expand-file-name simon/-classy-inbox))
+         (candidates (simon/-maildir-unread-files inbox))
+         (matches (seq-filter #'simon/-mail-headers-classy-p candidates))
+         (pairs (mapcar (lambda (p) (cons (or (simon/-mail-date p) 0) p)) matches))
+         (sorted (sort pairs (lambda (a b) (time-less-p (car b) (car a)))))
+         (choices (cl-loop
+                   for (time . path) in sorted
+                   for subject = (simon/-mail-subject-header path)
+                   for from = (simon/-mail-from-address path)
+                   for date = (if (and time (not (eq time 0)))
+                                  (format-time-string "%Y-%m-%d %H:%M" time)
+                                "????-??-?? ??:??")
+                   for label = (format "%s  %s  <%s>" date subject from)
+                   collect (cons label path))))
+    (unless choices
+      (user-error "No unread emails to simon@classy.school in %s" inbox))
+    (let* ((collection
+            (lambda (string pred action)
+              (if (eq action 'metadata)
+                  '(metadata (display-sort-function . identity)
+                             (cycle-sort-function . identity))
+                (complete-with-action action choices string pred))))
+           (selected (completing-read "Triage email [pi]: " collection nil t))
+           (path (cdr (assoc selected choices))))
+      ;; Visit a project file so envrc activates and agent-shell inherits
+      ;; the right env + default-directory.
+      (let* ((default-directory simon/-classy-project)
+             (probe (find-file-noselect
+                     (expand-file-name "CLAUDE.md" simon/-classy-project))))
+        (with-current-buffer probe
+          (simon/-triage-open-email-pi path))))))
 
 (provide 'config-email)

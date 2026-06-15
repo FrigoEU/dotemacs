@@ -90,6 +90,7 @@ _m_ → consult-agent-shell    _c_ → claude-code
   ("r" gptel-rewrite)
   ("m" consult-agent-shell)
   ("t" simon/triage-classy-emails)
+  ("T" simon/triage-classy-emails-pi)
   ("R" simon/agent-shell-review)
   ("c" claude-code)
   ;; TODO: send-from-source-buffer commands. Probably want these as a
