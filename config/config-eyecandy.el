@@ -128,4 +128,13 @@
 ;;     (add-hook 'find-file-hook #'display-line-numbers-mode)
 ;;   (add-hook 'find-file-hook 'linum-mode))
 
+(after 'magit
+  ;; Deuteranopia theme uses blue/yellow for diffs; override magit-diff
+  ;; faces to conventional green/red (also affects difftastic output).
+  (set-face-attribute 'magit-diff-added           nil :background "#00381f" :foreground "#a0e0a0" :extend t)
+  (set-face-attribute 'magit-diff-added-highlight nil :background "#034f2f" :foreground "#a0e0a0" :extend t)
+  (set-face-attribute 'magit-diff-removed           nil :background "#4f1119" :foreground "#ffbfbf" :extend t)
+  (set-face-attribute 'magit-diff-removed-highlight nil :background "#781a1f" :foreground "#ffbfbf" :extend t)
+  )
+
 (provide 'config-eyecandy)
