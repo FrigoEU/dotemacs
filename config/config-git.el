@@ -14,6 +14,8 @@
   (setq magit-section-show-child-count t)
   (setq magit-display-buffer-function #'magit-display-buffer-fullcolumn-most-v1)
   (setq magit-ediff-dwim-show-on-hunks t)
+  :custom-face
+  (magit-section-highlight ((t (:background unspecified))))
   :after transient
   :bind (:map magit-mode-map
               ("SPC" . nil) ;; So we still get out usual leader menu
