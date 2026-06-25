@@ -14,7 +14,13 @@
   :after magit
   :config
   (setq magit-difftastic-syntax-highlight nil)
-  (magit-difftastic-mode +1))
+  (magit-difftastic-mode +1)
+  ;; magit-refresh called synchronously after git apply causes a freeze; delay it.
+  (advice-add 'magit-difftastic--apply-chunk-patch :around
+    (lambda (orig patch &rest apply-args)
+      (cl-letf (((symbol-function 'magit-refresh) #'ignore))
+        (apply orig patch apply-args))
+      (add-timeout 0.1 (lambda (_) (magit-refresh)) nil))))
 
 ;; Both difftastic and magit-difftastic render difft output through
 ;; `difftastic--ansi-color-apply', which maps difft's 8 ANSI colors onto the

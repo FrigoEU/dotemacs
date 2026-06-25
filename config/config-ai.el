@@ -69,7 +69,7 @@
       ("company"  . "~/.claude-company"))
     "Alist of account name -> CLAUDE_CONFIG_DIR for agent-shell.")
 
-  (defvar simon/claude-account "personal"
+  (defvar simon/claude-account "company"
     "Currently selected account name (a key in `simon/claude-accounts').")
 
   (defun simon/claude-config-dir ()
@@ -191,32 +191,6 @@ required by default."
 
   )
 
-(use-package claude-code
-  :straight (:type git :host github :repo "stevemolitor/claude-code.el"
-                   :files ("*.el" (:exclude "demo.gif")))
-  :after eat
-  :config
-  (setq claude-code-terminal-backend 'vterm)
-  (claude-code-mode)
-
-  ;; Major-mode-style bindings inside the Claude buffer (under `,`).
-  (defun simon/claude-code-submit-from-normal ()
-    "Submit the current Claude Code prompt by sending Ctrl+S."
-    (interactive)
-    (vterm-send-string "\C-s"))
-
-  (defun simon/claude-code-buffer-bindings ()
-    (evil-local-set-key 'normal (kbd "RET") #'simon/claude-code-submit-from-normal)
-    (evil-local-set-key 'normal (kbd ", m") #'claude-code-cycle-mode)
-    (evil-local-set-key 'normal (kbd ", t") #'claude-code-toggle)
-    (evil-local-set-key 'normal (kbd ", k") #'claude-code-kill)
-    (evil-local-set-key 'normal (kbd ", f") #'claude-code-fork)
-    (evil-local-set-key 'normal (kbd ", b") #'claude-code-switch-to-buffer)
-    (evil-local-set-key 'normal (kbd ", s") #'claude-code-send-command)
-    (evil-local-set-key 'normal (kbd ", n") #'claude-code-send-escape)
-    (evil-local-set-key 'normal (kbd ", T") #'claude-code-transient)
-    (evil-local-set-key 'normal (kbd "?") #'claude-code-transient))
-  (add-hook 'claude-code-start-hook #'simon/claude-code-buffer-bindings))
 
 (use-package agent-shell-manager
   :straight (:host github :repo "jethrokuan/agent-shell-manager")
