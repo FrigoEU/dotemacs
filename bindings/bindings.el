@@ -289,19 +289,28 @@ _<left>_ → move window left     ^ ^                                _<right>_ �
       (with-current-buffer buf
         (rename-buffer "📡 ssh classyprod" t)))))
 
+(defun simon/ghostel-classyacc ()
+  "Open a ghostel terminal on classyprod as root, via TRAMP."
+  (interactive)
+  (let ((default-directory "/ssh:root@classyacc:/"))
+    (let ((buf (ghostel t)))
+      (with-current-buffer buf
+        (rename-buffer "📡 ssh classyacc" t)))))
+
 (defhydra /hydras/open (:hint nil :exit t :idle 0.5)
   "
 
 Open
 
-_e_  → eshell     
-_-_  → dired       
-_c_ → classyprod (root)
+_e_ → eshell          ^ ^
+_-_ → dired           ^ ^
+_a_ → classyacc       _p_ → classyprod
 
 "
   ("e" simon/open-new-shell)
-  ("c" simon/ghostel-classyprod)
   ("-" dired-jump)
+  ("p" simon/ghostel-classyprod)
+  ("a" simon/ghostel-classyacc)
   )
 
 (defhydra /hydras/files (:hint nil :exit t :idle 0.5)
