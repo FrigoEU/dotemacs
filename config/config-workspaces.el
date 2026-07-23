@@ -42,27 +42,28 @@
         ))
 
 (defun new-shell (i)
-  (if (eq simon/eshell-or-vterm 'eshell)
-      (eshell i)
-    (vterm-new)))
+  (cond
+   ((eq simon/eshell-or-vterm 'eshell) (eshell i))
+   ((eq simon/eshell-or-vterm 'ghostel) (ghostel i))
+   (t (vterm-new))))
 
 (defun rename-shell-buffer (s)
-  (if (eq simon/eshell-or-vterm 'eshell)
-      (rename-buffer (concat "*eshell* " s))
-    (rename-buffer (concat "*vterm* " s))
-    ))
+  (cond
+   ((eq simon/eshell-or-vterm 'eshell) (rename-buffer (concat "*eshell* " s)))
+   ((eq simon/eshell-or-vterm 'ghostel) (rename-buffer (concat "👻 " s)))
+   (t (rename-buffer (concat "*vterm* " s)))))
 
 (defun shell-insert (s)
-  (if (eq simon/eshell-or-vterm 'eshell)
-      (insert s)
-    (vterm-insert s)
-    ))
+  (cond
+   ((eq simon/eshell-or-vterm 'eshell) (insert s))
+   ((eq simon/eshell-or-vterm 'ghostel) (ghostel-send-string s))
+   (t (vterm-insert s))))
 
 (defun shell-send-input ()
-  (if (eq simon/eshell-or-vterm 'eshell)
-      (eshell-send-input)
-    (vterm-send-return)
-    ))
+  (cond
+   ((eq simon/eshell-or-vterm 'eshell) (eshell-send-input))
+   ((eq simon/eshell-or-vterm 'ghostel) (ghostel-send-key "return"))
+   (t (vterm-send-return))))
 
 (defun urwebschool-logs ()
   (interactive)

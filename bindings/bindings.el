@@ -227,6 +227,43 @@ _<left>_ â†’ move window left     ^ ^                                _<right>_ â
     )
   )
 
+(defun list-ghostel-buffers ()
+  "Return a list of all buffers whose major mode is derived from `ghostel-mode' in the current perspective."
+  (interactive)
+  (let (ghostel-buffers)
+    (dolist (buf (persp-current-buffer-names))
+      (with-current-buffer buf
+        (when (derived-mode-p 'ghostel-mode)
+          (push (get-buffer buf) ghostel-buffers))))
+    ghostel-buffers))
+
+(defvar consult--source-ghostel
+  '(
+    :name ""
+    :category 'buffer
+    :items (lambda ()
+             (mapcar (lambda (buf) (cons (buffer-name buf) buf))
+                     (list-ghostel-buffers)))
+    :action (lambda (buf)
+              (switch-to-buffer buf))
+    :prompt "Switch to Ghostel: "
+    :require-match nil
+    :new (lambda (n)
+           (let ((buf (ghostel t)))
+             (with-current-buffer buf
+               (rename-buffer (funcall ghostel-buffer-name-function n) t))
+             buf))
+    :consult-preview-buffer t)
+  "Consult source for ghostel buffers.")
+
+(defun simon-completing-read-ghostel-buffers ()
+  "Ghostel buffers."
+  (interactive)
+  (let ((ghostel-buffers (list-ghostel-buffers)))
+    (if (= (length ghostel-buffers) 0)
+        (ghostel)
+      (consult--multi (list consult--source-ghostel)))))
+
 (defun eshell-new()
   "Open a new instance of eshell."
   (interactive)
@@ -237,10 +274,10 @@ _<left>_ â†’ move window left     ^ ^                                _<right>_ â
 
 (defun simon/open-new-shell ()
   (interactive)
-  (if (eq simon/eshell-or-vterm 'eshell)
-      (eshell-new)
-    (simon-completing-read-vterm-buffers))
-  )
+  (cond
+   ((eq simon/eshell-or-vterm 'eshell) (eshell-new))
+   ((eq simon/eshell-or-vterm 'ghostel) (simon-completing-read-ghostel-buffers))
+   (t (simon-completing-read-vterm-buffers))))
 
 
 

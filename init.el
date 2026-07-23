@@ -51,8 +51,10 @@
 (push 'project straight-built-in-pseudo-packages)
 (push 'xref straight-built-in-pseudo-packages)
 
-(setq simon/eshell-or-vterm 'vterm)
+;; Valid values: 'eshell, 'vterm, 'ghostel
+;; (setq simon/eshell-or-vterm 'vterm)
 ;; (setq simon/eshell-or-vterm 'eshell)
+(setq simon/eshell-or-vterm 'ghostel)
 ;; (setq simon/lsp-client 'lsp-mode)
 (setq simon/lsp-client 'eglot)
 
@@ -78,6 +80,7 @@
   (load (concat user-emacs-directory "config/config-dashboard.el"))
   (load (concat user-emacs-directory "config/config-eshell.el"))
   (load (concat user-emacs-directory "config/config-vterm.el"))
+  (load (concat user-emacs-directory "config/config-ghostel.el"))
   (load (concat user-emacs-directory "config/config-evil.el"))
   (load (concat user-emacs-directory "config/config-eyecandy.el"))
   ;; (load (concat user-emacs-directory "config/config-flycheck.el"))
