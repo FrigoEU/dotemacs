@@ -182,7 +182,12 @@ the initial sync, not the email's actual send time."
          ;; Skip the new/resume/load picker for this flow only — triage always
          ;; wants a fresh session per email.
          (agent-shell-session-strategy 'new)
-         (buf (agent-shell-new-shell)))
+         ;; Use `agent-shell-start' (not `agent-shell-new-shell') — the
+         ;; latter goes through `agent-shell--dwim', whose new-shell branch
+         ;; no longer reliably returns the shell buffer (it returns whatever
+         ;; `agent-shell--display-and-insert-context' returns: nil, an
+         ;; alist, or a bare subscription token).
+         (buf (agent-shell-start :config (agent-shell-anthropic-make-claude-code-config))))
     (with-current-buffer buf
       (shell-maker-set-buffer-name buf (format "🤖 mail: %s" subject)))
     (agent-shell-insert :text prompt :submit t :shell-buffer buf)))

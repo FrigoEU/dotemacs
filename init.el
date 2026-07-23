@@ -83,6 +83,7 @@
   ;; (load (concat user-emacs-directory "config/config-flycheck.el"))
   (load (concat user-emacs-directory "config/config-git.el"))
   (load (concat user-emacs-directory "config/config-difftastic.el"))
+  (load (concat user-emacs-directory "config/config-delta.el"))
   (load (concat user-emacs-directory "config/config-help.el"))
   (load (concat user-emacs-directory "config/config-js.el"))
   (load (concat user-emacs-directory "config/config-lisp.el"))
