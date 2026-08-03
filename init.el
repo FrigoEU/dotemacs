@@ -108,6 +108,7 @@
   ;; (load (concat user-emacs-directory "config/config-lsp-mode.el"))
   (load (concat user-emacs-directory "config/config-lsp-eglot.el"))
   (load (concat user-emacs-directory "config/config-email.el"))
+  (load (concat user-emacs-directory "config/config-ssh.el"))
   (load (concat user-emacs-directory "bindings/bindings.el"))
   (load (concat user-emacs-directory "config/config-ai.el"))
   (load (concat user-emacs-directory "config/config-posframe.el"))

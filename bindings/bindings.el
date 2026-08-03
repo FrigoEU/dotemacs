@@ -227,43 +227,6 @@ _<left>_ → move window left     ^ ^                                _<right>_ �
     )
   )
 
-(defun list-ghostel-buffers ()
-  "Return a list of all buffers whose major mode is derived from `ghostel-mode' in the current perspective."
-  (interactive)
-  (let (ghostel-buffers)
-    (dolist (buf (persp-current-buffer-names))
-      (with-current-buffer buf
-        (when (derived-mode-p 'ghostel-mode)
-          (push (get-buffer buf) ghostel-buffers))))
-    ghostel-buffers))
-
-(defvar consult--source-ghostel
-  '(
-    :name ""
-    :category 'buffer
-    :items (lambda ()
-             (mapcar (lambda (buf) (cons (buffer-name buf) buf))
-                     (list-ghostel-buffers)))
-    :action (lambda (buf)
-              (switch-to-buffer buf))
-    :prompt "Switch to Ghostel: "
-    :require-match nil
-    :new (lambda (n)
-           (let ((buf (ghostel t)))
-             (with-current-buffer buf
-               (rename-buffer (funcall ghostel-buffer-name-function n) t))
-             buf))
-    :consult-preview-buffer t)
-  "Consult source for ghostel buffers.")
-
-(defun simon-completing-read-ghostel-buffers ()
-  "Ghostel buffers."
-  (interactive)
-  (let ((ghostel-buffers (list-ghostel-buffers)))
-    (if (= (length ghostel-buffers) 0)
-        (ghostel)
-      (consult--multi (list consult--source-ghostel)))))
-
 (defun eshell-new()
   "Open a new instance of eshell."
   (interactive)
@@ -279,24 +242,6 @@ _<left>_ → move window left     ^ ^                                _<right>_ �
    ((eq simon/eshell-or-vterm 'ghostel) (simon-completing-read-ghostel-buffers))
    (t (simon-completing-read-vterm-buffers))))
 
-
-
-(defun simon/ghostel-classyprod ()
-  "Open a ghostel terminal on classyprod as root, via TRAMP."
-  (interactive)
-  (let ((default-directory "/ssh:root@classyprod:/"))
-    (let ((buf (ghostel t)))
-      (with-current-buffer buf
-        (rename-buffer "📡 ssh classyprod" t)))))
-
-(defun simon/ghostel-classyacc ()
-  "Open a ghostel terminal on classyprod as root, via TRAMP."
-  (interactive)
-  (let ((default-directory "/ssh:root@classyacc:/"))
-    (let ((buf (ghostel t)))
-      (with-current-buffer buf
-        (rename-buffer "📡 ssh classyacc" t)))))
-
 (defhydra /hydras/open (:hint nil :exit t :idle 0.5)
   "
 
@@ -309,8 +254,8 @@ _a_ → classyacc       _p_ → classyprod
 "
   ("e" simon/open-new-shell)
   ("-" dired-jump)
-  ("p" simon/ghostel-classyprod)
-  ("a" simon/ghostel-classyacc)
+  ("p" simon/ssh-classyprod)
+  ("a" simon/ssh-classyacc)
   )
 
 (defhydra /hydras/files (:hint nil :exit t :idle 0.5)
