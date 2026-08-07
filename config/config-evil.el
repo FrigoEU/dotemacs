@@ -44,6 +44,7 @@
               ("s"   . evil-substitute)
               ("g d" . xref-find-definitions)
               ("!" . simon-async-shell-command-with-make)
+              ("<f5>" . simon-restart-game)
 
               ("u"   . evil-undo)
               ("C-r" . evil-redo)

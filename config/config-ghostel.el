@@ -58,4 +58,27 @@
           buf)
       (consult--multi (list consult--source-ghostel)))))
 
+(defvar simon-game-terminal-buffer-name "👻 game"
+  "Fixed name for the ghostel buffer that runs the game via `make go'.")
+
+(defun simon-restart-game ()
+  "Interrupt and re-run `make go' in `simon-game-terminal-buffer-name'.
+Creates that buffer on first use if it doesn't exist yet, rooted at
+the current buffer's project root."
+  (interactive)
+  (let* ((existing (get-buffer simon-game-terminal-buffer-name))
+         (buf (let ((ghostel-buffer-name simon-game-terminal-buffer-name)
+                    (default-directory (or (projectile-project-root) default-directory)))
+                (ghostel))))
+    (with-current-buffer buf
+      (if existing
+          (progn
+            (ghostel-send-C-c)
+            (sit-for 0.3))
+        ;; Freeze the name: otherwise the shell's OSC title report
+        ;; (via `ghostel-buffer-name-function') renames it away from
+        ;; `simon-game-terminal-buffer-name' on the next run.
+        (setq-local ghostel-buffer-name-function nil))
+      (ghostel-send-string "make go\n"))))
+
 (provide 'config-ghostel)

@@ -37,8 +37,7 @@
             (right-fringe . 8)
             ))
     (setq vertico-multiform-commands
-          '((consult-line (:not posframe)) 
-            (t posframe)))
+          '((t posframe)))
     )
   )
 
