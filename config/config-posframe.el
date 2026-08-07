@@ -37,7 +37,8 @@
             (right-fringe . 8)
             ))
     (setq vertico-multiform-commands
-          '((t posframe)))
+          '((consult-line posframe (vertico-count . 30) (vertico-posframe-min-height . 34))
+            (t posframe)))
     )
   )
 
