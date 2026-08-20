@@ -250,12 +250,14 @@ Open
 _e_ → eshell          ^ ^
 _-_ → dired           ^ ^
 _a_ → classyacc       _p_ → classyprod
+^ ^                   _n_ → nobi-lamp
 
 "
   ("e" simon/open-new-shell)
   ("-" dired-jump)
   ("p" simon/ssh-classyprod)
   ("a" simon/ssh-classyacc)
+  ("n" simon/ssh-nobi-lamp)
   )
 
 (defhydra /hydras/files (:hint nil :exit t :idle 0.5)

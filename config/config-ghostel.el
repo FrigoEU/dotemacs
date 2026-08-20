@@ -6,11 +6,21 @@
   (setq ghostel-buffer-name-function
         (lambda (title)
           (format "👻 %s" (or title ""))))
+  ;; TRAMP-launched buffers (`M-x ghostel' from a /ssh:host:/ default-directory,
+  ;; e.g. `simon/ssh-classyprod') only push the bundled xterm-ghostty terminfo
+  ;; and shell-integration scripts to the remote when
+  ;; `ghostel-tramp-shell-integration' is on — `ghostel-ssh-install-terminfo'
+  ;; alone is a no-op for that path (it only governs a plain `ssh host' typed
+  ;; inside an already-local ghostel buffer). Without the push, hosts lacking
+  ;; the xterm-ghostty terminfo entry fall back to a TERM ncurses can't fully
+  ;; resolve, which is what breaks `less'/readline in things like `psql'
+  ;; ("terminal not fully functional").
+  (setq ghostel-tramp-shell-integration t)
   ;; `auto' only enables the outbound-ssh terminfo auto-install wrapper when
-  ;; `ghostel-tramp-shell-integration' is also on (it isn't, by default).
-  ;; Force it on so a plain `ssh host' from inside a ghostel buffer probes
-  ;; and installs xterm-ghostty terminfo instead of leaking an
-  ;; unrecognized TERM to hosts that don't have it (breaks readline/psql).
+  ;; `ghostel-tramp-shell-integration' is also on. Force it on so both a plain
+  ;; `ssh host' from inside a ghostel buffer AND TRAMP-launched buffers probe
+  ;; and install xterm-ghostty terminfo instead of leaking an unrecognized
+  ;; TERM to hosts that don't have it (breaks readline/psql).
   (setq ghostel-ssh-install-terminfo t))
 
 (use-package evil-ghostel
