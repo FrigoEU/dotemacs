@@ -23,8 +23,8 @@
   ;; setting can make its process buffer show up automatically. Force it
   ;; open immediately instead, so slow hooks are visible from the start
   ;; rather than silent until they fail.
-  (advice-add 'magit-run-git-with-editor :after
-              (lambda (&rest _) (magit-process-buffer)))
+  ;; (advice-add 'magit-run-git-with-editor :after
+  ;;             (lambda (&rest _) (magit-process-buffer)))
   :custom-face
   (magit-section-highlight ((t (:background unspecified))))
   :after transient
