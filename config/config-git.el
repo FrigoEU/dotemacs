@@ -14,6 +14,17 @@
   (setq magit-section-show-child-count t)
   (setq magit-display-buffer-function #'magit-display-buffer-fullcolumn-most-v1)
   (setq magit-ediff-dwim-show-on-hunks t)
+  ;; Third-party hooks (tsgo, eslint, etc.) often colorize their output even
+  ;; though Magit tells Git itself not to; render those escapes as faces
+  ;; instead of leaving the raw ^[[96m junk in the process buffer.
+  (setq magit-process-apply-ansi-colors t)
+  ;; `magit-run-git-with-editor' (commit, rebase --continue, etc.) always
+  ;; rebinds `magit-process-popup-time' to -1 internally, so no popup-time
+  ;; setting can make its process buffer show up automatically. Force it
+  ;; open immediately instead, so slow hooks are visible from the start
+  ;; rather than silent until they fail.
+  (advice-add 'magit-run-git-with-editor :after
+              (lambda (&rest _) (magit-process-buffer)))
   :custom-face
   (magit-section-highlight ((t (:background unspecified))))
   :after transient

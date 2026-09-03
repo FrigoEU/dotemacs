@@ -144,7 +144,8 @@
      "88267200889975d801f6c667128301af0bc183f3450c4b86138bfb23e8a78fb1"
      default))
  '(safe-local-variable-values
-   '((consult-ripgrep-args
+   '((magit-process-popup-time . 0)
+     (consult-ripgrep-args
       . "rg   --null   --line-buffered   --color=never   --max-columns=1000   --path-separator /   --smart-case   --no-heading   --with-filename   --line-number   --search-zip   --glob=!migrations/   --glob=!setup_migrations_and_functions.sql   --glob=!setup_migrations.sql   --glob=!setup_functions.sql   --glob=!setuplandingpage.sql   --glob=!typescript/sql/classy/*.ts")
      (consult-ripgrep-args string-join
                            (list "rg" "--null" "--line-buffered"
