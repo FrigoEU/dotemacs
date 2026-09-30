@@ -46,8 +46,8 @@
 
       (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
-      ;; tsgo uses VS Code-style nested settings (typescript.inlayHints.parameterNames.enabled etc.)
-      ;; When tsgo requests workspace/configuration for section "typescript",
+      ;; tsc uses VS Code-style nested settings (typescript.inlayHints.parameterNames.enabled etc.)
+      ;; When tsc requests workspace/configuration for section "typescript",
       ;; eglot responds with the plist below, serialized as nested JSON.
       ;; (setq-default eglot-workspace-configuration
       ;;               '(:typescript
@@ -63,13 +63,13 @@
       (put 'typescript-ts-mode 'eglot-language-id "typescript")
       (put 'typescript-mode 'eglot-language-id "typescript")
 
-      (defun simon/tsgo-or-ts-ls (&optional interactive)
-        (if (executable-find "tsgo")
-            '("tsgo" "--lsp" "--stdio")
+      (defun simon/tsc-or-ts-ls (&optional interactive)
+        (if (executable-find "tsc")
+            '("tsc" "--lsp" "--stdio")
           '("typescript-language-server" "--stdio")))
 
       (add-to-list 'eglot-server-programs
-                   '((typescript-ts-mode tsx-ts-mode typescript-mode) . simon/tsgo-or-ts-ls))
+                   '((typescript-ts-mode tsx-ts-mode typescript-mode) . simon/tsc-or-ts-ls))
 
       (add-to-list 'eglot-server-programs
                    '(sql-mode . ("postgrestools" "lsp-proxy")))

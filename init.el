@@ -112,6 +112,7 @@
   (load (concat user-emacs-directory "bindings/bindings.el"))
   (load (concat user-emacs-directory "config/config-ai.el"))
   (load (concat user-emacs-directory "config/config-posframe.el"))
+  (load (concat user-emacs-directory "config-agenix.el"))
   ;; urweb
   ;; (load (concat user-emacs-directory "config/config-urweb.el"))
   ;; Direnv integration last

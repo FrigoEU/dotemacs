@@ -319,8 +319,8 @@ Added spaces will not inherit text properties from STRING."
   It uses 'magit-worktree-branch' to execute the git worktree add command.
 
   After creating the worktree, it will:
-  1. Copy the 'node_modules' folder from the original directory to the new worktree,
-     if 'node_modules' exists in the original directory.
+  1. Create a symbolic link in the new worktree pointing to the 'node_modules' folder
+     of the original directory, if 'node_modules' exists in the original directory.
   2. Add the new worktree directory as a known project to Projectile,
      if Projectile is loaded."
   (interactive)
@@ -377,12 +377,14 @@ Added spaces will not inherit text properties from STRING."
 
     (message "Worktree '%s' added successfully at '%s'." branch-name worktree-path)
 
-    ;; 5. Copy node_modules folder if it exists
+    ;; 5. Symlink node_modules folder if it exists
     (let* ((source-dir (expand-file-name "node_modules" current-dir-path))
            (dest-parent (expand-file-name "node_modules" worktree-path)))
-      (message "Copying '%s' to '%s'" source-dir dest-parent)
+      (message "Linking '%s' to '%s'" source-dir dest-parent)
       (if (file-directory-p source-dir)
-          (copy-directory source-dir dest-parent t t)
+          (make-symbolic-link (directory-file-name source-dir)
+                              (directory-file-name dest-parent)
+                              t)
         (message "'%s' is not a file directory" source-dir)
         ))
 
