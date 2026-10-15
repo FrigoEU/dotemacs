@@ -13,7 +13,7 @@ _f_ → _f_iles             _-_ → dired            _l_ → _l_ayers          _
 _w_ → _w_indows           _h_ → _h_elp             _e_ → _e_rrors          _a_ → _a_i
 _p_ → _p_rojects          _g_ → _g_it              _q_ → _q_uit            _m_ → _m_ail
 
-_/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file             
+_/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file  _R_ → _R_eviewer
 "
   ("SPC" execute-extended-command)
   ("b"   /hydras/buffers/body)
@@ -36,6 +36,7 @@ _/_ → Grep              _*_ → Grep at point    _s_ → _s_earch in file
   ("p"   /hydras/project/body)
   ("a"   /hydras/ai/body)
   ("m"   /hydras/mail/body)
+  ("R"   /hydras/reviewer/body)
   )
 
 (define-key evil-normal-state-map (kbd "SPC") '/hydras/main/body)
@@ -321,10 +322,18 @@ _r_ → _r_epeat
 _t_ → _t_test project
 
 "
-  ("c" compile)
+  ("c" simon/project-compile)
   ("r" recompile)
   ("t" projectile-test-project)
   )
+
+(defun simon/project-compile ()
+  "Run `compile' from the project root."
+  (interactive)
+  (let ((default-directory (or (projectile-project-root)
+                               (vc-git-root default-directory)
+                               default-directory)))
+    (call-interactively #'compile)))
 
 
 (defhydra /hydras/git
@@ -402,6 +411,29 @@ _i_ → _i_nvalidate cache
   ("f" consult-projectile-find-file)
   ("a" projectile-add-known-project)
   ("i" projectile-invalidate-cache)
+  )
+
+(defhydra /hydras/reviewer
+  (:hint nil :exit t :idle 0.5)
+  "
+
+Reviewer
+
+_a_ → _a_nnotate region              _r_ → show all annotations
+_s_ → view annotation              _y_ → cop_y_ annotations
+_x_ → delete annotation            _e_ → _e_xport annotations as file
+_k_ → clear annotations in region
+_c_ → _c_lear all annotations in file
+
+"
+  ("a" reviewer-annotate)
+  ("s" reviewer-show-annotation-at-point)
+  ("x" reviewer-delete-annotation-at-point)
+  ("k" reviewer-delete-region-annotations)
+  ("c" reviewer-clear-annotations)
+  ("r" reviewer-render)
+  ("y" reviewer-yank-render)
+  ("e" reviewer-yank-render-file-name)
   )
 
 (use-package transient

@@ -135,6 +135,12 @@
   (/hydras/workspaces/body)
   )
 
+(defconst workspace-number-keys '("1" "2" "3" "4" "5" "6" "7" "8" "9")
+  "Keys that jump straight to the workspace at that position.")
+
+(defconst workspace-letter-keys '("a" "z" "e" "r" "t" "q" "s" "d" "f" "g")
+  "Azerty top-row aliases for `workspace-number-keys', in the same order.")
+
 (defun go-to-workspace-number (num) 
   (let ((name (nth (- num 1) (reverse (persp-names)))))
     (progn
@@ -159,7 +165,7 @@
   (progn
     (hydra-pause-resume)
     (persp-kill (persp-current-name))
-    (persp-switch-by-number 0)
+    (go-to-workspace-1)
     (/hydras/workspaces/body)
     )
   )
@@ -176,21 +182,38 @@ Added spaces will not inherit text properties from STRING."
 
 (defun workspace-build-name (name j)
   (let* ((is-active-persp (string= name (persp-current-name)))
-         (str (if is-active-persp
-                  (concat "(" (number-to-string j) " " name ")")
-                (concat " " (number-to-string j) " " name " "))
-              )
+         (keys (concat ;; "<"
+                (number-to-string j)
+                ;; (propertize
+                ;;  (number-to-string j)
+                ;;  'face (list
+                ;;         ;; Coloring the text based on the "link" face (see describe-face)
+                ;;         :foreground (face-attribute (if is-active-persp 'hydra-face-blue 'hydra-face-amaranth) :foreground nil t)
+                ;;         ;; Cursive if active
+                ;;         :underline (if is-active-persp t nil)
+                ;;         ;; :bold (if is-active-persp t nil)
+                ;;         )
+                ;;  )
+                ;; (or (nth (- j 1) workspace-letter-keys) "")
+                ;; ">"
+                ))
+         (str (concat "" keys " " name ""))
+         ;; (str (if is-active-persp
+         ;;          (concat "(" keys " " name ")")
+         ;;        (concat " " keys " " name " "))
+         ;;      )
+         ;; (colored str)
          (colored (propertize
                    str
                    'face (list
                           ;; Coloring the text based on the "link" face (see describe-face)
-                          :foreground (face-attribute (if is-active-persp 'hydra-face-blue 'hydra-face-pink) :foreground nil t)
+                          :foreground (face-attribute (if is-active-persp 'hydra-face-blue 'hydra-face-amaranth) :foreground nil t)
                           ;; Cursive if active
                           :underline (if is-active-persp t nil)
                           ;; :bold (if is-active-persp t nil)
                           )
                    ))
-         (padded (my-pad-right colored 25))
+         (padded (my-pad-right colored 26))
          )
     padded
     )
@@ -207,15 +230,25 @@ Added spaces will not inherit text properties from STRING."
 
 (defhydra /hydras/workspaces (:hint nil)
   "workspaces"
-  ("1" (go-to-workspace "1"))
-  ("2" (go-to-workspace "2"))
-  ("3" (go-to-workspace "3"))
-  ("4" (go-to-workspace "4"))
-  ("5" (go-to-workspace "5"))
-  ("6" (go-to-workspace "6"))
-  ("7" (go-to-workspace "7"))
-  ("8" (go-to-workspace "8"))
-  ("9" (go-to-workspace "9"))
+  ("1" (go-to-workspace-1))
+  ("2" (go-to-workspace-2))
+  ("3" (go-to-workspace-3))
+  ("4" (go-to-workspace-4))
+  ("5" (go-to-workspace-5))
+  ("6" (go-to-workspace-6))
+  ("7" (go-to-workspace-7))
+  ("8" (go-to-workspace-8))
+  ("9" (go-to-workspace-9))
+  ;; Azerty aliases for the numbers above; the hint below (re)binds both sets.
+  ("a" (go-to-workspace-1))
+  ("z" (go-to-workspace-2))
+  ("e" (go-to-workspace-3))
+  ("r" (go-to-workspace-4))
+  ("t" (go-to-workspace-5))
+  ("y" (go-to-workspace-6))
+  ("u" (go-to-workspace-7))
+  ("i" (go-to-workspace-8))
+  ("o" (go-to-workspace-9))
   ("x" persp-kill-current)
   ("q" nil :exit t)
   ("p" projectile-persp-switch-project)
@@ -232,18 +265,13 @@ Added spaces will not inherit text properties from STRING."
 ;; Works just as well as transient and is wayyy simpler
 (setq /hydras/workspaces/hint
       '(progn
-         (define-key /hydras/workspaces/keymap "1" nil)
-         (define-key /hydras/workspaces/keymap "2" nil)
-         (define-key /hydras/workspaces/keymap "3" nil)
-         (define-key /hydras/workspaces/keymap "4" nil)
-         (define-key /hydras/workspaces/keymap "5" nil)
-         (define-key /hydras/workspaces/keymap "6" nil)
-         (define-key /hydras/workspaces/keymap "7" nil)
-         (define-key /hydras/workspaces/keymap "8" nil)
-         (define-key /hydras/workspaces/keymap "9" nil)
+         (dolist (key (append workspace-number-keys workspace-letter-keys))
+           (define-key /hydras/workspaces/keymap key nil))
          (cl-mapcar
           (lambda (name cb i)
-            (define-key /hydras/workspaces/keymap (number-to-string i) cb)
+            (dolist (keyset (list workspace-number-keys workspace-letter-keys))
+              (let ((key (nth (- i 1) keyset)))
+                (when key (define-key /hydras/workspaces/keymap key cb))))
             )
           (reverse (persp-names))
           '(go-to-workspace-1
@@ -274,13 +302,13 @@ Added spaces will not inherit text properties from STRING."
           ""
           (color-other (my-pad-right " x Delete" 27))
           ;; (my-pad-right " l Left" 28)
-          (color-other (my-pad-right "<F6> School SQL" 27))
-          (color-other (my-pad-right "w New worktree" 28))
+          (color-other (my-pad-right "<F6> School SQL" 26))
+          (color-other (my-pad-right "w New worktree" 27))
           "\n"
           ""
           (my-pad-right " p Project" 27)
           ;; (my-pad-right " r Right" 28)
-          (color-other (my-pad-right "<F7> School LOGS" 27))
+          (color-other (my-pad-right "<F7> School LOGS" 26))
           "\n"
           ""
           (my-pad-right " q Quit" 27)

@@ -44,7 +44,7 @@
 
       ;; (evil-define-key 'normal eglot-mode-map (kbd "-") 'eglot-momentary-inlay-hints)
 
-      (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+      (setq eglot-ignored-server-capabilities '(:inlayHintProvider :semanticTokensProvider))
 
       ;; tsc uses VS Code-style nested settings (typescript.inlayHints.parameterNames.enabled etc.)
       ;; When tsc requests workspace/configuration for section "typescript",

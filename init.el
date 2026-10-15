@@ -72,6 +72,8 @@
 
   (load (concat user-emacs-directory "core/core-boot"))
   (load (concat user-emacs-directory "config/config-auxiliary-modes.el"))
+  (load (concat user-emacs-directory "config/config-agenix.el"))
+  (load (concat user-emacs-directory "config/config-writemode.el"))
   ;; (load (concat user-emacs-directory "config/config-helm.el"))
   ;; (load (concat user-emacs-directory "config/config-ivy.el"))
   (load (concat user-emacs-directory "config/config-consult-vertico.el"))
@@ -111,8 +113,8 @@
   (load (concat user-emacs-directory "config/config-ssh.el"))
   (load (concat user-emacs-directory "bindings/bindings.el"))
   (load (concat user-emacs-directory "config/config-ai.el"))
+  (load (concat user-emacs-directory "config/config-reviewer.el"))
   (load (concat user-emacs-directory "config/config-posframe.el"))
-  (load (concat user-emacs-directory "config-agenix.el"))
   ;; urweb
   ;; (load (concat user-emacs-directory "config/config-urweb.el"))
   ;; Direnv integration last

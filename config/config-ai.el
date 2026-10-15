@@ -69,7 +69,7 @@
       ("company"  . "~/.claude-company"))
     "Alist of account name -> CLAUDE_CONFIG_DIR for agent-shell.")
 
-  (defvar simon/claude-account "personal"
+  (defvar simon/claude-account "company"
     "Currently selected account name (a key in `simon/claude-accounts').")
 
   (defun simon/claude-config-dir ()

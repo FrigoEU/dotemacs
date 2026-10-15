@@ -13,14 +13,21 @@
   :straight (:host github :repo "rschmukler/magit-difftastic")
   :after magit
   :config
-  (setq magit-difftastic-syntax-highlight nil)
-  ;; (magit-difftastic-mode +1)
+  ;; (setq magit-difftastic-syntax-highlight nil)
+  (magit-difftastic-mode +1)
+
   ;; magit-refresh called synchronously after git apply causes a freeze; delay it.
   (advice-add 'magit-difftastic--apply-chunk-patch :around
               (lambda (orig patch &rest apply-args)
                 (cl-letf (((symbol-function 'magit-refresh) #'ignore))
                   (apply orig patch apply-args))
-                (add-timeout 0.1 (lambda (_) (magit-refresh)) nil))))
+                (add-timeout 0.1 (lambda (_) (magit-refresh)) nil)))
+
+  ;; difft renders tabs as 4 spaces (--tab-width default), and syntax faces are
+  ;; only copied onto lines whose displayed text matches the source exactly, so
+  ;; tab-indented code (Go) got no highlighting.  Expand tabs the same way.
+  (advice-add 'magit-difftastic--source-text :filter-return
+              (lambda (text) (and text (string-replace "\t" "    " text)))))
 
 ;; Both difftastic and magit-difftastic render difft output through
 ;; `difftastic--ansi-color-apply', which maps difft's 8 ANSI colors onto the
@@ -28,17 +35,17 @@
 ;; `magit-diff-removed'/`magit-diff-added' in config-eyecandy); collapse the
 ;; rest (heading/comment/string/warning) to `default' so nothing else is
 ;; colored. Affects both the D/S buffers and the inline magit chunks.
-(with-eval-after-load 'difftastic
-  (let ((v (vector
-            (aref ansi-color-normal-colors-vector 0) ; black
-            'magit-diff-removed                       ; red
-            'magit-diff-added                         ; green
-            'default                                  ; heading
-            'default                                  ; comment
-            'default                                  ; string
-            'default                                  ; warning
-            (aref ansi-color-normal-colors-vector 7)))) ; white
-    (setq difftastic-normal-colors-vector v
-          difftastic-bright-colors-vector v)))
+;; (with-eval-after-load 'difftastic
+;;   (let ((v (vector
+;;             (aref ansi-color-normal-colors-vector 0) ; black
+;;             'magit-diff-removed                       ; red
+;;             'magit-diff-added                         ; green
+;;             'default                                  ; heading
+;;             'default                                  ; comment
+;;             'default                                  ; string
+;;             'default                                  ; warning
+;;             (aref ansi-color-normal-colors-vector 7)))) ; white
+;;     (setq difftastic-normal-colors-vector v
+;;           difftastic-bright-colors-vector v)))
 
 (provide 'config-difftastic)
