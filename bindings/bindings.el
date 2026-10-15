@@ -345,11 +345,13 @@ Git
 _t_ → _t_ime machine
 _s_ → _s_tatus
 _b_ → _b_lame
+_d_ → _d_ifftastic chunk in status
 
 "
   ("t" git-timemachine)
   ("s" magit-status)
   ("b" magit-blame)
+  ("d" /git/difftastic-jump)
   )
 
 (defhydra /hydras/toggle

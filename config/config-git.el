@@ -33,6 +33,41 @@
               )
   )
 
+(use-package diff-hl
+  :straight t
+  :demand t
+  :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :config
+  ;; Borders are drawn in the face's foreground, which our theme leaves unset
+  ;; (falling back to the near-white `fringe' foreground).  Use the theme's
+  ;; colour for a bright border around a dimmed fill instead, in derived faces
+  ;; so re-deriving after a theme change never compounds.
+  (defun /git/diff-hl-faces (&rest _)
+    (dolist (type '(insert change delete))
+      (let* ((base (intern (format "diff-hl-%s" type)))
+             (face (intern (format "/git/diff-hl-%s" type)))
+             (bright (face-attribute base :background nil t))
+             (bg (face-attribute 'default :background)))
+        (unless (facep face) (make-empty-face face))
+        (when (and (color-defined-p bright) (color-defined-p bg))
+          (set-face-attribute face nil
+                              :foreground bright
+                              :background (apply #'color-rgb-to-hex
+                                                 (append (color-blend (color-name-to-rgb bright)
+                                                                      (color-name-to-rgb bg)
+                                                                      0.35)
+                                                         '(2))))))))
+  (/git/diff-hl-faces)
+  (add-hook 'enable-theme-functions #'/git/diff-hl-faces)
+  (setq diff-hl-fringe-face-function
+        (lambda (type pos)
+          (let ((face (intern (format "/git/diff-hl-%s" type))))
+            (if (facep face) face (diff-hl-fringe-face-from-type type pos)))))
+  (global-diff-hl-mode +1)
+  ;; Update the gutter as you type, not only on save.
+  (diff-hl-flydiff-mode +1))
+
 (use-package git-timemachine
   :straight t
   :bind (:map evil-normal-state-map
